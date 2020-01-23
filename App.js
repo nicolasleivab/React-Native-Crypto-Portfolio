@@ -1,10 +1,13 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, Button} from 'react-native';
 
 export default function App() {
+  const [outputText, setOutputText] = useState('No data');
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
+      <Text>{outputText}</Text>
+      <Button title='BTC' onPress={() => setOutputText('BTC Data')}/>
+      <Button title='Refresh' onPress={() => setOutputText('No Data')}/>
     </View>
   );
 }
