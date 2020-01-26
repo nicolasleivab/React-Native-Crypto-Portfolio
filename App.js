@@ -1,39 +1,45 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Button} from 'react-native';
 
-const top100Coins = [];
 
 export default function App() {
   const [outputText, setOutputText] = useState('No data');
+  const [coins, setCoins] = useState([]);
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
 
 // Fetch Top 100 coins from CoinCap
 useEffect(() => {
+
+  // loading and error states
+  setLoading(true)
+  setError(null)
+
   fetch("https://api.coincap.io/v2/assets")
     .then(res => res.json())
-    .then(
-      (result) => {
-        const coins = result.data;
-        coins.forEach(e => {
-            let newObj = { id: e.id, name: e.name, symbol: e.symbol }
-            top100Coins.push(newObj)
-        });
-
-        let updatedCoins = [...top100Coins] // copy array to set state in an immutable fashion
-      },
-
-      (error) => {
+    .then(json => {
+      setLoading(false)
+      if (json.data) {
+        setCoins(json.data)
+        console.log(coins[3]['name']);
+      } else {
+        setCoins([]);
       }
-    )
+    })
+    .catch(err => {
+      setError(err)
+      setLoading(false)
+    })
+}, []);
 
-});
-
-  return (
-    <View style={styles.container}>
-      <Text>{outputText}</Text>
-      <Button title='BTC' onPress={() => setOutputText('BTC Data')}/>
-      <Button title='Refresh' onPress={() => setOutputText('No Data')}/>
-    </View>
-  );
+return (
+  <View style={styles.container}>
+    <Text>{outputText}</Text>
+    <Text>{coins[3]['name']}</Text>
+    <Button title='BTC' onPress={() => setOutputText('BTC Data')}/>
+    <Button title='Refresh' onPress={() => setOutputText('No Data')}/>
+  </View>
+);
 }
 
 const styles = StyleSheet.create({
