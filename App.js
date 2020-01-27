@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import Watchlist from './containers/Watchlist/Watchlist';
+import Coins from './containers/Coins/Coins';
 
 export default function App() {
 
 return (
-  <Watchlist/>
+  <Coins/>
 );
 }

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, ScrollView, Button} from 'react-native';
 import CoinBlock from '../../components/CoinBlock/CoinBlock';
 
-export default function Watchlist() {
+export default function Coins() {
   const [coins, setCoins] = useState([]);
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
@@ -47,18 +47,11 @@ useEffect(() => {
 return (
   <View style={styles.container}>
     {coins[0] != undefined ?
-    <ScrollView style={{width:'80%'}}>
-      <CoinBlock coinName={coins[0]['name']} coinPrice={coins[0]['priceUsd']}/>
-      <CoinBlock coinName={coins[1]['name']} coinPrice={coins[1]['priceUsd']}/>
-      <CoinBlock coinName={coins[2]['name']} coinPrice={coins[2]['priceUsd']}/>
-      <CoinBlock coinName={coins[3]['name']} coinPrice={coins[3]['priceUsd']}/>
-      <CoinBlock coinName={coins[4]['name']} coinPrice={coins[4]['priceUsd']}/>
-      <CoinBlock coinName={coins[5]['name']} coinPrice={coins[5]['priceUsd']}/>
-      <CoinBlock coinName={coins[6]['name']} coinPrice={coins[6]['priceUsd']}/>
-      <CoinBlock coinName={coins[7]['name']} coinPrice={coins[7]['priceUsd']}/>
-      <CoinBlock coinName={coins[8]['name']} coinPrice={coins[8]['priceUsd']}/>
-      <CoinBlock coinName={coins[9]['name']} coinPrice={coins[9]['priceUsd']}/>
-            </ScrollView> : <View><Text style={{ color: 'white' }}>{'loading...'}</Text></View>
+    <ScrollView style={{width:'90%', marginTop: 50, marginBottom: 50, paddingRight: 10, paddingLeft: 10}}>
+      {coins.map(coin => (
+      <CoinBlock key={coin['id']} coinName={coin['name']} coinPrice={coin['priceUsd']}/>
+      ))}
+    </ScrollView> : <View><Text style={{ color: 'white' }}>{'loading...'}</Text></View>
     }
   </View>
 );
