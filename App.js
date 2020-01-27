@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Button} from 'react-native';
 
-
 export default function App() {
-  const [outputText, setOutputText] = useState('No data');
   const [coins, setCoins] = useState([]);
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
@@ -47,11 +45,51 @@ useEffect(() => {
 
 return (
   <View style={styles.container}>
-    <Text>{outputText}</Text>
     <Text>{loading ? 'loading...' : ''}</Text>
-    <Text>{coins[0] != undefined ? '$'+coins[2]['priceUsd'] : 'error'}</Text>
-    <Button title='BTC' onPress={() => setOutputText('BTC Data')}/>
-    <Button title='Refresh' onPress={() => setOutputText('No Data')}/>
+    {coins[0] != undefined ?
+    <View style={{width:'80%'}}>
+      <View style={{flexDirection:'row', justifyContent:'space-around'}}>
+        <Text>{coins[0]['name']}</Text>
+        <Text>{coins[0]['priceUsd']}</Text>
+      </View>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+        <Text>{coins[1]['name']}</Text>
+        <Text>{coins[1]['priceUsd']}</Text>
+      </View>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+        <Text>{coins[2]['name']}</Text>
+        <Text>{coins[2]['priceUsd']}</Text>
+      </View>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-around'}}>
+        <Text>{coins[3]['name']}</Text>
+        <Text>{coins[3]['priceUsd']}</Text>
+      </View>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+        <Text>{coins[4]['name']}</Text>
+        <Text>{coins[4]['priceUsd']}</Text>
+      </View>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+        <Text>{coins[5]['name']}</Text>
+        <Text>{coins[5]['priceUsd']}</Text>
+      </View>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+        <Text>{coins[6]['name']}</Text>
+        <Text>{coins[6]['priceUsd']}</Text>
+      </View>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+        <Text>{coins[7]['name']}</Text>
+        <Text>{coins[7]['priceUsd']}</Text>
+      </View>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-around'}}>
+        <Text>{coins[8]['name']}</Text>
+        <Text>{coins[8]['priceUsd']}</Text>
+      </View>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+        <Text>{coins[9]['name']}</Text>
+        <Text>{coins[9]['priceUsd']}</Text>
+      </View>
+    </View>: <View><Text>{'error'}</Text></View>
+    }
   </View>
 );
 }
