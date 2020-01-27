@@ -4,16 +4,16 @@ import CoinBlock from '../../components/CoinBlock/CoinBlock';
 
 export default function Coins() {
   const [coins, setCoins] = useState([]);
+  const [allCoins, setAllCoins] = useState([]);
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
 
-// Fetch Top 100 coins from CoinCap
 useEffect(() => {
 
   // loading and error states
   setLoading(true)
   setError(null)
-
+// Fetch Top 100 coins from CoinCap
   fetch("https://api.coincap.io/v2/assets")
     .then(res => res.json())
     .then(json => {
@@ -35,7 +35,21 @@ useEffect(() => {
         });
 
         setCoins(formattedData)
+      }
+    })
+    .catch(err => {
+      setError(err)
+    })
+  // Fetch all coins from coinmarketcap
+  fetch("https://pro-api.coinmarketcap.com/v1/cryptocurrency/map?CMC_PRO_API_KEY="+apiKey)
+    .then(res => res.json())
+    .then(json => {
+      if (json.data) {
+        const rawData = json.data;
+        
+        setAllCoins(rawData)
         setLoading(false)
+        console.log(allCoins);
       }
     })
     .catch(err => {
@@ -49,7 +63,11 @@ return (
     {coins[0] != undefined ?
     <ScrollView style={{width:'90%', marginTop: 50, marginBottom: 50, paddingRight: 10, paddingLeft: 10}}>
       {coins.map(coin => (
-      <CoinBlock key={coin['id']} coinID={coin['rank']} coinName={coin['name']} coinPrice={coin['priceUsd']}/>
+        <CoinBlock 
+        key={coin['id']} 
+        coinID={allCoins[1] != undefined ? allCoins.find(d => d.slug == coin['id'])['id'] : 1} 
+        coinName={coin['name']} 
+        coinPrice={coin['priceUsd']}/>
       ))}
     </ScrollView> : <View><Text style={{ color: 'white' }}>{'loading...'}</Text></View>
     }
