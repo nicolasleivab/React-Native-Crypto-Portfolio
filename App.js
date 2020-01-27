@@ -18,12 +18,25 @@ useEffect(() => {
   fetch("https://api.coincap.io/v2/assets")
     .then(res => res.json())
     .then(json => {
-      setLoading(false)
       if (json.data) {
-        setCoins(json.data)
-        console.log(coins[3]['name']);
-      } else {
-        setCoins([]);
+        const formattedData = json.data;
+        //format data
+        formattedData.forEach(d => {
+          if(d.priceUsd >= 1){
+          d.priceUsd = Math.floor(d.priceUsd * 100) / 100;
+          }else{
+          d.priceUsd = Math.floor(d.priceUsd * 10000) / 10000;
+          }
+          d.supply = Math.floor(d.supply * 10000) / 10000;
+          d.maxSupply = Math.floor(d.maxSupply * 10000) / 10000;
+          d.marketCapUsd = Math.floor(d.marketCapUsd * 10000) / 10000;
+          d.volumeUsd24Hr = Math.floor(d.volumeUsd24Hr * 10000) / 10000;
+          d.changePercent24Hr= Math.floor(d.changePercent24Hr * 10000) / 10000;
+          d.vwap24Hr = Math.floor(d.vwap24Hr * 10000) / 10000;
+        });
+
+        setCoins(formattedData)
+        setLoading(false)
       }
     })
     .catch(err => {
@@ -35,7 +48,8 @@ useEffect(() => {
 return (
   <View style={styles.container}>
     <Text>{outputText}</Text>
-    <Text>{coins[3]['name']}</Text>
+    <Text>{loading ? 'loading...' : ''}</Text>
+    <Text>{coins[0] != undefined ? '$'+coins[2]['priceUsd'] : 'error'}</Text>
     <Button title='BTC' onPress={() => setOutputText('BTC Data')}/>
     <Button title='Refresh' onPress={() => setOutputText('No Data')}/>
   </View>
