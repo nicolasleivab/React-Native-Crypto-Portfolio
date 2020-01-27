@@ -49,7 +49,7 @@ return (
     {coins[0] != undefined ?
     <ScrollView style={{width:'90%', marginTop: 50, marginBottom: 50, paddingRight: 10, paddingLeft: 10}}>
       {coins.map(coin => (
-      <CoinBlock key={coin['id']} coinName={coin['name']} coinPrice={coin['priceUsd']}/>
+      <CoinBlock key={coin['id']} coinID={coin['rank']} coinName={coin['name']} coinPrice={coin['priceUsd']}/>
       ))}
     </ScrollView> : <View><Text style={{ color: 'white' }}>{'loading...'}</Text></View>
     }

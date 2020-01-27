@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { StyleSheet, Text, View, Image } from 'react-native';
 
 export default function CoinBlock(props) {
 
 return (
   <View style={styles.flexContainer}>
+    <Image style={{ width: 32, height: 32 }} source={{ uri: 'https://s2.coinmarketcap.com/static/img/coins/64x64/'+props.coinID + 1 +'.png' }} />
     <Text style={{color: 'white'}}>{props.coinName}</Text>
     <Text style={{ color: 'white' }}>{'$ '+props.coinPrice}</Text>
   </View>
