@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, Button} from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Button} from 'react-native';
 import CoinBlock from '../../components/CoinBlock/CoinBlock';
 
 export default function Watchlist() {
@@ -47,7 +47,7 @@ useEffect(() => {
 return (
   <View style={styles.container}>
     {coins[0] != undefined ?
-    <View style={{width:'80%'}}>
+    <ScrollView style={{width:'80%'}}>
       <CoinBlock coinName={coins[0]['name']} coinPrice={coins[0]['priceUsd']}/>
       <CoinBlock coinName={coins[1]['name']} coinPrice={coins[1]['priceUsd']}/>
       <CoinBlock coinName={coins[2]['name']} coinPrice={coins[2]['priceUsd']}/>
@@ -58,7 +58,7 @@ return (
       <CoinBlock coinName={coins[7]['name']} coinPrice={coins[7]['priceUsd']}/>
       <CoinBlock coinName={coins[8]['name']} coinPrice={coins[8]['priceUsd']}/>
       <CoinBlock coinName={coins[9]['name']} coinPrice={coins[9]['priceUsd']}/>
-    </View>: <View><Text>{'loading...'}</Text></View>
+            </ScrollView> : <View><Text style={{ color: 'white' }}>{'loading...'}</Text></View>
     }
   </View>
 );
@@ -67,7 +67,7 @@ return (
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#1c1e2e',
     alignItems: 'center',
     justifyContent: 'center',
   },
