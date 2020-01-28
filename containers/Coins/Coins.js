@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, ScrollView, Button} from 'react-native';
+import { StyleSheet, Text, View, FlatList, Button} from 'react-native';
 import CoinBlock from '../../components/CoinBlock/CoinBlock';
 import { AsyncStorage } from 'react-native';
 
@@ -84,21 +84,23 @@ useEffect(() => {
 return (
   <View style={styles.container}>
     {coins[0] != undefined ?
-    <ScrollView style={{width:'100%', marginTop: 50, marginBottom: 50, paddingRight: 0, paddingLeft: 20}}>
-      {coins.map(coin => (
+    <FlatList 
+    style={{ width: '100%', marginTop: 50, marginBottom: 50, paddingRight: 0, paddingLeft: 20 }}
+    data={coins}
+    renderItem={coin => (
         <CoinBlock 
-        key={coin['id']} 
+        key={coin.item['id']} 
         coinID={allCoins[0] != undefined && coins[0] != undefined ? 
-          (allCoins.find(d => d['name'] == coin['name'] || d['slug'] == coin['id'] || d['symbol'] == coin['symbol']))['id'] : 1} 
-        coinName={coin['name']} 
-        coinSymbol={coin['symbol']}
-        coinChange={coin['changePercent24Hr']}
-        coinPrice={coin['priceUsd']}
-        coinMarket={coin['marketCapUsd']}
-        coinVolume={coin['volumeUsd24Hr']}
+          (allCoins.find(d => d['name'] == coin.item['name'] || d['slug'] == coin.item['id'] || d['symbol'] == coin.item['symbol']))['id'] : 1} 
+        coinName={coin.item['name']} 
+        coinSymbol={coin.item['symbol']}
+        coinChange={coin.item['changePercent24Hr']}
+        coinPrice={coin.item['priceUsd']}
+        coinMarket={coin.item['marketCapUsd']}
+        coinVolume={coin.item['volumeUsd24Hr']}
         />
-      ))}
-    </ScrollView> : <View><Text style={{ color: 'white' }}>{error != null ? 'Error' : 'loading...'}</Text></View>
+      )}
+      /> : <View><Text style={{ color: 'white' }}>{error != null ? 'Error' : 'loading...'}</Text></View>
     }
   
   </View>
