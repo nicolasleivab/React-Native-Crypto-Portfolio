@@ -4,7 +4,7 @@ import CoinBlock from '../../components/CoinBlock/CoinBlock';
 
 export default function Coins() {
   const apiKey = {
-    key: 'your CMC api key'
+    key: 'your cmc key'
   };
   const [coins, setCoins] = useState([]);
   const [allCoins, setAllCoins] = useState([]);
@@ -30,9 +30,23 @@ useEffect(() => {
           }
           d.supply = Math.floor(d.supply * 10000) / 10000;
           d.maxSupply = Math.floor(d.maxSupply * 10000) / 10000;
-          d.marketCapUsd = Math.floor(d.marketCapUsd * 10000) / 10000;
-          d.volumeUsd24Hr = Math.floor(d.volumeUsd24Hr * 10000) / 10000;
-          d.changePercent24Hr= Math.floor(d.changePercent24Hr * 10000) / 10000;
+          d.marketCapUsd = +d.marketCapUsd;
+          if (d.marketCapUsd >= 1000000000) {
+            d.marketCapUsd = ((+d.marketCapUsd)/1000000000).toFixed(2)+'B';
+          }else if(+d.marketCapUsd >= 1000000){
+            d.marketCapUsd = (+d.marketCapUsd/1000000).toFixed(2)+'M';
+          }else{
+            d.marketCapUsd = +d.marketCapUsd.toFixed(2);
+          }
+          d.volumeUsd24Hr = +d.volumeUsd24Hr;
+          if(d.volumeUsd24Hr >= 1000000000) {
+            d.volumeUsd24Hr = ((d.volumeUsd24Hr) / 1000000000).toFixed(2) + 'B';
+          }else if (+d.volumeUsd24Hr >= 1000000) {
+            d.volumeUsd24Hr = ((d.volumeUsd24Hr)/ 1000000).toFixed(2) + 'M';
+          } else {
+           d.volumeUsd24Hr = d.volumeUsd24Hr.toFixed(2);
+          }
+          d.changePercent24Hr= Math.floor(d.changePercent24Hr * 100) / 100;
           d.vwap24Hr = Math.floor(d.vwap24Hr * 10000) / 10000;
         });
 
@@ -42,6 +56,7 @@ useEffect(() => {
     })
     .catch(err => {
       setError(err)
+      console.log(err)
       setLoading(false)
     })
 }, []);
@@ -56,11 +71,11 @@ useEffect(() => {
 
         setAllCoins(rawData)
         setLoading(false)
-        console.log(allCoins[3]['slug']);
       }
     })
     .catch(err => {
       setError(err)
+      console.log('cmc error')
       setLoading(false)
     })
 }, []);
@@ -68,17 +83,23 @@ useEffect(() => {
 return (
   <View style={styles.container}>
     {coins[0] != undefined ?
-    <ScrollView style={{width:'90%', marginTop: 50, marginBottom: 50, paddingRight: 10, paddingLeft: 10}}>
+    <ScrollView style={{width:'100%', marginTop: 50, marginBottom: 50, paddingRight: 0, paddingLeft: 20}}>
       {coins.map(coin => (
         <CoinBlock 
         key={coin['id']} 
         coinID={allCoins[0] != undefined && coins[0] != undefined ? 
           (allCoins.find(d => d['name'] == coin['name'] || d['slug'] == coin['id'] || d['symbol'] == coin['symbol']))['id'] : 1} 
         coinName={coin['name']} 
-        coinPrice={coin['priceUsd']}/>
+        coinSymbol={coin['symbol']}
+        coinChange={coin['changePercent24Hr']}
+        coinPrice={coin['priceUsd']}
+        coinMarket={coin['marketCapUsd']}
+        coinVolume={coin['volumeUsd24Hr']}
+        />
       ))}
-    </ScrollView> : <View><Text style={{ color: 'white' }}>{'loading...'}</Text></View>
+    </ScrollView> : <View><Text style={{ color: 'white' }}>{error != null ? 'Error' : 'loading...'}</Text></View>
     }
+  
   </View>
 );
 }
@@ -86,7 +107,7 @@ return (
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#1c1e2e',
+    backgroundColor: '#30344E',
     alignItems: 'center',
     justifyContent: 'center',
   },
