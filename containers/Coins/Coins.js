@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, ScrollView, Button} from 'react-native';
 import CoinBlock from '../../components/CoinBlock/CoinBlock';
+import { AsyncStorage } from 'react-native';
 
 export default function Coins() {
   const apiKey = {
-    key: 'your cmc key'
+    key: 'ef3b5d28-2a1a-44f0-875e-faa4b248f877' //
   };
   const [coins, setCoins] = useState([]);
   const [allCoins, setAllCoins] = useState([]);

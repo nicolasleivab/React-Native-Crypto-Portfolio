@@ -16,7 +16,7 @@ return (
     </View>
     <View>
       <Text style={{ color: 'white' }}>{'$ '+props.coinPrice}</Text>
-      <Text style={{ color: 'white' }}>{props.coinChange > 0 ? '+'+props.coinChange+'%' : props.coinChange+'%'}</Text>
+      <Text style={props.coinChange > 0 ? { color: '#00ff80' } : { color: '#ff6666'}}>{props.coinChange > 0 ? '+'+props.coinChange+'%' : props.coinChange+'%'}</Text>
     </View>
     <View>
       <Text style={{ color: 'white' }}>{'$ ' + props.coinMarket}</Text>
