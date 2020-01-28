@@ -3,13 +3,15 @@ import { StyleSheet, Text, View, ScrollView, Button} from 'react-native';
 import CoinBlock from '../../components/CoinBlock/CoinBlock';
 
 export default function Coins() {
+  const apiKey = {
+    key: 'your CMC api key'
+  };
   const [coins, setCoins] = useState([]);
   const [allCoins, setAllCoins] = useState([]);
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(null)
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
 useEffect(() => {
-
   // loading and error states
   setLoading(true)
   setError(null)
@@ -35,21 +37,26 @@ useEffect(() => {
         });
 
         setCoins(formattedData)
+        setLoading(false)
       }
     })
     .catch(err => {
       setError(err)
+      setLoading(false)
     })
+}, []);
+
+useEffect(() => {
   // Fetch all coins from coinmarketcap
-  fetch("https://pro-api.coinmarketcap.com/v1/cryptocurrency/map?CMC_PRO_API_KEY="+apiKey)
+  fetch("https://pro-api.coinmarketcap.com/v1/cryptocurrency/map?CMC_PRO_API_KEY="+apiKey.key)
     .then(res => res.json())
     .then(json => {
       if (json.data) {
         const rawData = json.data;
-        
+
         setAllCoins(rawData)
         setLoading(false)
-        console.log(allCoins);
+        console.log(allCoins[3]['slug']);
       }
     })
     .catch(err => {
@@ -65,7 +72,8 @@ return (
       {coins.map(coin => (
         <CoinBlock 
         key={coin['id']} 
-        coinID={allCoins[1] != undefined ? allCoins.find(d => d.slug == coin['id'])['id'] : 1} 
+        coinID={allCoins[0] != undefined && coins[0] != undefined ? 
+          (allCoins.find(d => d['name'] == coin['name'] || d['slug'] == coin['id'] || d['symbol'] == coin['symbol']))['id'] : 1} 
         coinName={coin['name']} 
         coinPrice={coin['priceUsd']}/>
       ))}
