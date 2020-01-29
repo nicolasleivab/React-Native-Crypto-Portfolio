@@ -99,6 +99,12 @@ const filterCoin = () => {
 const changeStar = () =>{
   setStar(!starOn);
 }
+const addFav = (key) =>{
+  console.log(key);;
+}
+const removeFav = (key) =>{
+  console.log(key);
+}
 
 return (
   <View style={styles.container}>
@@ -112,11 +118,14 @@ return (
     </View>
     {coins[0] != undefined ?
     <FlatList 
-    style={{ width: '100%', marginTop: 20, marginBottom: 20, paddingRight: 0, paddingLeft: 20 }}
+    style={{ width: '100%', marginTop: 20, marginBottom: 20, paddingRight: 5, paddingLeft: 5 }}
     data={coins}
     renderItem={coin => (
         <CoinBlock
         key={coin.item['id']} 
+        addFav={addFav}
+        removeFav={removeFav}
+        starID={coin.item['id']}
         coinID={allCoins[0] != undefined && coins[0] != undefined ? 
           (allCoins.find(d => d['name'] == coin.item['name'] || d['slug'] == coin.item['id'] || d['symbol'] == coin.item['symbol']))['id'] : 1} 
         coinName={coin.item['name']} 

@@ -1,7 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Image } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 export default function CoinBlock(props) {
+const [starOn, setStar] = useState(0);
+
+const changeStar = (key) => {
+  
+  setStar(!starOn);
+  if(starOn == 0){
+    props.addFav(key);
+  }else{
+    props.removeFav(key);
+  }
+}
 
 return (
   <View style={styles.flexContainer}>
@@ -21,6 +33,9 @@ return (
     <View>
       <Text style={{ color: 'white' }}>{'$ ' + props.coinMarket}</Text>
       <Text style={{ color: 'white' }}>{'$ ' + props.coinVolume}</Text>
+    </View>
+    <View>
+    <Icon key={props.starID} style={starOn > 0 ? { color: 'yellow' } : { color: '#555' }} name="ios-star" size={35} onPress={()=>(changeStar(props.starID))}/>
     </View>
   </View>
 );
@@ -42,6 +57,6 @@ const styles = StyleSheet.create({
     marginLeft: 0,
     marginRight: 10,
     height: 100,
-    width: '95%'
+    width: '100%'
   },
 });
