@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, FlatList, Button} from 'react-native';
 import CoinBlock from '../../components/CoinBlock/CoinBlock';
 import SearchCoin from '../../components/SearchCoin/SearchCoin';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 export default function Coins() {
   const apiKey = {
@@ -13,6 +14,7 @@ export default function Coins() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [value, onChangeText] = React.useState('');
+  const [starOn, setStar] = useState(0);
 
 useEffect(() => {
   // loading and error states
@@ -94,14 +96,20 @@ const filterCoin = () => {
       setCoins(storedCoins);
     }
 }
+const changeStar = () =>{
+  setStar(!starOn);
+}
 
 return (
   <View style={styles.container}>
+    <View style={styles.filterFlex}>
     <SearchCoin
     filterCoin={filterCoin}
     textChange={text => onChangeText(text)}
     value={value}
     />
+    <Icon style={starOn > 0 ? { color: 'yellow', marginTop: 45 } : { color: '#555', marginTop: 45}} name="ios-star" size={35} onPress={changeStar} />
+    </View>
     {coins[0] != undefined ?
     <FlatList 
     style={{ width: '100%', marginTop: 20, marginBottom: 20, paddingRight: 0, paddingLeft: 20 }}
@@ -133,4 +141,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  filterFlex:{
+    flexDirection: "row",
+    justifyContent: 'space-evenly',
+    alignItems: 'center'
+  }
 });

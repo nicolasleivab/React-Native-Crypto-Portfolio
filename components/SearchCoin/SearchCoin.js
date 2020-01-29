@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, TextInput } from 'react-native';
+import { StyleSheet, Text, View, TextInput} from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 export default function SearchCoin(props) {
 
 return (    
   <View style={styles.container}>
+    
    <TextInput
         placeholder='Filter coins...'
         style={styles.InputCoin}
@@ -12,13 +14,16 @@ return (
         value={props.value}
         onKeyPress={props.filterCoin}
    />
+    <Icon style={styles.searchIcon} name="ios-search" size={20} color="#000" />
+
   </View>
 );
 }
 
 const styles = StyleSheet.create({
   container: {
-    width: '70%'
+    width: '70%',
+    marginRight: 15
   },
     
   InputCoin: {
@@ -26,7 +31,15 @@ const styles = StyleSheet.create({
     height: 40, 
     color: 'white',
     padding: 10,
-    borderColor: 'gray', 
-    borderWidth: 1 
+    paddingLeft: 32,
+    backgroundColor: '#1c1e2e',
+    borderRadius: 10,
   },
+
+  searchIcon: {
+    padding: 10,
+    position: 'absolute',
+    top: 50,
+    color: 'white'
+  }
 });
