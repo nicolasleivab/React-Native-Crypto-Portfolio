@@ -85,9 +85,10 @@ useEffect(() => {
 }, []);
 
 const filterCoin = () => {
-    
-    const currentCoins = [...coins];
-    const filteredCoins = currentCoins.filter(d => d.name.includes(value) || d.id.includes(value) || d.symbol.includes(value));
+
+    const currentCoins = [...storedCoins];
+    const filteredCoins = currentCoins.filter(d => (d.name).toUpperCase().includes(value.toUpperCase()) ||
+      (d.id).toUpperCase().includes(value.toUpperCase()) || (d.symbol).toUpperCase().includes(value.toUpperCase()));
     setCoins(filteredCoins);
     if(value == ''){
       setCoins(storedCoins);
