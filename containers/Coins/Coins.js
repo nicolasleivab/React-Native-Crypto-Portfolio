@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, FlatList, Button} from 'react-native';
 import CoinBlock from '../../components/CoinBlock/CoinBlock';
-import { AsyncStorage } from 'react-native';
+import SearchCoin from '../../components/SearchCoin/SearchCoin';
 
 export default function Coins() {
   const apiKey = {
-    key: 'ef3b5d28-2a1a-44f0-875e-faa4b248f877' //
+    key: 'your cmc key' 
   };
   const [coins, setCoins] = useState([]);
+  const [storedCoins, setStoredCoins] = useState([]);
   const [allCoins, setAllCoins] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [value, onChangeText] = React.useState('');
 
 useEffect(() => {
   // loading and error states
@@ -52,6 +54,7 @@ useEffect(() => {
         });
 
         setCoins(formattedData)
+        setStoredCoins(formattedData)
         setLoading(false)
       }
     })
@@ -81,14 +84,29 @@ useEffect(() => {
     })
 }, []);
 
+const filterCoin = () => {
+    
+    const currentCoins = [...coins];
+    const filteredCoins = currentCoins.filter(d => d.name.includes(value) || d.id.includes(value) || d.symbol.includes(value));
+    setCoins(filteredCoins);
+    if(value == ''){
+      setCoins(storedCoins);
+    }
+}
+
 return (
   <View style={styles.container}>
+    <SearchCoin
+    filterCoin={filterCoin}
+    textChange={text => onChangeText(text)}
+    value={value}
+    />
     {coins[0] != undefined ?
     <FlatList 
-    style={{ width: '100%', marginTop: 50, marginBottom: 50, paddingRight: 0, paddingLeft: 20 }}
+    style={{ width: '100%', marginTop: 20, marginBottom: 20, paddingRight: 0, paddingLeft: 20 }}
     data={coins}
     renderItem={coin => (
-        <CoinBlock 
+        <CoinBlock
         key={coin.item['id']} 
         coinID={allCoins[0] != undefined && coins[0] != undefined ? 
           (allCoins.find(d => d['name'] == coin.item['name'] || d['slug'] == coin.item['id'] || d['symbol'] == coin.item['symbol']))['id'] : 1} 
