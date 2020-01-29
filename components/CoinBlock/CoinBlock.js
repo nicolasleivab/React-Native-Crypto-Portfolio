@@ -6,7 +6,7 @@ export default function CoinBlock(props) {
 const [starOn, setStar] = useState(0);
 
 const changeStar = (key) => {
-  
+
   setStar(!starOn);
   if(starOn == 0){
     props.addFav(key);
@@ -35,7 +35,7 @@ return (
       <Text style={{ color: 'white' }}>{'$ ' + props.coinVolume}</Text>
     </View>
     <View>
-    <Icon key={props.starID} style={starOn > 0 ? { color: 'yellow' } : { color: '#555' }} name="ios-star" size={35} onPress={()=>(changeStar(props.starID))}/>
+    <Icon style={starOn > 0 ? { color: 'yellow' } : { color: '#555' }} name="ios-star" size={35} onPress={()=>(changeStar(props.starID))}/>
     </View>
   </View>
 );

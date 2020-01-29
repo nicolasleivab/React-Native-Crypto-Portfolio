@@ -10,6 +10,7 @@ export default function Coins() {
   };
   const [coins, setCoins] = useState([]);
   const [storedCoins, setStoredCoins] = useState([]);
+  const [favCoins, setFavCoins] = useState([]);
   const [allCoins, setAllCoins] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -98,12 +99,22 @@ const filterCoin = () => {
 }
 const changeStar = () =>{
   setStar(!starOn);
+  if (starOn == 0) {
+    setCoins(favCoins);
+  } else {
+    setCoins(storedCoins);
+  }
 }
 const addFav = (key) =>{
-  console.log(key);;
+  const currentFavCoin = storedCoins.find(d => d['id'] === key);
+  const favList = [...favCoins];
+  favList.push(currentFavCoin);
+  setFavCoins(favList);
 }
 const removeFav = (key) =>{
-  console.log(key);
+  const favList = [...favCoins];
+  const filterItem = favList.filter(d => d['id'] !== key);
+  setFavCoins(filterItem);
 }
 
 return (
@@ -127,7 +138,7 @@ return (
         removeFav={removeFav}
         starID={coin.item['id']}
         coinID={allCoins[0] != undefined && coins[0] != undefined ? 
-          (allCoins.find(d => d['name'] == coin.item['name'] || d['slug'] == coin.item['id'] || d['symbol'] == coin.item['symbol']))['id'] : 1} 
+          (allCoins.find(d => d['name'] === coin.item['name'] || d['slug'] === coin.item['id'] || d['symbol'] === coin.item['symbol']))['id'] : 1} 
         coinName={coin.item['name']} 
         coinSymbol={coin.item['symbol']}
         coinChange={coin.item['changePercent24Hr']}
