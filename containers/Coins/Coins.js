@@ -12,6 +12,7 @@ export default function Coins() {
   const [storedCoins, setStoredCoins] = useState([]);
   const [favCoins, setFavCoins] = useState([]);
   const [allCoins, setAllCoins] = useState([]);
+  const [globalData, setGlobalData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [value, onChangeText] = React.useState('');
@@ -89,6 +90,26 @@ useEffect(() => {
     })
 }, []);
 
+useEffect(() => {
+  // Fetch global data from coingecko
+  fetch('https://api.coingecko.com/api/v3/global')
+    .then(res => res.json())
+    .then(json => {
+      if (json.data) {
+        const rawData = json.data;
+
+        setGlobalData(rawData)
+        console.log('global data ready')
+        setLoading(false)
+      }
+    })
+    .catch(err => {
+      setError(err)
+      console.log('coingecko error')
+      setLoading(false)
+    })
+}, []);
+  
 const filterCoin = () => {
     setStar(0); //restart fav filter on key press
     const currentCoins = [...storedCoins];
@@ -132,6 +153,21 @@ const changeStarBlock = (key) => {
 
 return (
   <View style={styles.container}>
+    {globalData[0] != undefined ?
+    <View style={styles.globalFlex}>
+      <View>
+        <Text style={{color: 'white', fontSize: 10}}>BTC DOMINANCE</Text>
+        <Text style={{ color: 'white', fontSize: 10 }}>{globalData['market_cap_percentage']['btc']}</Text>
+      </View>
+      <View>
+        <Text style={{ color: 'white', fontSize: 10}}>TOTAL MARKET CAP</Text>
+        <Text style={{ color: 'white', fontSize: 10 }}>{globalData['total_market_cap']['usd']}</Text>
+      </View>
+      <View>
+        <Text style={{ color: 'white', fontSize: 10}}>TOTAL VOLUME</Text>
+        <Text style={{ color: 'white', fontSize: 10 }}>{globalData['total_volume']['usd']}</Text>
+      </View>
+    </View> : <View><Text>Error</Text></View>}
     <View style={styles.filterFlex}>
     <SearchCoin
     filterCoin={filterCoin}
@@ -172,6 +208,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#30344E',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  globalFlex: {
+    flexDirection: "row",
+    justifyContent: 'space-evenly',
+    alignItems: 'flex-start',
+    width: '100%',
+    marginTop: 50
   },
   filterFlex:{
     flexDirection: "row",

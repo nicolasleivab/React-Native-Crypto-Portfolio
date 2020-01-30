@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
   },
     
   InputCoin: {
-    marginTop: 50,
+    marginTop: 30,
     height: 40, 
     color: 'white',
     padding: 10,
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
   searchIcon: {
     padding: 10,
     position: 'absolute',
-    top: 50,
+    top: 30,
     color: 'white'
   }
 });
