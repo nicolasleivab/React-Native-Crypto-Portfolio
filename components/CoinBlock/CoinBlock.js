@@ -3,17 +3,6 @@ import { StyleSheet, Text, View, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 export default function CoinBlock(props) {
-const [starOn, setStar] = useState(0);
-
-const changeStar = (key) => {
-
-  setStar(!starOn);
-  if(starOn == 0){
-    props.addFav(key);
-  }else{
-    props.removeFav(key);
-  }
-}
 
 return (
   <View style={styles.flexContainer}>
@@ -35,7 +24,7 @@ return (
       <Text style={{ color: 'white' }}>{'$ ' + props.coinVolume}</Text>
     </View>
     <View>
-    <Icon style={starOn > 0 ? { color: 'yellow' } : { color: '#555' }} name="ios-star" size={35} onPress={()=>(changeStar(props.starID))}/>
+    <Icon style={props.favOn > 0 ? { color: 'yellow' } : { color: '#555' }} name="ios-star" size={35} onPress={()=>(props.changeStar(props.coinName))}/>
     </View>
   </View>
 );

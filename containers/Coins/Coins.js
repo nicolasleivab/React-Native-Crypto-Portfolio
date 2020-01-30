@@ -105,16 +105,26 @@ const changeStar = () =>{
     setCoins(storedCoins);
   }
 }
-const addFav = (key) =>{
-  const currentFavCoin = storedCoins.find(d => d['id'] === key);
-  const favList = [...favCoins];
-  favList.push(currentFavCoin);
-  setFavCoins(favList);
-}
-const removeFav = (key) =>{
-  const favList = [...favCoins];
-  const filterItem = favList.filter(d => d['id'] !== key);
-  setFavCoins(filterItem);
+
+const changeStarBlock = (key) => {
+  const currentFavCoin = storedCoins.find(d => d['name'] === key);
+  if(currentFavCoin['star'] == undefined){
+    currentFavCoin['star'] = 1;
+  } else if (currentFavCoin['star'] === 0){
+    currentFavCoin['star'] = 1;
+  } else if (currentFavCoin['star'] === 1) {
+    currentFavCoin['star'] = 0;
+  }
+  
+  if (currentFavCoin['star'] == 1){
+    const favList = [...favCoins];
+    favList.push(currentFavCoin);
+    setFavCoins(favList);
+  } else if (currentFavCoin['star'] == 0){
+    const favList = [...favCoins];
+    const filterItem = favList.filter(d => d['name'] !== key);
+    setFavCoins(filterItem);
+  }
 }
 
 return (
@@ -134,9 +144,8 @@ return (
     renderItem={coin => (
         <CoinBlock
         key={coin.item['id']} 
-        addFav={addFav}
-        removeFav={removeFav}
-        starID={coin.item['id']}
+        changeStar={changeStarBlock}
+        favOn={coin.item['star']}
         coinID={allCoins[0] != undefined && coins[0] != undefined ? 
           (allCoins.find(d => d['name'] === coin.item['name'] || d['slug'] === coin.item['id'] || d['symbol'] === coin.item['symbol']))['id'] : 1} 
         coinName={coin.item['name']} 
