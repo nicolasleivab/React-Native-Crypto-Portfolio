@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, FlatList, Button} from 'react-native';
+import { StyleSheet, Text, View, FlatList, Button, Modal} from 'react-native';
 import CoinBlock from '../../components/CoinBlock/CoinBlock';
 import SearchCoin from '../../components/SearchCoin/SearchCoin';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -26,6 +26,7 @@ useEffect(() => {
     .then(res => res.json())
     .then(json => {
       if (json.data) {
+        console.log('data ready')
         const formattedData = json.data;
         //format data
         formattedData.forEach(d => {
@@ -58,6 +59,7 @@ useEffect(() => {
 
         setCoins(formattedData)
         setStoredCoins(formattedData)
+        setModState(true)
         setLoading(false)
       }
     })
@@ -88,7 +90,7 @@ useEffect(() => {
 }, []);
 
 const filterCoin = () => {
-
+    setStar(0); //restart fav filter on key press
     const currentCoins = [...storedCoins];
     const filteredCoins = currentCoins.filter(d => (d.name).toUpperCase().includes(value.toUpperCase()) ||
       (d.id).toUpperCase().includes(value.toUpperCase()) || (d.symbol).toUpperCase().includes(value.toUpperCase()));
@@ -108,6 +110,7 @@ const changeStar = () =>{
 
 const changeStarBlock = (key) => {
   const currentFavCoin = storedCoins.find(d => d['name'] === key);
+
   if(currentFavCoin['star'] == undefined){
     currentFavCoin['star'] = 1;
   } else if (currentFavCoin['star'] === 0){
@@ -137,6 +140,7 @@ return (
     />
     <Icon style={starOn > 0 ? { color: 'yellow', marginTop: 45 } : { color: '#555', marginTop: 45}} name="ios-star" size={35} onPress={changeStar} />
     </View>
+  
     {coins[0] != undefined ?
     <FlatList 
     style={{ width: '100%', marginTop: 20, marginBottom: 20, paddingRight: 5, paddingLeft: 5 }}
@@ -158,7 +162,6 @@ return (
       )}
       /> : <View><Text style={{ color: 'white' }}>{error != null ? 'Error' : 'loading...'}</Text></View>
     }
-  
   </View>
 );
 }

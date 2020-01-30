@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 export default function CoinBlock(props) {
@@ -24,7 +24,9 @@ return (
       <Text style={{ color: 'white' }}>{'$ ' + props.coinVolume}</Text>
     </View>
     <View>
-    <Icon style={props.favOn > 0 ? { color: 'yellow' } : { color: '#555' }} name="ios-star" size={35} onPress={()=>(props.changeStar(props.coinName))}/>
+      <TouchableOpacity onPress={() => (props.changeStar(props.coinName))}>
+    <Icon style={props.favOn > 0 ? { color: 'yellow' } : { color: '#555' }} name="ios-star" size={35}/>
+    </TouchableOpacity>
     </View>
   </View>
 );
