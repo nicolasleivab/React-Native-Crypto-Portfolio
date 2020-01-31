@@ -23,7 +23,7 @@ export default function Coins() {
   const [sortedChange, setSortedChange] = useState(0);
   const [sortedCap, setSortedCap] = useState(0);
   const [sortedVol, setSortedVol] = useState(0);
-  const [rawData, setRawData] = useState([]);
+  const [rawData, setRawData] = useState(0);
 
 useEffect(() => {
   // loading and error states
@@ -34,9 +34,9 @@ useEffect(() => {
     .then(res => res.json())
     .then(json => {
       if (json.data) {
-        console.log('data ready')
-        const rawData = json.data;
-        const formattedData = json.data;
+        console.log('data ready');
+        
+        const formattedData = [...json.data];
         //format data
         formattedData.forEach(d => {
           if(d.priceUsd >= 1){
@@ -46,30 +46,32 @@ useEffect(() => {
           }
           d.supply = Math.floor(d.supply * 10000) / 10000;
           d.maxSupply = Math.floor(d.maxSupply * 10000) / 10000;
+          d.changePercent24Hr = Math.floor(d.changePercent24Hr * 100) / 100;
+          d.vwap24Hr = Math.floor(d.vwap24Hr * 10000) / 10000;
+        });
+          const rawData = JSON.parse(JSON.stringify(json.data)); //copy rawData for coming operations
+          setRawData(rawData);
+        formattedData.forEach(d => {
           d.marketCapUsd = +d.marketCapUsd;
           if (d.marketCapUsd >= 1000000000) {
-            d.marketCapUsd = ((d.marketCapUsd)/1000000000).toFixed(2)+'B';
-          }else if(+d.marketCapUsd >= 1000000){
-            d.marketCapUsd = (d.marketCapUsd/1000000).toFixed(2)+'M';
-          }else{
+            d.marketCapUsd = ((d.marketCapUsd) / 1000000000).toFixed(2) + 'B';
+          } else if (d.marketCapUsd >= 1000000) {
+            d.marketCapUsd = (d.marketCapUsd / 1000000).toFixed(2) + 'M';
+          } else {
             d.marketCapUsd = (d.marketCapUsd / 1000).toFixed(2) + 'K';
           }
           d.volumeUsd24Hr = +d.volumeUsd24Hr;
-          if(d.volumeUsd24Hr >= 1000000000) {
+          if (d.volumeUsd24Hr >= 1000000000) {
             d.volumeUsd24Hr = ((d.volumeUsd24Hr) / 1000000000).toFixed(2) + 'B';
-          }else if (+d.volumeUsd24Hr >= 1000000) {
-            d.volumeUsd24Hr = ((d.volumeUsd24Hr)/ 1000000).toFixed(2) + 'M';
+          } else if (d.volumeUsd24Hr >= 1000000) {
+            d.volumeUsd24Hr = ((d.volumeUsd24Hr) / 1000000).toFixed(2) + 'M';
           } else {
             d.volumeUsd24Hr = ((d.volumeUsd24Hr) / 1000).toFixed(2) + 'K';
           }
-          d.changePercent24Hr= Math.floor(d.changePercent24Hr * 100) / 100;
-          d.vwap24Hr = Math.floor(d.vwap24Hr * 10000) / 10000;
         });
 
         setCoins(formattedData)
         setStoredCoins(formattedData)
-        setRawData(rawData)
-        setModState(true)
         setLoading(false)
       }
     })
@@ -198,28 +200,70 @@ const sortByChange = () =>{
   }
 }
 const sortByCap = () =>{
-  const allCoins = [...rawData];
+  const allCoins = JSON.parse(JSON.stringify(rawData)); //copy rawData
+  let sortedCoins;
+
+  console.log(rawData.slice(3))
   if (sortedCap === 0) {
-    const sortedCoins = allCoins.sort((aCoin, bCoin) => aCoin.marketCapUsd - bCoin.marketCapUsd);
+    sortedCoins = allCoins.sort((aCoin, bCoin) => aCoin.marketCapUsd - bCoin.marketCapUsd);
     setSortedCap(1);
-    setCoins(sortedCoins);
   } else {
-    const sortedCoins = allCoins.sort((aCoin, bCoin) => bCoin.marketCapUsd - aCoin.marketCapUsd);
+    sortedCoins = allCoins.sort((aCoin, bCoin) => bCoin.marketCapUsd - aCoin.marketCapUsd);
     setSortedCap(0);
-    setCoins(sortedCoins);
   }
+  sortedCoins.forEach(d => { //format data
+    d.marketCapUsd = +d.marketCapUsd;
+    if (d.marketCapUsd >= 1000000000) {
+      d.marketCapUsd = ((d.marketCapUsd) / 1000000000).toFixed(2) + 'B';
+    } else if (d.marketCapUsd >= 1000000) {
+      d.marketCapUsd = (d.marketCapUsd / 1000000).toFixed(2) + 'M';
+    } else {
+      d.marketCapUsd = (d.marketCapUsd / 1000).toFixed(2) + 'K';
+    }
+    d.volumeUsd24Hr = +d.volumeUsd24Hr;
+    if (d.volumeUsd24Hr >= 1000000000) {
+      d.volumeUsd24Hr = ((d.volumeUsd24Hr) / 1000000000).toFixed(2) + 'B';
+    } else if (d.volumeUsd24Hr >= 1000000) {
+      d.volumeUsd24Hr = ((d.volumeUsd24Hr) / 1000000).toFixed(2) + 'M';
+    } else {
+      d.volumeUsd24Hr = ((d.volumeUsd24Hr) / 1000).toFixed(2) + 'K';
+    }
+  });
+
+  setCoins(sortedCoins);
 }
 const sortByVol = () =>{
-  const allCoins = [...rawData];
+  const allCoins = JSON.parse(JSON.stringify(rawData)); //copy rawData
+  let sortedCoins;
+
+  console.log(rawData.slice(3))
   if (sortedVol === 0) {
-    const sortedCoins = allCoins.sort((aCoin, bCoin) => aCoin.volumeUsd24Hr - bCoin.volumeUsd24Hr);
+    sortedCoins = allCoins.sort((aCoin, bCoin) => aCoin.volumeUsd24Hr - bCoin.volumeUsd24Hr);
     setSortedVol(1);
-    setCoins(sortedCoins);
   } else {
-    const sortedCoins = allCoins.sort((aCoin, bCoin) => bCoin.volumeUsd24Hr - aCoin.volumeUsd24Hr);
+    sortedCoins = allCoins.sort((aCoin, bCoin) => bCoin.volumeUsd24Hr - aCoin.volumeUsd24Hr);
     setSortedVol(0);
-    setCoins(sortedCoins);
   }
+  sortedCoins.forEach(d => { //format data
+    d.marketCapUsd = +d.marketCapUsd;
+    if (d.marketCapUsd >= 1000000000) {
+      d.marketCapUsd = ((d.marketCapUsd) / 1000000000).toFixed(2) + 'B';
+    } else if (d.marketCapUsd >= 1000000) {
+      d.marketCapUsd = (d.marketCapUsd / 1000000).toFixed(2) + 'M';
+    } else {
+      d.marketCapUsd = (d.marketCapUsd / 1000).toFixed(2) + 'K';
+    }
+    d.volumeUsd24Hr = +d.volumeUsd24Hr;
+    if (d.volumeUsd24Hr >= 1000000000) {
+      d.volumeUsd24Hr = ((d.volumeUsd24Hr) / 1000000000).toFixed(2) + 'B';
+    } else if (d.volumeUsd24Hr >= 1000000) {
+      d.volumeUsd24Hr = ((d.volumeUsd24Hr) / 1000000).toFixed(2) + 'M';
+    } else {
+      d.volumeUsd24Hr = ((d.volumeUsd24Hr) / 1000).toFixed(2) + 'K';
+    }
+  });
+
+  setCoins(sortedCoins);
 }
 
 return (
