@@ -19,6 +19,7 @@ export default function Coins() {
   const [error, setError] = useState(null);
   const [value, onChangeText] = React.useState('');
   const [starOn, setStar] = useState(0);
+  const [sortedPrice, setSortedPrice] = useState(0);
 
 useEffect(() => {
   // loading and error states
@@ -165,10 +166,34 @@ const changeStarBlock = (key) => {
   }
 }
 
+const sortByPrice = () =>{
+  const allCoins = [...storedCoins];
+  if(sortedPrice === 0){
+    const sortedCoins = allCoins.sort((aCoin, bCoin) => aCoin.priceUsd - bCoin.priceUsd);
+    setSortedPrice(1)
+    setCoins(sortedCoins)
+  }else{
+    const sortedCoins = allCoins.sort((aCoin, bCoin) => bCoin.priceUsd - aCoin.priceUsd); 
+    setSortedPrice(0)
+    setCoins(sortedCoins)
+  }
+}
+
+const sortByChange = () =>{
+
+}
+const sortByCap = () =>{
+
+}
+const sortByVol = () =>{
+
+}
+
 return (
   <View style={styles.container}>
-    {globalData['total_market_cap'] != undefined && coins[0] != undefined ?
-    <View style={{width:'100%', marginTop: 100}}>
+    {globalData['total_market_cap'] != undefined ?
+    <View style={styles.headerContainer}>
+    <View style={{width:'100%', marginTop: 1}}>
       <CoinsHeader
           btcDom={globalData['market_cap_percentage']['btc']}
           mCap={globalData['total_market_cap']['usd']}
@@ -184,7 +209,14 @@ return (
     />
     <Icon style={starOn > 0 ? { color: 'yellow', marginTop: 30 } : { color: '#555', marginTop: 30}} name="ios-star" size={35} onPress={changeStar} />
     </View>
-    <CoinFilters/>
+    <CoinFilters
+      sortPrice={sortByPrice}
+      sortChange={sortByChange}
+      sortCap={sortByCap}
+      sortVol={sortByVol}
+    />
+    </View>
+    {coins[0] != undefined?
     <FlatList  
     style={{ width: '100%', marginTop: 0, marginBottom: 20, paddingRight: 0, paddingLeft: 9 }}
     data={coins}
@@ -204,7 +236,7 @@ return (
         coinVolume={coin.item['volumeUsd24Hr']}
         />
       )}
-        /></View>: <View><Text style={{ color: 'white' }}>{'loading...'}</Text></View>
+    />:<View></View>}</View>: <View><Text style={{ color: 'white' }}>{'loading...'}</Text></View>
     }
   </View>
 );
@@ -221,5 +253,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: 'space-evenly',
     alignItems: 'center'
+  },
+  headerContainer:{
+    flex:1,
+    width: '100%'
   }
 });

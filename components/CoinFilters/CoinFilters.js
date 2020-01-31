@@ -1,13 +1,33 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View} from 'react-native';
+import React from 'react';
+import { StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 
 export default function CoinFilters(props) {
 
 return (
 <View style={styles.filtersFlex}>
-    <Text style={{color: '#CCC', fontSize: 10, marginLeft: 30}}>COIN</Text>
-    <Text style={{ color: '#CCC', fontSize: 10, marginLeft: 20}}>PRICE / 24H CHG</Text>
-    <Text style={{ color: '#CCC', fontSize: 10}}>M.CAP / VOL</Text>
+    <TouchableOpacity style={{marginLeft: 60, flex:1.5}}>
+        <Text style={{color: '#CCC', fontSize: 10}}>COIN</Text>
+    </TouchableOpacity>
+    <View style={{ flexDirection: 'row', flex:1.5}}>
+        <TouchableOpacity onPress={props.sortPrice}>
+            <Text style={{ color: '#CCC', fontSize: 10}}>PRICE</Text>
+        </TouchableOpacity>
+            <Text style={{ color: '#CCC', fontSize: 10, marginHorizontal: 3}}>{'/'}</Text>
+            <TouchableOpacity onPress={props.sortChange}>
+            <Text style={{ color: '#CCC', fontSize: 10}}>24H CHG</Text>
+        </TouchableOpacity>
+    </View>
+    <View style={{ flexDirection: 'row', flex:1.5, marginLeft: 30}}>
+            <TouchableOpacity onPress={props.sortCap}>
+            <Text style={{ color: '#CCC', fontSize: 10}}>M.CAP</Text>
+        </TouchableOpacity>
+            <Text style={{ color: '#CCC', fontSize: 10, marginHorizontal: 3}}>{'/'}</Text>
+            <TouchableOpacity onPress={props.sortVol}>
+            <Text style={{ color: '#CCC', fontSize: 10}}>VOL</Text>
+        </TouchableOpacity>
+    </View>
+        <View style={{ flexDirection: 'row', flex: 1.5 }}>
+    </View>
 </View>
 );
 }

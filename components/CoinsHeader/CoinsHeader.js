@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { StyleSheet, Text, View} from 'react-native';
 
 export default function CoinsHeader(props) {
@@ -15,7 +15,7 @@ return (
             <Text style={{ color: 'white', fontSize: 10 }}>{props.mCap}</Text>
             <Text style={props.capChange > 0 ? { color: '#00ff80', fontSize: 10 }:
             { color: '#ff6666' }}>{props.capChange > 0 ? ' (+' + props.capChange 
-                +')': '('+props.capChange+')'}</Text>
+                +'%)': '('+props.capChange+')'}</Text>
     </View>
     </View >
     <View style={{ alignItems: 'flex-end' }}>
