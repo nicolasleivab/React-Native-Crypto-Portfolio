@@ -15,7 +15,7 @@ return (
        <Text style={{ color: 'white' }}>{props.coinName}</Text>
       </View>
     </View>
-    <View style={{flex: 1.5, alignItems:'center'}}>
+    <View style={{ flex: 1.5, alignItems: 'center', marginLeft:20}}>
       <Text style={{ color: 'white' }}>{'$ '+props.coinPrice}</Text>
       <Text style={props.coinChange > 0 ? { color: '#00ff80' } : { color: '#ff6666'}}>{props.coinChange > 0 ? '+'+props.coinChange+'%' : props.coinChange+'%'}</Text>
     </View>
@@ -46,8 +46,8 @@ const styles = StyleSheet.create({
     elevation: 7,
     marginTop: 20,
     marginLeft: 0,
-    marginRight: 10,
+    marginRight: 12,
     height: 100,
-    width: '100%'
+    width: '98%'
   },
 });

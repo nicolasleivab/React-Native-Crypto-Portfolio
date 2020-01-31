@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, FlatList, Button, Modal} from 'react-native';
 import CoinBlock from '../../components/CoinBlock/CoinBlock';
 import SearchCoin from '../../components/SearchCoin/SearchCoin';
 import Icon from 'react-native-vector-icons/Ionicons';
+import CoinsHeader from '../../components/CoinsHeader/CoinsHeader'
 
 export default function Coins() {
   const apiKey = {
@@ -167,26 +168,14 @@ return (
   <View style={styles.container}>
     {globalData['total_market_cap'] != undefined && coins[0] != undefined ?
     <View>
-    <View style={styles.globalFlex}>
-      <View style={{alignItems:'flex-end'}}>
-        <Text style={{color: 'white', fontSize: 10}}>BTC DOMINANCE</Text>
-        <Text style={{ color: 'white', fontSize: 10 }}>{globalData['market_cap_percentage']['btc']}</Text>
-      </View>
-      <View style={{ alignItems: 'flex-end' }}>
-        <Text style={{ color: 'white', fontSize: 10}}>TOTAL MARKET CAP</Text>
-        <View style={{flexDirection: 'row'}}>
-          <Text style={{ color: 'white', fontSize: 10 }}>{globalData['total_market_cap']['usd']}</Text>
-          <Text style={globalData["market_cap_change_percentage_24h_usd"] > 0 ? { color: '#00ff80', fontSize: 10 }:
-                { color: '#ff6666' }}>{globalData["market_cap_change_percentage_24h_usd"] > 0 ? ' (+' + globalData["market_cap_change_percentage_24h_usd"] 
-                  +')': '('+globalData["market_cap_change_percentage_24h_usd"]+')'}</Text>
-        </View>
-      </View >
-      <View style={{ alignItems: 'flex-end' }}>
-        <Text style={{ color: 'white', fontSize: 10}}>TOTAL VOLUME</Text>
-        <Text style={{ color: 'white', fontSize: 10 }}>{globalData['total_volume']['usd']}</Text>
-      </View>
-    </View>
+      <CoinsHeader
+          btcDom={globalData['market_cap_percentage']['btc']}
+          mCap={globalData['total_market_cap']['usd']}
+          capChange={globalData["market_cap_change_percentage_24h_usd"]}
+          totalVol={globalData['total_volume']['usd']}
+        />
     <View style={styles.filterFlex}>
+  
     <SearchCoin
     filterCoin={filterCoin}
     textChange={text => onChangeText(text)}
@@ -194,9 +183,9 @@ return (
     />
     <Icon style={starOn > 0 ? { color: 'yellow', marginTop: 45 } : { color: '#555', marginTop: 45}} name="ios-star" size={35} onPress={changeStar} />
     </View>
-  
-    <FlatList 
-    style={{ width: '100%', marginTop: 20, marginBottom: 20, paddingRight: 5, paddingLeft: 5 }}
+
+    <FlatList  
+    style={{ width: '100%', marginTop: 20, marginBottom: 20, paddingRight: 0, paddingLeft: 9 }}
     data={coins}
     renderItem={coin => (
         <CoinBlock
@@ -225,13 +214,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#30344E',
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  globalFlex: {
-    flexDirection: "row",
-    justifyContent: 'space-evenly',
-    alignItems: 'center',
-    width: '100%',
-    marginTop: 50
   },
   filterFlex:{
     flexDirection: "row",
