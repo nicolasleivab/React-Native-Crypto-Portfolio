@@ -79,6 +79,7 @@ useEffect(() => {
       if (json.data) {
         const rawData = json.data;
 
+        console.log('cmc data ready');
         setAllCoins(rawData)
         setLoading(false)
       }
@@ -97,16 +98,27 @@ useEffect(() => {
     .then(json => {
       if (json.data) {
         const rawData = json.data;
+        
+        const formatMarketCap = (rawData['total_market_cap']['usd']/1000000000).toFixed(2) + 'B';
+        const formatBTCDom = (rawData['market_cap_percentage']['btc']).toFixed(2) + '%';
+        const formatTotalVolume = (rawData['total_volume']['usd'] / 1000000000).toFixed(2) + 'B';
+        const formatMarketChange = (rawData["market_cap_change_percentage_24h_usd"]).toFixed(2);
 
-        setGlobalData(rawData)
-        console.log('global data ready')
-        setLoading(false)
+        const formattedData = {...rawData};
+        formattedData['total_market_cap']['usd'] = formatMarketCap;
+        formattedData['market_cap_percentage']['btc'] = formatBTCDom;
+        formattedData['total_volume']['usd'] = formatTotalVolume;
+        formattedData["market_cap_change_percentage_24h_usd"] = formatMarketChange;
+
+        setGlobalData(formattedData);
+        console.log('global data ready');
+        setLoading(false);
       }
     })
     .catch(err => {
       setError(err)
-      console.log('coingecko error')
-      setLoading(false)
+      console.log('coingecko error');
+      setLoading(false);
     })
 }, []);
   
@@ -153,21 +165,27 @@ const changeStarBlock = (key) => {
 
 return (
   <View style={styles.container}>
-    {globalData[0] != undefined ?
+    {globalData['total_market_cap'] != undefined && coins[0] != undefined ?
+    <View>
     <View style={styles.globalFlex}>
-      <View>
+      <View style={{alignItems:'flex-end'}}>
         <Text style={{color: 'white', fontSize: 10}}>BTC DOMINANCE</Text>
         <Text style={{ color: 'white', fontSize: 10 }}>{globalData['market_cap_percentage']['btc']}</Text>
       </View>
-      <View>
+      <View style={{ alignItems: 'flex-end' }}>
         <Text style={{ color: 'white', fontSize: 10}}>TOTAL MARKET CAP</Text>
-        <Text style={{ color: 'white', fontSize: 10 }}>{globalData['total_market_cap']['usd']}</Text>
-      </View>
-      <View>
+        <View style={{flexDirection: 'row'}}>
+          <Text style={{ color: 'white', fontSize: 10 }}>{globalData['total_market_cap']['usd']}</Text>
+          <Text style={globalData["market_cap_change_percentage_24h_usd"] > 0 ? { color: '#00ff80', fontSize: 10 }:
+                { color: '#ff6666' }}>{globalData["market_cap_change_percentage_24h_usd"] > 0 ? ' (+' + globalData["market_cap_change_percentage_24h_usd"] 
+                  +')': '('+globalData["market_cap_change_percentage_24h_usd"]+')'}</Text>
+        </View>
+      </View >
+      <View style={{ alignItems: 'flex-end' }}>
         <Text style={{ color: 'white', fontSize: 10}}>TOTAL VOLUME</Text>
         <Text style={{ color: 'white', fontSize: 10 }}>{globalData['total_volume']['usd']}</Text>
       </View>
-    </View> : <View><Text>Error</Text></View>}
+    </View>
     <View style={styles.filterFlex}>
     <SearchCoin
     filterCoin={filterCoin}
@@ -177,7 +195,6 @@ return (
     <Icon style={starOn > 0 ? { color: 'yellow', marginTop: 45 } : { color: '#555', marginTop: 45}} name="ios-star" size={35} onPress={changeStar} />
     </View>
   
-    {coins[0] != undefined ?
     <FlatList 
     style={{ width: '100%', marginTop: 20, marginBottom: 20, paddingRight: 5, paddingLeft: 5 }}
     data={coins}
@@ -196,7 +213,7 @@ return (
         coinVolume={coin.item['volumeUsd24Hr']}
         />
       )}
-      /> : <View><Text style={{ color: 'white' }}>{error != null ? 'Error' : 'loading...'}</Text></View>
+        /></View>: <View><Text style={{ color: 'white' }}>{error != null ? 'Error' : 'loading...'}</Text></View>
     }
   </View>
 );
@@ -212,7 +229,7 @@ const styles = StyleSheet.create({
   globalFlex: {
     flexDirection: "row",
     justifyContent: 'space-evenly',
-    alignItems: 'flex-start',
+    alignItems: 'center',
     width: '100%',
     marginTop: 50
   },
