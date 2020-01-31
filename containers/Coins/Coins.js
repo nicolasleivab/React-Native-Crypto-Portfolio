@@ -4,6 +4,7 @@ import CoinBlock from '../../components/CoinBlock/CoinBlock';
 import SearchCoin from '../../components/SearchCoin/SearchCoin';
 import Icon from 'react-native-vector-icons/Ionicons';
 import CoinsHeader from '../../components/CoinsHeader/CoinsHeader'
+import CoinFilters from '../../components/CoinFilters/CoinFilters'
 
 export default function Coins() {
   const apiKey = {
@@ -41,11 +42,11 @@ useEffect(() => {
           d.maxSupply = Math.floor(d.maxSupply * 10000) / 10000;
           d.marketCapUsd = +d.marketCapUsd;
           if (d.marketCapUsd >= 1000000000) {
-            d.marketCapUsd = ((+d.marketCapUsd)/1000000000).toFixed(2)+'B';
+            d.marketCapUsd = ((d.marketCapUsd)/1000000000).toFixed(2)+'B';
           }else if(+d.marketCapUsd >= 1000000){
-            d.marketCapUsd = (+d.marketCapUsd/1000000).toFixed(2)+'M';
+            d.marketCapUsd = (d.marketCapUsd/1000000).toFixed(2)+'M';
           }else{
-            d.marketCapUsd = +d.marketCapUsd.toFixed(2);
+            d.marketCapUsd = (d.marketCapUsd / 1000).toFixed(2) + 'K';
           }
           d.volumeUsd24Hr = +d.volumeUsd24Hr;
           if(d.volumeUsd24Hr >= 1000000000) {
@@ -53,7 +54,7 @@ useEffect(() => {
           }else if (+d.volumeUsd24Hr >= 1000000) {
             d.volumeUsd24Hr = ((d.volumeUsd24Hr)/ 1000000).toFixed(2) + 'M';
           } else {
-           d.volumeUsd24Hr = d.volumeUsd24Hr.toFixed(2);
+            d.volumeUsd24Hr = ((d.volumeUsd24Hr) / 1000).toFixed(2) + 'K';
           }
           d.changePercent24Hr= Math.floor(d.changePercent24Hr * 100) / 100;
           d.vwap24Hr = Math.floor(d.vwap24Hr * 10000) / 10000;
@@ -167,7 +168,7 @@ const changeStarBlock = (key) => {
 return (
   <View style={styles.container}>
     {globalData['total_market_cap'] != undefined && coins[0] != undefined ?
-    <View>
+    <View style={{width:'100%', marginTop: 100}}>
       <CoinsHeader
           btcDom={globalData['market_cap_percentage']['btc']}
           mCap={globalData['total_market_cap']['usd']}
@@ -181,17 +182,18 @@ return (
     textChange={text => onChangeText(text)}
     value={value}
     />
-    <Icon style={starOn > 0 ? { color: 'yellow', marginTop: 45 } : { color: '#555', marginTop: 45}} name="ios-star" size={35} onPress={changeStar} />
+    <Icon style={starOn > 0 ? { color: 'yellow', marginTop: 30 } : { color: '#555', marginTop: 30}} name="ios-star" size={35} onPress={changeStar} />
     </View>
-
+    <CoinFilters/>
     <FlatList  
-    style={{ width: '100%', marginTop: 20, marginBottom: 20, paddingRight: 0, paddingLeft: 9 }}
+    style={{ width: '100%', marginTop: 0, marginBottom: 20, paddingRight: 0, paddingLeft: 9 }}
     data={coins}
     renderItem={coin => (
         <CoinBlock
         key={coin.item['id']} 
         changeStar={changeStarBlock}
         favOn={coin.item['star']}
+        ranking={coin.item['rank']}
         coinID={allCoins[0] != undefined && coins[0] != undefined ? 
           (allCoins.find(d => d['name'] === coin.item['name'] || d['slug'] === coin.item['id'] || d['symbol'] === coin.item['symbol']))['id'] : 1} 
         coinName={coin.item['name']} 
@@ -202,7 +204,7 @@ return (
         coinVolume={coin.item['volumeUsd24Hr']}
         />
       )}
-        /></View>: <View><Text style={{ color: 'white' }}>{error != null ? 'Error' : 'loading...'}</Text></View>
+        /></View>: <View><Text style={{ color: 'white' }}>{'loading...'}</Text></View>
     }
   </View>
 );
