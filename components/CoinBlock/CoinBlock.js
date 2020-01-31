@@ -6,7 +6,7 @@ export default function CoinBlock(props) {
 
 return (
   <View style={styles.flexContainer}>
-    <View style={{flexDirection: 'row'}}>
+    <View style={{flexDirection: 'row', flex: 2, marginLeft: 10}}>
       <View style={{justifyContent:'center', marginRight: 10}}>
         <Image style={{ width: 32, height: 32 }} source={{ uri: 'https://s2.coinmarketcap.com/static/img/coins/64x64/'+props.coinID+'.png' }} />
       </View>
@@ -15,15 +15,15 @@ return (
        <Text style={{ color: 'white' }}>{props.coinName}</Text>
       </View>
     </View>
-    <View>
+    <View style={{flex: 1.5, alignItems:'center'}}>
       <Text style={{ color: 'white' }}>{'$ '+props.coinPrice}</Text>
       <Text style={props.coinChange > 0 ? { color: '#00ff80' } : { color: '#ff6666'}}>{props.coinChange > 0 ? '+'+props.coinChange+'%' : props.coinChange+'%'}</Text>
     </View>
-    <View>
+    <View style={{ flex: 1.5, alignItems: 'center'}}>
       <Text style={{ color: 'white' }}>{'$ ' + props.coinMarket}</Text>
       <Text style={{ color: 'white' }}>{'$ ' + props.coinVolume}</Text>
     </View>
-    <View>
+    <View style={{ flex: 1, marginLeft: 20}}>
       <TouchableOpacity onPress={() => (props.changeStar(props.coinName))}>
     <Icon style={props.favOn > 0 ? { color: 'yellow' } : { color: '#555' }} name="ios-star" size={35}/>
     </TouchableOpacity>
