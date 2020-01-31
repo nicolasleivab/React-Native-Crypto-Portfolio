@@ -21,6 +21,9 @@ export default function Coins() {
   const [starOn, setStar] = useState(0);
   const [sortedPrice, setSortedPrice] = useState(0);
   const [sortedChange, setSortedChange] = useState(0);
+  const [sortedCap, setSortedCap] = useState(0);
+  const [sortedVol, setSortedVol] = useState(0);
+  const [rawData, setRawData] = useState([]);
 
 useEffect(() => {
   // loading and error states
@@ -32,6 +35,7 @@ useEffect(() => {
     .then(json => {
       if (json.data) {
         console.log('data ready')
+        const rawData = json.data;
         const formattedData = json.data;
         //format data
         formattedData.forEach(d => {
@@ -64,6 +68,7 @@ useEffect(() => {
 
         setCoins(formattedData)
         setStoredCoins(formattedData)
+        setRawData(rawData)
         setModState(true)
         setLoading(false)
       }
@@ -171,12 +176,12 @@ const sortByPrice = () =>{
   const allCoins = [...storedCoins];
   if(sortedPrice === 0){
     const sortedCoins = allCoins.sort((aCoin, bCoin) => aCoin.priceUsd - bCoin.priceUsd);
-    setSortedPrice(1)
-    setCoins(sortedCoins)
+    setSortedPrice(1);
+    setCoins(sortedCoins);
   }else{
     const sortedCoins = allCoins.sort((aCoin, bCoin) => bCoin.priceUsd - aCoin.priceUsd); 
-    setSortedPrice(0)
-    setCoins(sortedCoins)
+    setSortedPrice(0);
+    setCoins(sortedCoins);
   }
 }
 
@@ -184,19 +189,37 @@ const sortByChange = () =>{
   const allCoins = [...storedCoins];
   if (sortedChange === 0) {
     const sortedCoins = allCoins.sort((aCoin, bCoin) => aCoin.changePercent24Hr - bCoin.changePercent24Hr);
-    setSortedChange(1)
-    setCoins(sortedCoins)
+    setSortedChange(1);
+    setCoins(sortedCoins);
   } else {
     const sortedCoins = allCoins.sort((aCoin, bCoin) => bCoin.changePercent24Hr - aCoin.changePercent24Hr);
-    setSortedChange(0)
-    setCoins(sortedCoins)
+    setSortedChange(0);
+    setCoins(sortedCoins);
   }
 }
 const sortByCap = () =>{
-
+  const allCoins = [...rawData];
+  if (sortedCap === 0) {
+    const sortedCoins = allCoins.sort((aCoin, bCoin) => aCoin.marketCapUsd - bCoin.marketCapUsd);
+    setSortedCap(1);
+    setCoins(sortedCoins);
+  } else {
+    const sortedCoins = allCoins.sort((aCoin, bCoin) => bCoin.marketCapUsd - aCoin.marketCapUsd);
+    setSortedCap(0);
+    setCoins(sortedCoins);
+  }
 }
 const sortByVol = () =>{
-
+  const allCoins = [...rawData];
+  if (sortedVol === 0) {
+    const sortedCoins = allCoins.sort((aCoin, bCoin) => aCoin.volumeUsd24Hr - bCoin.volumeUsd24Hr);
+    setSortedVol(1);
+    setCoins(sortedCoins);
+  } else {
+    const sortedCoins = allCoins.sort((aCoin, bCoin) => bCoin.volumeUsd24Hr - aCoin.volumeUsd24Hr);
+    setSortedVol(0);
+    setCoins(sortedCoins);
+  }
 }
 
 return (
