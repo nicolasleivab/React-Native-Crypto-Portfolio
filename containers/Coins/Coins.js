@@ -20,6 +20,7 @@ export default function Coins() {
   const [value, onChangeText] = React.useState('');
   const [starOn, setStar] = useState(0);
   const [sortedPrice, setSortedPrice] = useState(0);
+  const [sortedChange, setSortedChange] = useState(0);
 
 useEffect(() => {
   // loading and error states
@@ -180,7 +181,16 @@ const sortByPrice = () =>{
 }
 
 const sortByChange = () =>{
-
+  const allCoins = [...storedCoins];
+  if (sortedChange === 0) {
+    const sortedCoins = allCoins.sort((aCoin, bCoin) => aCoin.changePercent24Hr - bCoin.changePercent24Hr);
+    setSortedChange(1)
+    setCoins(sortedCoins)
+  } else {
+    const sortedCoins = allCoins.sort((aCoin, bCoin) => bCoin.changePercent24Hr - aCoin.changePercent24Hr);
+    setSortedChange(0)
+    setCoins(sortedCoins)
+  }
 }
 const sortByCap = () =>{
 
