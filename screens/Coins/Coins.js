@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, FlatList, TouchableWithoutFeedback, Keyboard} from 'react-native';
+import { StyleSheet, Text, View, FlatList, TouchableWithoutFeedback, Keyboard, ActivityIndicator} from 'react-native';
 import CoinBlock from '../../components/CoinBlock/CoinBlock';
 import SearchCoin from '../../components/SearchCoin/SearchCoin';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -144,7 +144,7 @@ useEffect(() => {
 if(loadingGlobal !== false || loadingGlobal !== false){
   console.log({loadingCoins, loadingGlobal, loadingIcons});
   return (
-    <View><Text>{'loading...'}</Text></View>
+    <View style={styles.container}><ActivityIndicator size="large" color={Colors.text_primary} /></View>
   )
 }
 
@@ -152,7 +152,7 @@ if(loadingGlobal !== false || loadingGlobal !== false){
 if(error !== null){
   console.log({error});
   return (
-    <View><Text>{error}</Text></View>
+    <View style={styles.container}><Text color={Colors.text_primary}>{error}</Text></View>
   )
 }
 
@@ -229,6 +229,9 @@ const sortByChange = () =>{
 }
 const sortByCap = () =>{
   const allCoins = JSON.parse(JSON.stringify(rawData)); //copy rawData
+  for(let i = 0; i < allCoins.length; i++){
+    allCoins[i]['star'] = storedCoins[i]['star'];
+  }
   let sortedCoins;
 
   console.log(rawData.slice(3))
@@ -262,6 +265,9 @@ const sortByCap = () =>{
 }
 const sortByVol = () =>{
   const allCoins = JSON.parse(JSON.stringify(rawData)); //copy rawData
+  for (let i = 0; i < allCoins.length; i++) {
+    allCoins[i]['star'] = storedCoins[i]['star'];
+  }
   let sortedCoins;
 
   console.log(rawData.slice(3))
