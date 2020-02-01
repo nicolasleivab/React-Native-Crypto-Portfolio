@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, FlatList, Button, Modal} from 'react-native';
+import { StyleSheet, Text, View, FlatList, TouchableWithoutFeedback, Keyboard} from 'react-native';
 import CoinBlock from '../../components/CoinBlock/CoinBlock';
 import SearchCoin from '../../components/SearchCoin/SearchCoin';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -145,6 +145,7 @@ const filterCoin = () => {
     }
 }
 const changeStar = () =>{
+  Keyboard.dismiss();
   setStar(!starOn);
   if (starOn == 0) {
     setCoins(favCoins);
@@ -172,6 +173,10 @@ const changeStarBlock = (key) => {
     const favList = [...favCoins];
     const filterItem = favList.filter(d => d['name'] !== key);
     setFavCoins(filterItem);
+    if (starOn == 1) {
+      setCoins(filterItem);
+    }
+    
   }
 }
 
@@ -271,6 +276,7 @@ return (
   <View style={styles.container}>
     {globalData['total_market_cap'] != undefined ?
     <View style={styles.headerContainer}>
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
     <View style={{width:'100%', marginTop: 1}}>
       <CoinsHeader
           btcDom={globalData['market_cap_percentage']['btc']}
@@ -278,6 +284,7 @@ return (
           capChange={globalData["market_cap_change_percentage_24h_usd"]}
           totalVol={globalData['total_volume']['usd']}
         />
+    
     <View style={styles.filterFlex}>
   
     <SearchCoin
@@ -294,10 +301,12 @@ return (
       sortVol={sortByVol}
     />
     </View>
+    </TouchableWithoutFeedback>
     {coins[0] != undefined?
     <FlatList  
     style={{ width: '100%', marginTop: 0, marginBottom: 20, paddingRight: 0, paddingLeft: 9 }}
     data={coins}
+    onScrollBeginDrag={()=> Keyboard.dismiss()}
     renderItem={coin => (
         <CoinBlock
         key={coin.item['id']} 
@@ -317,6 +326,7 @@ return (
     />:<View></View>}</View>: <View><Text style={{ color: Colors.text_primary }}>{'loading...'}</Text></View>
     }
   </View>
+
 );
 }
 
