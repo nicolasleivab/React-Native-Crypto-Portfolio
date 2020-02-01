@@ -25,6 +25,10 @@ export default function Coins() {
   const [sortedCap, setSortedCap] = useState(0);
   const [sortedVol, setSortedVol] = useState(0);
   const [rawData, setRawData] = useState(0);
+  const [triggerFetch, setTrigger] = useState(0);
+
+
+const timer = setInterval(() => setTrigger(!triggerFetch), 60000); //update data every 1 min
 
 useEffect(() => {
   // loading and error states
@@ -81,7 +85,7 @@ useEffect(() => {
       console.log(err)
       setLoading(false)
     })
-}, []);
+}, [triggerFetch]);
 
 useEffect(() => {
   // Fetch all coins from coinmarketcap
@@ -132,7 +136,7 @@ useEffect(() => {
       console.log('coingecko error');
       setLoading(false);
     })
-}, []);
+}, [triggerFetch]);
   
 const filterCoin = () => {
     setStar(0); //restart fav filter on key press
@@ -145,7 +149,7 @@ const filterCoin = () => {
     }
 }
 const changeStar = () =>{
-  Keyboard.dismiss();
+   Keyboard.dismiss();
   setStar(!starOn);
   if (starOn == 0) {
     setCoins(favCoins);
