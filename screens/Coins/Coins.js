@@ -16,7 +16,9 @@ export default function Coins() {
   const [favCoins, setFavCoins] = useState([]);
   const [allCoins, setAllCoins] = useState([]);
   const [globalData, setGlobalData] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loadingCoins, setLoadingCoins] = useState(true);
+  const [loadingGlobal, setLoadingGlobal] = useState(true);
+  const [loadingIcons, setLoadingIcons] = useState(true);
   const [error, setError] = useState(null);
   const [value, onChangeText] = React.useState('');
   const [starOn, setStar] = useState(0);
@@ -31,16 +33,14 @@ export default function Coins() {
 const timer = setInterval(() => setTrigger(!triggerFetch), 60000); //update data every 1 min
 
 useEffect(() => {
-  // loading and error states
-  setLoading(true)
-  setError(null)
+
 // Fetch Top 100 coins from CoinCap
   fetch("https://api.coincap.io/v2/assets")
     .then(res => res.json())
     .then(json => {
       if (json.data) {
         console.log('data ready');
-        
+  
         const formattedData = [...json.data];
         //format data
         formattedData.forEach(d => {
@@ -77,37 +77,39 @@ useEffect(() => {
 
         setCoins(formattedData)
         setStoredCoins(formattedData)
-        setLoading(false)
+        setLoadingCoins(false)
       }
     })
     .catch(err => {
       setError(err)
       console.log(err)
-      setLoading(false)
+      setLoadingCoins(false)
     })
 }, [triggerFetch]);
 
 useEffect(() => {
+
   // Fetch all coins from coinmarketcap
   fetch("https://pro-api.coinmarketcap.com/v1/cryptocurrency/map?CMC_PRO_API_KEY="+apiKey.key)
     .then(res => res.json())
     .then(json => {
       if (json.data) {
-        const rawData = json.data;
+        const rawData = json.data;;
 
         console.log('cmc data ready');
         setAllCoins(rawData)
-        setLoading(false)
+        setLoadingIcons(false)
       }
     })
     .catch(err => {
       setError(err)
       console.log('cmc error')
-      setLoading(false)
+      setLoadingIcons(false)
     })
 }, []);
 
 useEffect(() => {
+
   // Fetch global data from coingecko
   fetch('https://api.coingecko.com/api/v3/global')
     .then(res => res.json())
@@ -128,16 +130,32 @@ useEffect(() => {
 
         setGlobalData(formattedData);
         console.log('global data ready');
-        setLoading(false);
+        setLoadingGlobal(false);
       }
     })
     .catch(err => {
       setError(err)
       console.log('coingecko error');
-      setLoading(false);
+      setLoadingGlobal(false);
     })
 }, [triggerFetch]);
-  
+
+//return loading screen when loading
+if(loadingGlobal !== false || loadingGlobal !== false){
+  console.log({loadingCoins, loadingGlobal, loadingIcons});
+  return (
+    <View><Text>{'loading...'}</Text></View>
+  )
+}
+
+//return error
+if(error !== null){
+  console.log({error});
+  return (
+    <View><Text>{error}</Text></View>
+  )
+}
+
 const filterCoin = () => {
     setStar(0); //restart fav filter on key press
     const currentCoins = [...storedCoins];
@@ -278,7 +296,6 @@ const sortByVol = () =>{
 
 return (
   <View style={styles.container}>
-    {globalData['total_market_cap'] != undefined ?
     <View style={styles.headerContainer}>
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
     <View style={{width:'100%', marginTop: 1}}>
@@ -306,7 +323,6 @@ return (
     />
     </View>
     </TouchableWithoutFeedback>
-    {coins[0] != undefined?
     <FlatList  
     style={{ width: '100%', marginTop: 0, marginBottom: 20, paddingRight: 0, paddingLeft: 9 }}
     data={coins}
@@ -317,8 +333,9 @@ return (
         changeStar={changeStarBlock}
         favOn={coin.item['star']}
         ranking={coin.item['rank']}
-        coinID={allCoins[0] != undefined && coins[0] != undefined ? 
-          (allCoins.find(d => d['name'] === coin.item['name'] || d['slug'] === coin.item['id'] || d['symbol'] === coin.item['symbol']))['id'] : 1} 
+        coinID={allCoins[0] != undefined ? 
+                (allCoins.find(d => d['name'] === coin.item['name'] || d['slug'] === coin.item['id'] || 
+                d['symbol'] === coin.item['symbol']))['id'] : 1} 
         coinName={coin.item['name']} 
         coinSymbol={coin.item['symbol']}
         coinChange={coin.item['changePercent24Hr']}
@@ -327,8 +344,8 @@ return (
         coinVolume={coin.item['volumeUsd24Hr']}
         />
       )}
-    />:<View></View>}</View>: <View><Text style={{ color: Colors.text_primary }}>{'loading...'}</Text></View>
-    }
+    />
+    </View>
   </View>
 
 );
