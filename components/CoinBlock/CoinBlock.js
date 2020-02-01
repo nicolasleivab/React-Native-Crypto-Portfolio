@@ -1,34 +1,35 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import Colors from '../../constants/colors';
 
 export default function CoinBlock(props) {
 
 return (
   <View style={styles.flexContainer}>
-    <View style={{flexDirection: 'row', flex: 2, marginLeft: 10}}>
+    <View style={styles.nameContainer}>
       <View style={{marginBottom:30}}>
-        <Text style={{color:'white', fontSize:10}}>{props.ranking}</Text>
+        <Text style={{color:Colors.text_primary, fontSize:10}}>{props.ranking}</Text>
       </View>
       <View style={{justifyContent:'center', marginRight: 10}}>
         <Image style={{ width: 32, height: 32 }} source={{ uri: 'https://s2.coinmarketcap.com/static/img/coins/64x64/'+props.coinID+'.png' }} />
       </View>
-      <View>
-       <Text style={{ color: 'white', fontSize: 17, fontWeight: '700'}}>{props.coinSymbol}</Text>
-       <Text style={{ color: 'white' }}>{props.coinName}</Text>
+      <View style={{flexShrink: 1}}>
+       <Text style={{ color: Colors.text_primary, fontSize: 17, fontWeight: '700'}}>{props.coinSymbol}</Text>
+       <Text style={{ color: Colors.text_primary }}>{props.coinName}</Text>
       </View>
     </View>
-    <View style={{ flex: 1.5, alignItems: 'center', marginLeft:30}}>
-      <Text style={{ color: 'white' }}>{'$'+props.coinPrice}</Text>
-      <Text style={props.coinChange > 0 ? { color: '#00ff80' } : { color: '#ff6666'}}>{props.coinChange > 0 ? '+'+props.coinChange+'%' : props.coinChange+'%'}</Text>
+    <View style={styles.priceContainer}>
+      <Text style={{ color: Colors.text_primary }}>{'$'+props.coinPrice}</Text>
+      <Text style={props.coinChange > 0 ? { color: Colors.positive_value } : { color: Colors.negative_value}}>{props.coinChange > 0 ? '+'+props.coinChange+'%' : props.coinChange+'%'}</Text>
     </View>
-    <View style={{ flex: 1.5, alignItems: 'center'}}>
-      <Text style={{ color: 'white' }}>{'$' + props.coinMarket}</Text>
-      <Text style={{ color: 'white' }}>{'$' + props.coinVolume}</Text>
+    <View style={styles.priceContainer}>
+      <Text style={{ color: Colors.text_primary }}>{'$' + props.coinMarket}</Text>
+      <Text style={{ color: Colors.text_primary }}>{'$' + props.coinVolume}</Text>
     </View>
-    <View style={{ flex: 1, marginLeft: 20}}>
+    <View style={styles.starContainer}>
       <TouchableOpacity onPress={() => (props.changeStar(props.coinName))}>
-    <Icon style={props.favOn > 0 ? { color: 'yellow' } : { color: '#555' }} name="ios-star" size={35}/>
+    <Icon style={props.favOn > 0 ? { color: Colors.star_on } : { color: Colors.star_off }} name="ios-star" size={35}/>
     </TouchableOpacity>
     </View>
   </View>
@@ -38,12 +39,12 @@ return (
 const styles = StyleSheet.create({
   flexContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-evenly',
+    justifyContent: 'flex-start',
     alignItems: 'center',
-    backgroundColor: '#445378',
+    backgroundColor: Colors.coinblock,
     borderRadius: 5,
     shadowOffset: { width: 0, height: 6,},
-    shadowColor: 'black',
+    shadowColor: Colors.shadow,
     shadowOpacity: 1,
     shadowRadius: 7.5,
     elevation: 7,
@@ -53,4 +54,21 @@ const styles = StyleSheet.create({
     height: 100,
     width: '98%'
   },
+  nameContainer: {
+    flexDirection: 'row', 
+    flex: 2, 
+    marginLeft: 10,
+    width: '100%' 
+  },
+  priceContainer: {
+    flex: 1.5, 
+    alignItems: 'center', 
+    marginVertical: 5, 
+    width: '100%',
+  },
+  starContainer: {
+    flex: 1, 
+    marginLeft: 10, 
+    width: '100%' 
+  }
 });

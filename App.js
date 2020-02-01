@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Coins from './containers/Coins/Coins';
+import Coins from './screens/Coins/Coins';
 
 export default function App() {
 

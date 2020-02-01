@@ -3,8 +3,9 @@ import { StyleSheet, Text, View, FlatList, Button, Modal} from 'react-native';
 import CoinBlock from '../../components/CoinBlock/CoinBlock';
 import SearchCoin from '../../components/SearchCoin/SearchCoin';
 import Icon from 'react-native-vector-icons/Ionicons';
-import CoinsHeader from '../../components/CoinsHeader/CoinsHeader'
-import CoinFilters from '../../components/CoinFilters/CoinFilters'
+import CoinsHeader from '../../components/CoinsHeader/CoinsHeader';
+import CoinFilters from '../../components/CoinFilters/CoinFilters';
+import Colors from '../../constants/colors';
 
 export default function Coins() {
   const apiKey = {
@@ -284,7 +285,7 @@ return (
     textChange={text => onChangeText(text)}
     value={value}
     />
-    <Icon style={starOn > 0 ? { color: 'yellow', marginTop: 30 } : { color: '#555', marginTop: 30}} name="ios-star" size={35} onPress={changeStar} />
+    <Icon style={starOn > 0 ? { color: Colors.star_on, marginTop: 30 } : { color: Colors.star_off, marginTop: 30}} name="ios-star" size={35} onPress={changeStar} />
     </View>
     <CoinFilters
       sortPrice={sortByPrice}
@@ -313,7 +314,7 @@ return (
         coinVolume={coin.item['volumeUsd24Hr']}
         />
       )}
-    />:<View></View>}</View>: <View><Text style={{ color: 'white' }}>{'loading...'}</Text></View>
+    />:<View></View>}</View>: <View><Text style={{ color: Colors.text_primary }}>{'loading...'}</Text></View>
     }
   </View>
 );
@@ -322,7 +323,7 @@ return (
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#30344E',
+    backgroundColor: Colors.primary,
     alignItems: 'center',
     justifyContent: 'center',
   },

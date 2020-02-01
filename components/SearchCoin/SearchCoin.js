@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, TextInput} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import Colors from './../../constants/colors';
 
 export default function SearchCoin(props) {
 
@@ -29,10 +30,10 @@ const styles = StyleSheet.create({
   InputCoin: {
     marginTop: 30,
     height: 40, 
-    color: 'white',
+    color: Colors.text_primary,
     padding: 10,
     paddingLeft: 32,
-    backgroundColor: '#1c1e2e',
+    backgroundColor: Colors.secondary,
     borderRadius: 10,
   },
 
@@ -40,6 +41,6 @@ const styles = StyleSheet.create({
     padding: 10,
     position: 'absolute',
     top: 30,
-    color: 'white'
+    color: Colors.text_primary
   }
 });
