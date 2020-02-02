@@ -234,7 +234,6 @@ const sortByCap = () =>{
   }
   let sortedCoins;
 
-  console.log(rawData.slice(3))
   if (sortedCap === 0) {
     sortedCoins = allCoins.sort((aCoin, bCoin) => aCoin.marketCapUsd - bCoin.marketCapUsd);
     setSortedCap(1);
