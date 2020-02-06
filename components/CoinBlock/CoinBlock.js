@@ -6,6 +6,7 @@ import Colors from '../../constants/colors';
 export default function CoinBlock(props) {
 
 return (
+  <TouchableOpacity onPress={props.navigate}>
   <View style={styles.flexContainer}>
     <View style={styles.nameContainer}>
       <View style={{marginBottom:30}}>
@@ -33,6 +34,7 @@ return (
     </TouchableOpacity>
     </View>
   </View>
+  </TouchableOpacity>
 );
 }
 
