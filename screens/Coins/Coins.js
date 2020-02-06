@@ -335,7 +335,7 @@ return (
     onScrollBeginDrag={()=> Keyboard.dismiss()}
     renderItem={coin => (
         <CoinBlock
-        navigate={()=>props.navigation.navigate({ routeName: 'Chart' })}
+        navigate={()=>props.navigation.navigate({ routeName: 'Chart', params:{coinID: coin.item['id']}})}
         key={coin.item['id']} 
         changeStar={changeStarBlock}
         favOn={coin.item['star']}
@@ -356,6 +356,14 @@ return (
   </View>
 
 );
+}
+Coins.navigationOptions = {
+  headerStyle: {
+    backgroundColor: Colors.secondary,
+  },
+  headerTintColor: Colors.text_primary,
+  title: 'Coins',
+  headerTitleAlign: 'center'
 }
 
 const styles = StyleSheet.create({

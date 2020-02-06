@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
         justifyContent: "space-evenly",
         alignItems: "center",
         width: "100%",
-        marginTop: 50
+        marginTop: 10
     },
     headerText: { 
         color: Colors.text_primary, 
