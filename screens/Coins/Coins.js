@@ -335,7 +335,14 @@ return (
     onScrollBeginDrag={()=> Keyboard.dismiss()}
     renderItem={coin => (
         <CoinBlock
-        navigate={()=>props.navigation.navigate({ routeName: 'Chart', params:{coinID: coin.item['id']}})}
+        navigate={()=>props.navigation.navigate({ 
+          routeName: 'Chart', 
+          params:{
+            coinID: coin.item['id'],
+            coinName: coin.item['name']
+          }
+        }
+        )}
         key={coin.item['id']} 
         changeStar={changeStarBlock}
         favOn={coin.item['star']}
