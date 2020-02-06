@@ -6,7 +6,6 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import CoinsHeader from '../../components/CoinsHeader/CoinsHeader';
 import CoinFilters from '../../components/CoinFilters/CoinFilters';
 import Colors from '../../constants/colors';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export default function Coins(props) {
   const apiKey = {
