@@ -8,26 +8,35 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@babel/runtime": "^7.8.4",
     "@react-native-community/masked-view": "^0.1.5",
     "@react-navigation/native": "^5.0.0",
     "expo": "~36.0.0",
+    "install": "^0.13.0",
+    "link": "^0.1.5",
     "mem": "^6.0.1",
+    "prop-types": "^15.7.2",
     "react": "~16.9.0",
     "react-dom": "~16.9.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-36.0.0.tar.gz",
+    "react-native-chart-kit": "^4.5.0",
+    "react-native-echarts-wrapper": "^2.0.0",
     "react-native-gesture-handler": "~1.5.0",
     "react-native-reanimated": "^1.4.0",
     "react-native-safe-area-context": "^0.6.0",
     "react-native-screens": "2.0.0-alpha.12",
+    "react-native-svg": "^9.13.3",
     "react-native-web": "~0.11.7",
+    "react-native-webview": "^7.4.3",
     "react-navigation": "^4.1.1",
     "react-navigation-drawer": "^2.3.3",
     "react-navigation-stack": "^2.1.1",
-    "react-navigation-tabs": "^2.7.0"
+    "react-navigation-tabs": "^2.7.0",
+    "yarn": "^1.22.0"
   },
   "devDependencies": {
-    "babel-preset-expo": "~8.0.0",
-    "@babel/core": "^7.0.0"
+    "@babel/core": "^7.0.0",
+    "babel-preset-expo": "~8.0.0"
   },
   "private": true
 }

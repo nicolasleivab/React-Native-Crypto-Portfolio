@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {View, Text, StyleSheet, Button, ActivityIndicator} from 'react-native';
 import Colors from '../../constants/colors';
+import CryptoChart from '../../components/LineChart/LineChart';
 
 export default function Chart (props){
     const currentCoinID = props.navigation.getParam('coinID');
@@ -37,8 +38,8 @@ export default function Chart (props){
 
     return (
         <View style ={styles.screen}>
+            <CryptoChart></CryptoChart>
             <Text>Chart Screen</Text>
-            <Button title='GET COIN DATA' onPress={()=>console.log(coinData)}/>
         </View>
     );
 };
