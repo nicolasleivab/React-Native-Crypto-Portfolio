@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { StyleSheet, View, Text, Dimensions } from "react-native";
 import { LineChart } from "react-native-chart-kit";
+import Colors from '../../constants/colors';
 
 export default class CryptoChart extends Component {
     render() {
@@ -8,10 +9,11 @@ export default class CryptoChart extends Component {
             <View>
                 <LineChart
                     data={{
-                        labels: ["January", "February", "March", "April", "May", "June"],
+                        labels: ["January", "February", "March", "April", "May", "June", "July"],
                         datasets: [
                             {
                                 data: [
+                                    Math.random() * 1,
                                     Math.random() * 1,
                                     Math.random() * 1,
                                     Math.random() * 1,
@@ -27,11 +29,11 @@ export default class CryptoChart extends Component {
                     yAxisLabel="$"
                     yAxisSuffix=""
                     chartConfig={{
-                        backgroundColor: "#e26a00",
-                        backgroundGradientFrom: "#fb8c00",
-                        backgroundGradientTo: "#ffa726",
+                        backgroundColor: Colors.primary,
+                        backgroundGradientFrom: Colors.primary,
+                        backgroundGradientTo: Colors.secondary,
                         decimalPlaces: 2, // optional, defaults to 2dp
-                        color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+                        color: (opacity = 1) => `rgba(0, 255, 90, ${opacity})`,
                         labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
                         style: {
                             borderRadius: 16

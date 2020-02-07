@@ -38,8 +38,19 @@ export default function Chart (props){
 
     return (
         <View style ={styles.screen}>
-            <CryptoChart></CryptoChart>
-            <Text>Chart Screen</Text>
+            <View style={styles.priceContainer}>
+                <Text style={{color:Colors.text_primary}}>Price</Text>
+                <Text style={{ color: Colors.text_primary }}>Price Change</Text>
+            </View>
+            <View style={styles.chartContainer}>
+                <CryptoChart/>
+            </View>
+            <View style={styles.buttonsContainer}>
+                <Text style={{ color: Colors.text_primary }}>Buttons Container</Text>
+            </View>
+            <View style={styles.priceContainer}>
+                <Text style={{ color: Colors.text_primary }}>Info Container: Market Cap, Supply, 24H volume, ATH</Text>
+            </View>
         </View>
     );
 };
@@ -58,8 +69,16 @@ Chart.navigationOptions = coinParams => {
 const styles = StyleSheet.create({
     screen: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
         backgroundColor: Colors.primary
+    },
+    priceContainer:{
+        marginTop: 20,
+    },
+    chartContainer:{
+        width: '100%',
+        marginVertical: 20,
+    },
+    buttonsContainer:{
+
     }
 })
