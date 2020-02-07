@@ -54,8 +54,9 @@ export default function Chart (props){
     return (
         <View style ={styles.screen}>
             <View style={styles.priceContainer}>
-                <Text style={{color:Colors.text_primary}}>{currentCoinPrice}</Text>
-                <Text style={{ color: Colors.text_primary }}>{currentCoinChange}</Text>
+                <Text style={{color:Colors.text_primary, fontSize: 22}}>{'$'+currentCoinPrice}</Text>
+                <Text style={currentCoinChange > 0 ? { color: Colors.positive_value, marginBottom: 3} : { color: Colors.negative_value, marginBottom: 3 }}>
+                    {currentCoinChange > 0 ? ' (+' + currentCoinChange + '%)' : ' ('+currentCoinChange + '%)'}</Text>
             </View>
             <View style={styles.chartContainer}>
                 <CryptoChart
@@ -99,7 +100,8 @@ const styles = StyleSheet.create({
     priceContainer:{
         marginTop: 20,
         flexDirection: 'row',
-        justifyContent: 'space-evenly'
+        justifyContent: 'center',
+        alignItems: 'flex-end'
     },
     chartContainer:{
         width: '100%',
