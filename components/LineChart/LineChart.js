@@ -25,7 +25,7 @@ export default class CryptoChart extends Component {
                             strokeWidth: 1
                         },
                         decimalPlaces: this.props.decimalPlaces, // optional, defaults to 2dp
-                        color: (opacity = 1) => `rgba(0, 255, 90, ${opacity})`,
+                        color: (opacity = 1) => `rgba(0, 255, 70, ${opacity})`,
                         labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
                         style: {
                             borderRadius: 16
