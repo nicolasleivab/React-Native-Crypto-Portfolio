@@ -2,9 +2,15 @@ import React, { useState, useEffect } from 'react';
 import {View, Text, StyleSheet, Button, ActivityIndicator} from 'react-native';
 import Colors from '../../constants/colors';
 import CryptoChart from '../../components/LineChart/LineChart';
+import CoinInfo from '../../components/CoinInfo/CoinInfo';
 
 export default function Chart (props){
     const currentCoinID = props.navigation.getParam('coinID');
+    const currentCoinPrice = props.navigation.getParam('coinPrice');
+    const currentCoinVol = props.navigation.getParam('coinVol');
+    const currentCoinChange = props.navigation.getParam('coinChange');
+    const currentCoinSupply = props.navigation.getParam('coinSupply');
+    const currentCoinMarket = props.navigation.getParam('coinMarketCap');
     const [coinData, setCoinData] = useState([]);
     const [dates, setDates] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -48,26 +54,28 @@ export default function Chart (props){
     return (
         <View style ={styles.screen}>
             <View style={styles.priceContainer}>
-                <Text style={{color:Colors.text_primary}}>Price</Text>
-                <Text style={{ color: Colors.text_primary }}>Price Change</Text>
+                <Text style={{color:Colors.text_primary}}>{currentCoinPrice}</Text>
+                <Text style={{ color: Colors.text_primary }}>{currentCoinChange}</Text>
             </View>
             <View style={styles.chartContainer}>
                 <CryptoChart
-                    labels={dates.slice(-10)}
+                    labels={dates.slice(-7)}
                     series={[
                         {
-                            data: coinData.slice(-10)
+                            data: coinData.slice(-7)
                         }
                     ]}
-                    decimalPlaces={coinData[0]<10 ? 4 : 2}
+                    decimalPlaces={coinData.slice(-10)[0]<10 ? 4 : 2}
                 />
             </View>
             <View style={styles.buttonsContainer}>
                 <Text style={{ color: Colors.text_primary }}>Buttons Container</Text>
             </View>
-            <View style={styles.priceContainer}>
-                <Text style={{ color: Colors.text_primary }}>Info Container: Market Cap, Supply, 24H volume, ATH</Text>
-            </View>
+            <CoinInfo
+                marketCap={currentCoinMarket}
+                vol={currentCoinVol}
+                supply={currentCoinSupply}
+            />
         </View>
     );
 };
@@ -90,6 +98,8 @@ const styles = StyleSheet.create({
     },
     priceContainer:{
         marginTop: 20,
+        flexDirection: 'row',
+        justifyContent: 'space-evenly'
     },
     chartContainer:{
         width: '100%',

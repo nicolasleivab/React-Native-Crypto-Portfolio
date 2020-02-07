@@ -338,7 +338,12 @@ return (
           routeName: 'Chart', 
           params:{
             coinID: coin.item['id'],
-            coinName: coin.item['name']
+            coinName: coin.item['name'],
+            coinVol: coin.item['volumeUsd24Hr'],
+            coinChange: coin.item['changePercent24Hr'],
+            coinSupply: coin.item['supply'],
+            coinMarketCap: coin.item['marketCapUsd'],
+            coinPrice: coin.item['priceUsd']
           }
         }
         )}
