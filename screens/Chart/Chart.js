@@ -18,9 +18,11 @@ export default function Chart (props){
                     const rawData = json.data;
                     const series= [];
                     const categories = [];
+                    var dateFormat = require('dateformat');
                     rawData.forEach(d => {
                         series.push(+d.priceUsd);
-                        categories.push(new Date(d.time))
+                        const currentDate = new Date(d.time);
+                        categories.push(dateFormat(currentDate, "d/m"));
                     });
                     console.log('coin data ready');
                     setCoinData(series)
@@ -51,12 +53,13 @@ export default function Chart (props){
             </View>
             <View style={styles.chartContainer}>
                 <CryptoChart
-                    labels={dates.slice(0,7)}
+                    labels={dates.slice(-10)}
                     series={[
                         {
-                            data: coinData.slice(0,7)
+                            data: coinData.slice(-10)
                         }
                     ]}
+                    decimalPlaces={coinData[0]<10 ? 4 : 2}
                 />
             </View>
             <View style={styles.buttonsContainer}>
