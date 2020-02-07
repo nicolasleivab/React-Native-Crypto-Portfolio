@@ -9,21 +9,10 @@ export default class CryptoChart extends Component {
             <View>
                 <LineChart
                     data={{
-                        labels: ["January", "February", "March", "April", "May", "June", "July"],
-                        datasets: [
-                            {
-                                data: [
-                                    Math.random() * 1,
-                                    Math.random() * 1,
-                                    Math.random() * 1,
-                                    Math.random() * 1,
-                                    Math.random() * 1,
-                                    Math.random() * 1,
-                                    Math.random() * 1
-                                ]
-                            }
-                        ]
+                        labels: this.props.labels,
+                        datasets: this.props.series
                     }}
+                    verticalLabelRotation={45}
                     width={Dimensions.get("window").width} // from react-native
                     height={220}
                     yAxisLabel="$"

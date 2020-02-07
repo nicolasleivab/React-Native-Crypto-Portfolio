@@ -6,18 +6,25 @@ import CryptoChart from '../../components/LineChart/LineChart';
 export default function Chart (props){
     const currentCoinID = props.navigation.getParam('coinID');
     const [coinData, setCoinData] = useState([]);
+    const [dates, setDates] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         // Fetch current coin data
-        fetch("https://api.coincap.io/v2/assets/"+currentCoinID+"/history?interval=m15")
+        fetch("https://api.coincap.io/v2/assets/"+currentCoinID+"/history?interval=d1")
             .then(res => res.json())
             .then(json => {
                 if (json.data) {
-                    const rawData = json.data;;
-
+                    const rawData = json.data;
+                    const series= [];
+                    const categories = [];
+                    rawData.forEach(d => {
+                        series.push(+d.priceUsd);
+                        categories.push(new Date(d.time))
+                    });
                     console.log('coin data ready');
-                    setCoinData(rawData)
+                    setCoinData(series)
+                    setDates(categories)
                     setLoading(false)
                 }
             })
@@ -43,7 +50,14 @@ export default function Chart (props){
                 <Text style={{ color: Colors.text_primary }}>Price Change</Text>
             </View>
             <View style={styles.chartContainer}>
-                <CryptoChart/>
+                <CryptoChart
+                    labels={dates.slice(0,7)}
+                    series={[
+                        {
+                            data: coinData.slice(0,7)
+                        }
+                    ]}
+                />
             </View>
             <View style={styles.buttonsContainer}>
                 <Text style={{ color: Colors.text_primary }}>Buttons Container</Text>
