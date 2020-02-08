@@ -3,6 +3,7 @@ import {View, Text, StyleSheet, Button, ActivityIndicator} from 'react-native';
 import Colors from '../../constants/colors';
 import CryptoChart from '../../components/LineChart/LineChart';
 import CoinInfo from '../../components/CoinInfo/CoinInfo';
+import MainButton from '../../components/MainButton/MainButton';
 
 export default function Chart (props){
     const currentCoinID = props.navigation.getParam('coinID');
@@ -51,6 +52,10 @@ export default function Chart (props){
         )
     }
 
+    const sliceData = () =>{
+        console.log('slice data');
+    }
+
     return (
         <View style ={styles.screen}>
             <View style={styles.priceContainer}>
@@ -70,7 +75,26 @@ export default function Chart (props){
                 />
             </View>
             <View style={styles.buttonsContainer}>
-                <Text style={{ color: Colors.text_primary }}>Buttons Container</Text>
+                <MainButton
+                    btnText={'24Hr'}
+                    sliceData={sliceData}
+                />
+                <MainButton
+                    btnText={'7d'}
+                    sliceData={sliceData}
+                />
+                <MainButton
+                    btnText={'14d'}
+                    sliceData={sliceData}
+                />
+                <MainButton
+                    btnText={'30d'}
+                    sliceData={sliceData}
+                />
+                <MainButton
+                    btnText={'60d'}
+                    sliceData={sliceData}
+                />
             </View>
             <CoinInfo
                 marketCap={currentCoinMarket}
@@ -108,6 +132,8 @@ const styles = StyleSheet.create({
         marginVertical: 20,
     },
     buttonsContainer:{
-
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center'
     }
 })
