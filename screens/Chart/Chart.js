@@ -9,7 +9,7 @@ export default function Chart (props){
     const currentCoinID = props.navigation.getParam('coinID');
     const currentCoinPrice = props.navigation.getParam('coinPrice');
     const currentCoinVol = props.navigation.getParam('coinVol');
-    const currentCoinChange = props.navigation.getParam('coinChange');
+    const dailyCoinChange = props.navigation.getParam('coinChange');
     const currentCoinSupply = props.navigation.getParam('coinSupply');
     const currentCoinMarket = props.navigation.getParam('coinMarketCap');
     const [coinDailyData, setCoinDailyData] = useState([]);
@@ -21,6 +21,7 @@ export default function Chart (props){
     const [loadingDaily, setLoadingDaily] = useState(false);
     const [loadingIntra, setLoadingIntra] = useState(true);
     const [error, setError] = useState(null);
+    const [currentCoinChange, setCurrentChange] = useState([dailyCoinChange]);
 
     useEffect(() => {
         // Fetch current coin data (intra)
@@ -92,8 +93,9 @@ export default function Chart (props){
     //data calculation and update method
     const sliceData = (btn) =>{
         if(btn === 'day'){
-       setSeries(coinIntraData.slice(-24))
-       setCategories(dates.slice(-7))
+            setSeries(coinIntraData.slice(-24));
+            setCategories(dates.slice(-7));
+            setCurrentChange(dailyCoinChange);
         }
         if(btn === 'oneWeek'){
             const series = [];
@@ -107,7 +109,10 @@ export default function Chart (props){
                 categories.push(slicedDates[i]);
             }
             setSeries(series);
-            setCategories(categories)
+            setCategories(categories);
+
+            const weeklyChange = (slicedData[167] - slicedData[0])*100/slicedData[0];
+            setCurrentChange(weeklyChange.toFixed(2));
         }
         if (btn === 'twoWeeks') {
             const series = [];
@@ -122,9 +127,13 @@ export default function Chart (props){
             }
             setSeries(series);
             setCategories(categories);
+
+            const twoWeeksChange = (slicedData[335] - slicedData[0])*100/ slicedData[0];
+            setCurrentChange(twoWeeksChange.toFixed(2));
         }
         if (btn === 'oneMonth') {
-            setSeries(coinDailyData.slice(-30));
+            const slicedData = coinDailyData.slice(-30);
+            setSeries(slicedData);
             const categories = [];
             const slicedDates = dailyDates.slice(-30);
 
@@ -132,6 +141,9 @@ export default function Chart (props){
                 categories.push(slicedDates[i]);
             }
             setCategories(categories);
+
+            const monthlyChange = (slicedData[29] - slicedData[0])*100/ slicedData[0];
+            setCurrentChange(monthlyChange.toFixed(2));
         }
         if (btn === 'twoMonths') {
             const series = [];
@@ -146,6 +158,9 @@ export default function Chart (props){
                 categories.push(slicedDates[i]);
             }
             setCategories(categories);
+
+            const twoMonthsChange = (slicedData[59] - slicedData[0])*100/ slicedData[0]
+            setCurrentChange(twoMonthsChange.toFixed(2));
         }
        
     }
