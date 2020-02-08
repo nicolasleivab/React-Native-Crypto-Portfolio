@@ -15,6 +15,7 @@ export default function Chart (props){
     const [coinDailyData, setCoinDailyData] = useState([]);
     const [coinIntraData, setCoinIntraData] = useState([]);
     const [coinSeries, setSeries] = useState([]);
+    const [categories, setCategories] = useState([]);
     const [dates, setDates] = useState([]);
     const [dailyDates, setDailyDates] = useState([]);
     const [loadingDaily, setLoadingDaily] = useState(false);
@@ -37,10 +38,11 @@ export default function Chart (props){
                         categories.push(dateFormat(currentDate, "d/m"));
                     });
                     console.log('coin intra data ready');
-                    setCoinIntraData(series)
-                    setSeries(series.slice(-24))
-                    setDates(categories)
-                    setLoadingIntra(false)
+                    setCoinIntraData(series);
+                    setSeries(series.slice(-24));
+                    setDates(categories);
+                    setCategories(categories.slice(-7));
+                    setLoadingIntra(false);
                 }
             })
             .catch(err => {
@@ -91,34 +93,59 @@ export default function Chart (props){
     const sliceData = (btn) =>{
         if(btn === 'day'){
        setSeries(coinIntraData.slice(-24))
+       setCategories(dates.slice(-7))
         }
         if(btn === 'oneWeek'){
             const series = [];
-            const slicedData = coinIntraData.slice(-24*7)
+            const categories = [];
+            const slicedData = coinIntraData.slice(-24*7);
+            const slicedDates = dates.slice(-24*7);
             for(let i = 0; i < slicedData.length; i = i+7){
-                series.push(slicedData[i])
+                series.push(slicedData[i]);
+            }
+            for (let i = 0; i < slicedDates.length; i = i + 24) {
+                categories.push(slicedDates[i]);
             }
             setSeries(series);
+            setCategories(categories)
         }
         if (btn === 'twoWeeks') {
             const series = [];
+            const categories = [];
             const slicedData = coinIntraData.slice(-24*14)
+            const slicedDates = dates.slice(-24 * 14);
             for (let i = 0; i < slicedData.length; i = i + 14) {
                 series.push(slicedData[i])
             }
+            for (let i = 0; i < slicedDates.length; i = i + 48) {
+                categories.push(slicedDates[i]);
+            }
             setSeries(series);
+            setCategories(categories);
         }
         if (btn === 'oneMonth') {
-        
             setSeries(coinDailyData.slice(-30));
+            const categories = [];
+            const slicedDates = dailyDates.slice(-30);
+
+            for (let i = 0; i < slicedDates.length; i = i + 3) {
+                categories.push(slicedDates[i]);
+            }
+            setCategories(categories);
         }
         if (btn === 'twoMonths') {
             const series = [];
             const slicedData = coinDailyData.slice(-30*2)
+            const categories = [];
+            const slicedDates = dailyDates.slice(-30*2);
             for (let i = 0; i < slicedData.length; i = i + 2) {
                 series.push(slicedData[i])
             }
             setSeries(series);
+            for (let i = 0; i < slicedDates.length; i = i + 6) {
+                categories.push(slicedDates[i]);
+            }
+            setCategories(categories);
         }
        
     }
@@ -132,7 +159,7 @@ export default function Chart (props){
             </View>
             <View style={styles.chartContainer}>
                 <CryptoChart
-                    labels={dates.slice(-7)}
+                    labels={categories}
                     series={[
                         {
                             data: coinSeries
