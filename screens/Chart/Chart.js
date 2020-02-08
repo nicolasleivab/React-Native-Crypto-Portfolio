@@ -38,7 +38,7 @@ export default function Chart (props){
                     });
                     console.log('coin intra data ready');
                     setCoinIntraData(series)
-                    setSeries(series)
+                    setSeries(series.slice(-24))
                     setDates(categories)
                     setLoadingIntra(false)
                 }
@@ -87,8 +87,39 @@ export default function Chart (props){
             <View style={styles.screen}><ActivityIndicator size="large" color={Colors.text_primary} /></View>
         )
     }
-
-    const sliceData = () =>{
+    //data calculation and update method
+    const sliceData = (btn) =>{
+        if(btn === 'day'){
+       setSeries(coinIntraData.slice(-24))
+        }
+        if(btn === 'oneWeek'){
+            const series = [];
+            const slicedData = coinIntraData.slice(-24*7)
+            for(let i = 0; i < slicedData.length; i = i+7){
+                series.push(slicedData[i])
+            }
+            setSeries(series);
+        }
+        if (btn === 'twoWeeks') {
+            const series = [];
+            const slicedData = coinIntraData.slice(-24*14)
+            for (let i = 0; i < slicedData.length; i = i + 14) {
+                series.push(slicedData[i])
+            }
+            setSeries(series);
+        }
+        if (btn === 'oneMonth') {
+        
+            setSeries(coinDailyData.slice(-30));
+        }
+        if (btn === 'twoMonths') {
+            const series = [];
+            const slicedData = coinDailyData.slice(-30*2)
+            for (let i = 0; i < slicedData.length; i = i + 2) {
+                series.push(slicedData[i])
+            }
+            setSeries(series);
+        }
        
     }
 
@@ -104,7 +135,7 @@ export default function Chart (props){
                     labels={dates.slice(-7)}
                     series={[
                         {
-                            data: coinSeries.slice(-24)
+                            data: coinSeries
                         }
                     ]}
                     decimalPlaces={coinSeries.slice(-1)[0]<10 ? 4 : 2}

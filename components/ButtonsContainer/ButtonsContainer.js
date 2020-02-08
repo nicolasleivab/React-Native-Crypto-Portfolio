@@ -28,7 +28,8 @@ export default function ButtonsContainer(props) {
             console.log('Im 60d');
             setActive([false, false, false, false, true]);
         }
-        props.sliceData();
+        props.sliceData(btn);
+        
     }
 
     return (
