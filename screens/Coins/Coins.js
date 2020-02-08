@@ -141,7 +141,7 @@ useEffect(() => {
 }, [triggerFetch]);
 
 //return loading screen when loading
-if(loadingGlobal !== false || loadingGlobal !== false){
+if(loadingGlobal !== false || loadingCoins !== false){
   console.log({loadingCoins, loadingGlobal, loadingIcons});
   return (
     <View style={styles.container}><ActivityIndicator size="large" color={Colors.text_primary} /></View>

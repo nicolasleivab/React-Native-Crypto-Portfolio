@@ -4,24 +4,29 @@ import Colors from './../../constants/colors';
 import MainButton from '../../components/MainButton/MainButton';
 
 export default function ButtonsContainer(props) {
-    const [isActive, setActive] = useState([false, false, false, false, false]);
+    const [isActive, setActive] = useState([true, false, false, false, false]);
 
     const dataHandler = (btn) => {
-        setActive(!isActive);
+        
         if(btn === 'day'){
             console.log('Im 24Hr');
+            setActive([true, false, false, false, false]);
         }
         if (btn === 'oneWeek') {
             console.log('Im 7d');
+            setActive([false, true, false, false, false]);
         }
         if (btn === 'twoWeeks') {
             console.log('Im 14d');
+            setActive([false, false, true, false, false]);
         }
         if (btn === 'oneMonth') {
             console.log('Im 30d');
+            setActive([false, false, false, true, false]);
         }
         if (btn === 'twoMonths') {
             console.log('Im 60d');
+            setActive([false, false, false, false, true]);
         }
         props.sliceData();
     }

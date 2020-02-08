@@ -12,48 +12,84 @@ export default function Chart (props){
     const currentCoinChange = props.navigation.getParam('coinChange');
     const currentCoinSupply = props.navigation.getParam('coinSupply');
     const currentCoinMarket = props.navigation.getParam('coinMarketCap');
-    const [coinData, setCoinData] = useState([]);
+    const [coinDailyData, setCoinDailyData] = useState([]);
+    const [coinIntraData, setCoinIntraData] = useState([]);
+    const [coinSeries, setSeries] = useState([]);
     const [dates, setDates] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [dailyDates, setDailyDates] = useState([]);
+    const [loadingDaily, setLoadingDaily] = useState(false);
+    const [loadingIntra, setLoadingIntra] = useState(true);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
-        // Fetch current coin data
-        fetch("https://api.coincap.io/v2/assets/"+currentCoinID+"/history?interval=d1")
+        // Fetch current coin data (intra)
+        fetch("https://api.coincap.io/v2/assets/" + currentCoinID + "/history?interval=h1")
             .then(res => res.json())
             .then(json => {
                 if (json.data) {
                     const rawData = json.data;
                     const series= [];
                     const categories = [];
-                    var dateFormat = require('dateformat');
+                    const dateFormat = require('dateformat');
                     rawData.forEach(d => {
                         series.push(+d.priceUsd);
                         const currentDate = new Date(d.time);
                         categories.push(dateFormat(currentDate, "d/m"));
                     });
-                    console.log('coin data ready');
-                    setCoinData(series)
+                    console.log('coin intra data ready');
+                    setCoinIntraData(series)
+                    setSeries(series)
                     setDates(categories)
-                    setLoading(false)
+                    setLoadingIntra(false)
                 }
             })
             .catch(err => {
                 setError(err)
-                console.log('coin data error')
-                setLoading(false)
+                console.log('coin intra data error')
+                setLoadingIntra(false)
+            })
+    }, []); 
+
+    useEffect(() => {
+        // Fetch current coin data (daily)
+        fetch('https://api.coingecko.com/api/v3/coins/' + currentCoinID + '/market_chart?vs_currency=usd&days=max')
+            .then(res => res.json())
+            .then(json => {
+                if (json.prices) {
+                    const rawData = json.prices;
+                    const series = [];
+                    const categories = [];
+                    const dateFormat = require('dateformat');
+               
+                    for(let i= 0; i < rawData.length; i++){
+                        series.push(Number(rawData[i][1]))
+                        const currentDate = new Date(rawData[i][0]);
+                        categories.push(dateFormat(currentDate, "d/m"));
+                    }
+
+                    setCoinDailyData(series);
+                    setDailyDates(categories);
+                    console.log('coin daily data ready');
+                    //setCoinDailyData(series);
+                    setLoadingDaily(false)
+                }
+            })
+            .catch(err => {
+                setError(err)
+                console.log('coin daily data error')
+                setLoadingDaily(false)
             })
     }, []);
 
-
     //return loading screen when loading
-    if (loading !== false) {
+    if (loadingDaily !== false || loadingIntra !== false) {
         return (
             <View style={styles.screen}><ActivityIndicator size="large" color={Colors.text_primary} /></View>
         )
     }
 
     const sliceData = () =>{
-        console.log('slice data');
+       
     }
 
     return (
@@ -68,10 +104,10 @@ export default function Chart (props){
                     labels={dates.slice(-7)}
                     series={[
                         {
-                            data: coinData.slice(-7)
+                            data: coinSeries.slice(-24)
                         }
                     ]}
-                    decimalPlaces={coinData.slice(-10)[0]<10 ? 4 : 2}
+                    decimalPlaces={coinSeries.slice(-1)[0]<10 ? 4 : 2}
                 />
             </View>
             <ButtonsContainer
