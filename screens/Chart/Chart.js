@@ -3,7 +3,7 @@ import {View, Text, StyleSheet, Button, ActivityIndicator} from 'react-native';
 import Colors from '../../constants/colors';
 import CryptoChart from '../../components/LineChart/LineChart';
 import CoinInfo from '../../components/CoinInfo/CoinInfo';
-import MainButton from '../../components/MainButton/MainButton';
+import ButtonsContainer from '../../components/ButtonsContainer/ButtonsContainer';
 
 export default function Chart (props){
     const currentCoinID = props.navigation.getParam('coinID');
@@ -74,28 +74,9 @@ export default function Chart (props){
                     decimalPlaces={coinData.slice(-10)[0]<10 ? 4 : 2}
                 />
             </View>
-            <View style={styles.buttonsContainer}>
-                <MainButton
-                    btnText={'24Hr'}
+            <ButtonsContainer
                     sliceData={sliceData}
-                />
-                <MainButton
-                    btnText={'7d'}
-                    sliceData={sliceData}
-                />
-                <MainButton
-                    btnText={'14d'}
-                    sliceData={sliceData}
-                />
-                <MainButton
-                    btnText={'30d'}
-                    sliceData={sliceData}
-                />
-                <MainButton
-                    btnText={'60d'}
-                    sliceData={sliceData}
-                />
-            </View>
+            />
             <CoinInfo
                 marketCap={currentCoinMarket}
                 vol={currentCoinVol}
@@ -130,10 +111,5 @@ const styles = StyleSheet.create({
     chartContainer:{
         width: '100%',
         marginVertical: 20,
-    },
-    buttonsContainer:{
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center'
     }
 })

@@ -1,18 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity} from "react-native";
 import Colors from './../../constants/colors';
 
 export default function MainButton(props) {
-    const [isActive, setActive] = useState(false);
 
-    const dataHandler = ()=>{
-        setActive(!isActive);
-        props.sliceData;
-    }
 
     return (
-        <TouchableOpacity onPress={dataHandler} style={{marginHorizontal: 3}}>
-            <View style={isActive === true? styles.btnActive : styles.btnPrimary}>
+        <TouchableOpacity onPress={()=>props.dataHandler(props.btnId)} style={{marginHorizontal: 3}}>
+            <View style={props.isActive === true? styles.btnActive : styles.btnPrimary}>
                 <Text style={{color: Colors.text_primary, textAlign: 'center'}}>{props.btnText}</Text>
             </View>
         </TouchableOpacity>
