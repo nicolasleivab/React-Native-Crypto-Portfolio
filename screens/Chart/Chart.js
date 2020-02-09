@@ -71,7 +71,15 @@ export default function Chart (props){
 
     useEffect(() => {
         // Fetch current coin data (daily)
-        fetch('https://api.coingecko.com/api/v3/coins/' + currentCoinID + '/market_chart?vs_currency=usd&days=max')
+        let coinID
+        if(currentCoinID === 'bitcoin-sv'){
+            coinID = 'bitcoin-cash-sv';
+        }else if(currentCoinID === 'binance-coin'){
+            coinID = 'binancecoin';
+        }else{
+            coinID = currentCoinID;
+        }
+        fetch('https://api.coingecko.com/api/v3/coins/' + coinID + '/market_chart?vs_currency=usd&days=max')
             .then(res => res.json())
             .then(json => {
                 if (json.prices) {
@@ -92,16 +100,20 @@ export default function Chart (props){
 
                     //find ATH
                     const rawATH = Math.max(...series);
-                    let ATH;
                     
                     if(rawATH < 10){
-                        ATH = rawATH.toFixed(4);
+                        const formatATH = rawATH.toFixed(4);
+                        setATH(formatATH);
+                        setLoadingDaily(false);
+                        console.log(formatATH);
                     }else{
-                        ATH = rawATH.toFixed(2);
+                        const formatATH = rawATH.toFixed(2);
+                        setATH(formatATH);
+                        setLoadingDaily(false);
+                        console.log(formatATH);
                     }
-                    setATH(ATH);
-                    //setCoinDailyData(series);
-                    setLoadingDaily(false);
+                
+                    
                 }
             })
             .catch(err => {

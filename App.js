@@ -5,7 +5,6 @@ import ChartNavigator from './navigation/ChartNavigator/ChartNavigator';
 export default function App() {
 
 return (
-  <ChartNavigator
-  screen={Coins}/>
+  <ChartNavigator/>
 );
 }
