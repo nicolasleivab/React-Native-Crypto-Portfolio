@@ -18,6 +18,7 @@ export default function Chart (props){
     const [categories, setCategories] = useState([]);
     const [dates, setDates] = useState([]);
     const [dailyDates, setDailyDates] = useState([]);
+    const [intradayHours, setIntraHours] = useState([]);
     const [loadingDaily, setLoadingDaily] = useState(false);
     const [loadingIntra, setLoadingIntra] = useState(true);
     const [error, setError] = useState(null);
@@ -32,17 +33,32 @@ export default function Chart (props){
                     const rawData = json.data;
                     const series= [];
                     const categories = [];
+                    const categoriesHour = [];
                     const dateFormat = require('dateformat');
                     rawData.forEach(d => {
                         series.push(+d.priceUsd);
                         const currentDate = new Date(d.time);
                         categories.push(dateFormat(currentDate, "d/m"));
                     });
+                    rawData.forEach(d => {
+                        const currentDate = new Date(d.time);
+                        categoriesHour.push(dateFormat(currentDate, "HH:MM"));
+                    });
                     console.log('coin intra data ready');
                     setCoinIntraData(series);
                     setSeries(series.slice(-24));
                     setDates(categories);
-                    setCategories(categories.slice(-7));
+            
+                    const slicedCategoriesHour = [];
+                    const slicedHours = categoriesHour.slice(-24);
+                    console.log(slicedHours);
+                    for (let i = 0; i < slicedHours.length; i = i + 3) {
+                        slicedCategoriesHour.push(slicedHours[i]);
+                        
+                    }
+
+                    setIntraHours(slicedCategoriesHour);
+                    setCategories(slicedCategoriesHour);
                     setLoadingIntra(false);
                 }
             })
@@ -87,14 +103,14 @@ export default function Chart (props){
     //return loading screen when loading
     if (loadingDaily !== false || loadingIntra !== false) {
         return (
-            <View style={styles.screen}><ActivityIndicator size="large" color={Colors.text_primary} /></View>
+            <View style={styles.loadingScreen}><ActivityIndicator size="large" color={Colors.text_primary} /></View>
         )
     }
     //data calculation and update method
     const sliceData = (btn) =>{
         if(btn === 'day'){
             setSeries(coinIntraData.slice(-24));
-            setCategories(dates.slice(-7));
+            setCategories(intradayHours);
             setCurrentChange(dailyCoinChange);
         }
         if(btn === 'oneWeek'){
@@ -207,6 +223,12 @@ Chart.navigationOptions = coinParams => {
 }
 
 const styles = StyleSheet.create({
+    loadingScreen:{
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: Colors.primary
+    },
     screen: {
         flex: 1,
         backgroundColor: Colors.primary

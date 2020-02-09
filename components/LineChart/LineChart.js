@@ -13,6 +13,7 @@ export default class CryptoChart extends Component {
                         datasets: this.props.series
                     }}
                     verticalLabelRotation={45}
+                    horizontalLabelRotation={-30}
                     width={Dimensions.get("window").width} // from react-native
                     height={250}
                     yAxisLabel="$"
@@ -28,7 +29,7 @@ export default class CryptoChart extends Component {
                         color: (opacity = 1) => `rgba(0, 255, 70, ${opacity})`,
                         labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
                         style: {
-                            borderRadius: 16
+                            borderRadius: 16,
                         },
                         propsForDots: {
                             r: "0",
@@ -39,7 +40,8 @@ export default class CryptoChart extends Component {
                     bezier
                     style={{
                         marginVertical: 8,
-                        borderRadius: 16
+                        borderRadius: 16,
+                        marginHorizontal: 5,
                     }}
                 />
             </View>
