@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import Coins from './screens/Coins/Coins';
-import ChartNavigator from './navigation/ChartNavigator/ChartNavigator';
+import AppNavigator from './navigation/AppNavigator/AppNavigator';
+import { enableScreens } from 'react-native-screens';
+
+enableScreens();
 
 export default function App() {
 
 return (
-  <ChartNavigator/>
+  <AppNavigator/>
 );
 }

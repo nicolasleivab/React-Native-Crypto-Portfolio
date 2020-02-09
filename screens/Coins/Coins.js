@@ -336,7 +336,7 @@ return (
     </View>
     </TouchableWithoutFeedback>
     <FlatList  
-    style={{ width: '100%', marginTop: 0, marginBottom: 20, paddingRight: 0, paddingLeft: 9 }}
+    style={{ width: '100%',marginBottom: 1, paddingLeft: 9 }}
     data={coins}
     onScrollBeginDrag={()=> Keyboard.dismiss()}
     renderItem={coin => (
