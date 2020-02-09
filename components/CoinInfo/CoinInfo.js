@@ -6,6 +6,10 @@ export default function CoinInfo(props) {
     return (
         <View style={styles.infoContainer}>
             <View style={styles.infoItem}>
+                <Text style={{ color: Colors.text_primary }}>ATH:</Text>
+                <Text style={{ color: Colors.text_primary }}>{'$' + props.ATH}</Text>
+            </View>
+            <View style={styles.infoItem}>
                 <Text style={{ color: Colors.text_primary }}>Market Cap:</Text>
                 <Text style={{ color: Colors.text_primary }}>{'$'+props.marketCap}</Text>
             </View>

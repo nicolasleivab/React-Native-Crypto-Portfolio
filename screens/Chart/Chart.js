@@ -23,6 +23,7 @@ export default function Chart (props){
     const [loadingIntra, setLoadingIntra] = useState(true);
     const [error, setError] = useState(null);
     const [currentCoinChange, setCurrentChange] = useState([dailyCoinChange]);
+    const [ATH, setATH] = useState(0);
 
     useEffect(() => {
         // Fetch current coin data (intra)
@@ -51,7 +52,6 @@ export default function Chart (props){
             
                     const slicedCategoriesHour = [];
                     const slicedHours = categoriesHour.slice(-24);
-                    console.log(slicedHours);
                     for (let i = 0; i < slicedHours.length; i = i + 3) {
                         slicedCategoriesHour.push(slicedHours[i]);
                         
@@ -89,8 +89,19 @@ export default function Chart (props){
                     setCoinDailyData(series);
                     setDailyDates(categories);
                     console.log('coin daily data ready');
+
+                    //find ATH
+                    const rawATH = Math.max(...series);
+                    let ATH;
+                    
+                    if(rawATH < 10){
+                        ATH = rawATH.toFixed(4);
+                    }else{
+                        ATH = rawATH.toFixed(2);
+                    }
+                    setATH(ATH);
                     //setCoinDailyData(series);
-                    setLoadingDaily(false)
+                    setLoadingDaily(false);
                 }
             })
             .catch(err => {
@@ -203,6 +214,7 @@ export default function Chart (props){
                     sliceData={sliceData}
             />
             <CoinInfo
+                ATH={ATH}
                 marketCap={currentCoinMarket}
                 vol={currentCoinVol}
                 supply={currentCoinSupply}
@@ -240,7 +252,6 @@ const styles = StyleSheet.create({
         alignItems: 'flex-end'
     },
     chartContainer:{
-        width: '100%',
-        marginVertical: 20,
+        width: '100%'
     }
 })

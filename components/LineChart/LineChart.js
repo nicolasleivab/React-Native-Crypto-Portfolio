@@ -41,7 +41,6 @@ export default class CryptoChart extends Component {
                     style={{
                         marginVertical: 8,
                         borderRadius: 16,
-                        marginHorizontal: 5,
                     }}
                 />
             </View>
