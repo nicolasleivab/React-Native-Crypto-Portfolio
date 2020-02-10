@@ -17,7 +17,20 @@ const ChartNavigator = createStackNavigator({
     Chart: {
         screen: Chart,
     }
-})
+}
+)
+
+//Hide tab nav for stacked screens
+ChartNavigator.navigationOptions = ({ navigation }) => {
+    let tabBarVisible = true;
+    if (navigation.state.index > 0) {
+        tabBarVisible = false;
+    }
+
+    return {
+        tabBarVisible,
+    };
+};
 
 const AppNavigator = createBottomTabNavigator({
     Coins :{
@@ -62,16 +75,5 @@ const AppNavigator = createBottomTabNavigator({
     }
 
 })
-//Hide tab nav for stacked screens
-ChartNavigator.navigationOptions = ({ navigation }) => {
-    let tabBarVisible = true;
-    if (navigation.state.index > 0) {
-        tabBarVisible = false;
-    }
-
-    return {
-        tabBarVisible,
-    };
-};
 
 export default createAppContainer(AppNavigator);
