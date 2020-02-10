@@ -80,7 +80,14 @@ export default function NewsFeed() {
         </View>
     );
 };
-
+NewsFeed.navigationOptions = {
+    headerStyle: {
+        backgroundColor: Colors.secondary,
+    },
+    headerTintColor: Colors.text_primary,
+    title: 'News Feed',
+    headerTitleAlign: 'center'
+}
 const styles = StyleSheet.create({
     screen: {
         flex: 1,

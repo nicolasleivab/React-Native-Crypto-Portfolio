@@ -19,6 +19,24 @@ const ChartNavigator = createStackNavigator({
     }
 }
 )
+const PortfolioTab = createStackNavigator({
+    Portfolio: {
+        screen: Portfolio,
+    }
+}
+)
+const NewsFeedTab = createStackNavigator({
+    NewsFeed: {
+        screen: NewsFeed,
+    }
+}
+)
+const SettingsTab = createStackNavigator({
+    Coins: {
+        screen: Settings,
+    }
+}
+)
 
 //Hide tab nav for stacked screens
 ChartNavigator.navigationOptions = ({ navigation }) => {
@@ -42,7 +60,7 @@ const AppNavigator = createBottomTabNavigator({
         }
     },
     Portfolio:{
-        screen:Portfolio,
+        screen:PortfolioTab,
         navigationOptions: {
             tabBarIcon: (tabInfo) => {
                 return <Icon name="ios-pie" size={25} color={tabInfo.tintColor}></Icon>
@@ -50,15 +68,16 @@ const AppNavigator = createBottomTabNavigator({
         }
     },
     NewsFeed: {
-        screen: NewsFeed,
+        screen: NewsFeedTab,
         navigationOptions: {
             tabBarIcon: (tabInfo) => {
                 return <Icon name="ios-list-box" size={25} color={tabInfo.tintColor}></Icon>
-            }  
+            },
+            title: 'News Feed'
         }
     },
     Settings: {
-        screen: Settings,
+        screen: SettingsTab,
         navigationOptions: {
             tabBarIcon: (tabInfo) => {
                 return <Icon name="ios-settings" size={25} color={tabInfo.tintColor}></Icon>
