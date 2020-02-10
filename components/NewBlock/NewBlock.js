@@ -1,20 +1,30 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import {Linking} from 'expo';
 
 export default function NewBlock(props){
 
+    linkHanlder = () => {
+        Linking.openURL(props.newLink);
+    };
+
     return (
+        <TouchableOpacity onPress={linkHanlder}>
         <View style={styles.newBlock}>
             <View style={styles.thumbnail}>
+                <Image
+                    source={{ uri: props.thumbnailLink }}
+                />
             </View>
             <View style={styles.newcontainer}>
-                <View>{props.title}</View>
+                <Text>{props.title}</Text>
                 <View style={styles.sourceContainer}>
-                    <View>{props.sourceDomain}</View>
-                    <View>{props.time}</View>
+                    <Text>{props.sourceDomain}</Text>
+                    <Text>{props.time}</Text>
                 </View>
             </View>
         </View>
+        </TouchableOpacity>
     );
 
 }

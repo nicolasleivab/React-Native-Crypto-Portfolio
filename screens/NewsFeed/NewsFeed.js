@@ -40,7 +40,13 @@ export default function NewsFeed() {
                 onScrollBeginDrag={() => Keyboard.dismiss()}
                 renderItem={newItem => (
                     <NewBlock
-                        
+                        key={newItem.item['id']}
+                        thumbnailLink={newItem.item['thumbnail']?
+                            newItem.item['thumbnail']
+                            : 'https://cdn4.iconfinder.com/data/icons/crypto-currency-and-coin-2/256/bitoin_btc_coin_crypto-512.png'} 
+                        title={newItem.item['title']}
+                        sourceDomain={newItem.item['sourceDomain']}
+                        time={newItem.item['publishedAt']}
                     />
                 )}
             />>
