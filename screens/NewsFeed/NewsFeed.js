@@ -27,12 +27,22 @@ export default function NewsFeed() {
                     //format data for FlatList
                     for(let i = 0; i < rawData.length; i++){
                         const d = rawData[i];
+                        const elapsedTime = Date.now() - new Date(d.publishedAt);
+                        const formattedTime = elapsedTime/60000
+                        let shownTime;
+                        if(formattedTime<60){
+                            shownTime = formattedTime.toFixed(0) +' minutes ago'
+                        }else if (formattedTime>=60 && formattedTime<120){
+                            shownTime = (formattedTime/60).toFixed(0) + ' hour ago' 
+                        } else if(formattedTime >=120){
+                            shownTime = (formattedTime/60).toFixed(0) + ' hours ago'
+                        }
                         const obj = {
                             title: d['title'],
                             thumbnail: d['thumbnail'],
                             key: d['_id'],
                             sourceDomain: d['sourceDomain'],
-                            publishedAt: d['publishedAt'],
+                            time: shownTime,
                             originalImg: d['originalImageUrl'],
                             newLink: d['url']
                         }
@@ -72,7 +82,7 @@ export default function NewsFeed() {
                             : 'https://cdn4.iconfinder.com/data/icons/crypto-currency-and-coin-2/256/bitoin_btc_coin_crypto-512.png'} 
                         title={newItem.item['title']}
                         sourceDomain={newItem.item['sourceDomain']}
-                        time={newItem.item['publishedAt']}
+                        time={newItem.item['time']}
                         newLink={newItem.item['newLink']}
                     />
                 )}

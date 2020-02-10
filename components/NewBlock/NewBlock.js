@@ -20,10 +20,14 @@ export default function NewBlock(props){
                 />
             </View>
             <View style={styles.newcontainer}>
-                <View>
+                <View style={{marginBottom: 5}}>
                     <Text style={{ color: Colors.text_primary }}>{props.title}</Text>
                 </View>
                 <View style={styles.sourceContainer}>
+                    <Image
+                        style={{width:15, height: 15, marginRight: 5}}
+                            source={{ uri: 'https://'+props.sourceDomain + '/favicon.ico'}}
+                    />
                     <Text style={{color: Colors.text_primary, fontSize: 10, marginRight: 10}}>{props.sourceDomain}</Text>
                     <Text style={{ color: Colors.text_primary, fontSize: 10 }}>{props.time}</Text>
                 </View>
