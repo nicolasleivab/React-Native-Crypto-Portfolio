@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, ActivityIndicator} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import Colors from '../../constants/colors';
 import SearchCoin from '../../components/SearchCoin/SearchCoin';
 import MainButton from '../../components/MainButton/MainButton';
@@ -12,8 +12,32 @@ const [value, onChangeText] = useState('');
 const [balance, setBalance] = useState([]);
 const [error, setError] = useState(null);
 const [loading, setLoading] = useState(true);
+const [loadingCoins, setLoadingCoins] = useState(true);
 const [errMsg, setErrMsg] = useState('');
 const [loadMsg, setLoadMsg] = useState('');
+const [coinList, setCoins] = useState('');
+
+useEffect(() => {  
+//fetch list of coins  
+fetch('https://api.coingecko.com/api/v3/coins/list')
+    .then(res => res.json())
+    .then(json => {
+        if (json[0]['id']) {
+        
+        setCoins(json);          
+        setLoadingCoins(false);
+        } else {
+            const msg = json;
+            setErrMsg(msg['error'])
+        }
+    })
+    .catch(err => {
+        setError(err);
+        console.log('adress error:' + err);
+        setErrMsg('error: ' + err);
+        setLoadingCoins(false);
+    })
+}, []);
 
 const fetchAdress = ()=> {
     // Fetch eth address token balances
