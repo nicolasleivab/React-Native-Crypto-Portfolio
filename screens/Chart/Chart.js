@@ -220,6 +220,7 @@ export default function Chart (props){
                         }
                     ]}
                     decimalPlaces={coinSeries.slice(-1)[0]<10 ? 4 : 2}
+                    chartHeight={250}
                 />
             </View>
             <ButtonsContainer

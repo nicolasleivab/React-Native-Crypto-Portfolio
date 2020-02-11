@@ -27,6 +27,7 @@ const fetchAdress = ()=> {
                 const ethData = json['ETH'];
                 const tokensData = json['tokens'];
                 const balanceData = [];
+                console.log(tokensData.length);
 
                 const ethObj = {};
                 ethObj['name'] = 'Ethereum';
@@ -34,14 +35,13 @@ const fetchAdress = ()=> {
                 ethObj['rate'] = ethData['price']['rate'].toFixed(4);
                 ethObj['diff'] = ethData['price']['diff'].toFixed(2);
                 balanceData.push(ethObj);
-                setBalance(balanceData);
-                /*
+    
                 for(let i = 0; i < tokensData.length; i++){
                     const token = {};
                     token['name'] = tokensData[i]['tokenInfo']['name'];
                     token['balance'] = tokensData[i]['balance'].toFixed(2);
-                    token['rate'] = tokensData[i]['tokenInfo']['price']['rate'].toFixed(4);
-                    token['diff'] = tokensData[i]['tokenInfo']['price']['diff'].toFixed(2);
+                    /*token['rate'] = tokensData[i]['tokenInfo']['price']['rate'].toFixed(4);
+                    token['diff'] = tokensData[i]['tokenInfo']['price']['diff'].toFixed(2);*/
 
                     balanceData.push(token)
                     if(i === tokensData.length - 1){
@@ -49,7 +49,8 @@ const fetchAdress = ()=> {
                         setLoading(false);
                         console.log(balanceData);
                     }
-                }*/
+                }
+
                 setLoadMsg('');
             }else{
                 const msg = json;
@@ -95,10 +96,11 @@ const fetchAdress = ()=> {
                         data: [100, 120, 200, 50, 100]
                     }
                 ]}
+                chartHeight={210}
                 decimalPlaces={2}
             />
             <View style={styles.balance}>
-                <ScrollView>
+                <ScrollView style={{flex:1}}>
                     {balance.map(coin => (
                     <TokenBlock
                         coinName={coin['name']}
@@ -108,7 +110,6 @@ const fetchAdress = ()=> {
                     />
                     ))}
                 </ScrollView>
-               
             </View>
                     </View> : <View style={styles.container}>
                                 <Text style={{ color: Colors.text_primary, fontStyle: "italic" }}>{loadMsg}</Text>
@@ -138,18 +139,22 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     container:{
-        marginVertical: 5,
+        marginVertical: -15,
         flexDirection: 'row',
         width:'100%',
         alignItems: 'flex-start',
         justifyContent: 'center'
     },
     tokensContainer:{
-        width: '100%'
+        width: '100%',
+        marginTop: -10
     },
     header:{
         width: '100%',
         alignItems: 'center',
         justifyContent: 'flex-start'
+    },
+    balance:{
+        height: '48%'
     }
 })

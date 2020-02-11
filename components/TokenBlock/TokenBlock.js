@@ -34,7 +34,8 @@ const styles = StyleSheet.create({
         elevation: 5,
         paddingHorizontal: 10,
         marginLeft: 5,
-        height: 50,
+        marginVertical: 5,
+        height: 40,
         width: '98%'
     },
     balanceContainer: {
