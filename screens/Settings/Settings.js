@@ -1,15 +1,24 @@
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, Switch} from 'react-native';
 import Colors from '../../constants/colors';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 export default function Settings() {
+
+    const [isDark, setTheme] = useState(true);
+
     return (
         <View style={styles.screen}>
             <View style={styles.userSection}>
                 <Text style={styles.sectionText}>THEME</Text>
                 <View style={styles.block}>
                     <Text style={styles.blockText}>Dark mode</Text>
+                    <Switch 
+                    trackColor={{true: Colors.positive_value, false: Colors.text_secondary}}
+                    thumbColor={Colors.positive_value}
+                    value={isDark}
+                    onValueChange={() => setTheme(!isDark)}
+                    />
                 </View>
                 <Text style={styles.sectionText}>USER</Text>
                 <TouchableOpacity style={styles.block}>
@@ -77,11 +86,11 @@ const styles = StyleSheet.create({
     },
     blockText: {
         color: Colors.text_primary,
-        fontSize: 16,
+        fontSize: 15,
     },
     sectionText: {
         color: Colors.text_secondary,
-        fontSize: 16,
+        fontSize: 15,
         marginLeft: 10
     }
 })

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Colors from '../../constants/colors'
-import { View, StyleSheet, ActivityIndicator, FlatList, Keyboard} from 'react-native';
+import { View, StyleSheet, ActivityIndicator, FlatList, Keyboard } from 'react-native';
 import NewBlock from '../../components/NewBlock/NewBlock';
 
 
