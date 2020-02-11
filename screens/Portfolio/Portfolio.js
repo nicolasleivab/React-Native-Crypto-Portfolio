@@ -18,6 +18,8 @@ const [loadMsg, setLoadMsg] = useState('');
 const fetchAdress = ()=> {
     // Fetch eth address token balances
     setLoadMsg('loading...');
+    setErrMsg('');
+    setBalance([]);
 
     fetch("https://api.ethplorer.io/getAddressInfo/" + value +'?apiKey=freekey')
         .then(res => res.json())
@@ -39,9 +41,14 @@ const fetchAdress = ()=> {
                 for(let i = 0; i < tokensData.length; i++){
                     const token = {};
                     token['name'] = tokensData[i]['tokenInfo']['name'];
-                    token['balance'] = tokensData[i]['balance'].toFixed(2);
-                    /*token['rate'] = tokensData[i]['tokenInfo']['price']['rate'].toFixed(4);
-                    token['diff'] = tokensData[i]['tokenInfo']['price']['diff'].toFixed(2);*/
+                    token['balance'] = (tokensData[i]['balance']/1000000000000000000).toFixed(2);
+                    if (tokensData[i]['tokenInfo']['price']){
+                    token['rate'] = tokensData[i]['tokenInfo']['price']['rate'].toFixed(4);
+                    token['diff'] = tokensData[i]['tokenInfo']['price']['diff'].toFixed(2);
+                    }else{
+                        token['rate'] = 0;
+                        token['diff'] = ''; 
+                    }
 
                     balanceData.push(token)
                     if(i === tokensData.length - 1){
@@ -103,6 +110,7 @@ const fetchAdress = ()=> {
                 <ScrollView style={{flex:1}}>
                     {balance.map(coin => (
                     <TokenBlock
+                        key={coin['name']}
                         coinName={coin['name']}
                         coinBalance={coin['balance']}
                         coinAmount={(coin['rate']*coin['balance']).toFixed(2)}
@@ -139,7 +147,8 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     container:{
-        marginVertical: -15,
+        marginTop: -15,
+        marginBottom: 5,
         flexDirection: 'row',
         width:'100%',
         alignItems: 'flex-start',
@@ -155,6 +164,6 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start'
     },
     balance:{
-        height: '48%'
+        height: '45%'
     }
 })
