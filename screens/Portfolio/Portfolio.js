@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Button} from 'react-native';
+import { View, Text, StyleSheet, ScrollView} from 'react-native';
 import Colors from '../../constants/colors';
 import SearchCoin from '../../components/SearchCoin/SearchCoin';
 import MainButton from '../../components/MainButton/MainButton';
+import CryptoChart from '../../components/LineChart/LineChart';
 
 export default function Portfolio() {
 
 const [value, onChangeText] = useState('');
-const [portfolio, setPortfolio] = useState([]);
+const [balance, setBalance] = useState([]);
 const [error, setError] = useState(null);
 const [loading, setLoading] = useState(true);
 const [errMsg, setErrMsg] = useState('');
@@ -22,7 +23,7 @@ const fetchAdress = ()=> {
                 const rawData = json;
 
                 console.log(rawData);
-                setPortfolio(rawData);
+                setBalance(rawData);
                 setLoading(false);
                     
                 
@@ -58,6 +59,20 @@ const fetchAdress = ()=> {
                 <View>
                     <Text style={{color:Colors.text_primary, fontStyle: "italic"}}>{errMsg}</Text>
                 </View>
+            </View>
+            <CryptoChart
+                labels={categories}
+                series={[
+                    {
+                        data: coinSeries
+                    }
+                ]}
+                decimalPlaces={coinSeries.slice(-1)[0] < 10 ? 4 : 2}
+            />
+            <View style={style.balance}>
+                <ScrollView>
+                    <TokenBlock/>
+                </ScrollView>
             </View>
         </View>
     );
