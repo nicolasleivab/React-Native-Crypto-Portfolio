@@ -66,6 +66,7 @@ const fetchAdress = ()=> {
                 for(let i = 0; i < tokensData.length; i++){
                     const token = {};
                     token['name'] = tokensData[i]['tokenInfo']['name'];
+                    token['symbol'] = tokensData[i]['tokenInfo']['symbol'];
                     token['balance'] = (tokensData[i]['balance']/1000000000000000000).toFixed(2);
                     if (tokensData[i]['tokenInfo']['price']){
                     token['rate'] = tokensData[i]['tokenInfo']['price']['rate'].toFixed(4);
@@ -80,19 +81,31 @@ const fetchAdress = ()=> {
                         setBalance(balanceData);
                         setLoading(false);
                         //get each coin IDs
-                        const coinsID =['bitcoin', 'ethereum', 'ripple'];
+                        const coinsID =['ethereum'];
+                        
+                        for(let i = 1; i < balanceData.length; i++){
+                            const currentCoin = coinList.find(d => d['symbol'].toUpperCase() === balanceData[i]['symbol']);
+                            console.log(currentCoin);
+                            if(currentCoin !== undefined){
+                            coinsID.push(currentCoin['id'])
+                            }
+                            
+                        };
                         //fetch loop for each coin in the balance
                         const coinUrls = async () => {
                             let coinsData = []
                             for (let i = 0; i < coinsID.length; i++) {
                                 const response = await fetch('https://api.coingecko.com/api/v3/coins/' + coinsID[i] + '/market_chart?vs_currency=usd&days=max')
                                 const json = await response.json()
+                                if(json['prices']){
                                 const pricesU = json['prices']
                                 coinsData.push(pricesU.slice(-3))
+                                }
                                 
                             if(i === coinsID.length - 1){
                                 setLoadingSeries(false);
                                 console.log(coinsData);
+                                setLoadMsg('');
                             }
                             }
                         }    
@@ -100,7 +113,6 @@ const fetchAdress = ()=> {
                     }
                 }
 
-                setLoadMsg('');
             }else{
                 const msg = json;
                 setErrMsg(msg['error']['message'])
