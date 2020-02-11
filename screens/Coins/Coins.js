@@ -324,6 +324,7 @@ return (
     filterCoin={filterCoin}
     textChange={text => onChangeText(text)}
     value={value}
+    placeholder={'Filter coins...'}
     />
     <Icon style={starOn > 0 ? { color: Colors.star_on, marginTop: 30 } : { color: Colors.star_off, marginTop: 30}} name="ios-star" size={35} onPress={changeStar} />
     </View>

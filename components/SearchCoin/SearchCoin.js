@@ -9,7 +9,7 @@ return (
   <View style={styles.container}>
     
    <TextInput
-        placeholder='Filter coins...'
+        placeholder={props.placeholder}
         style={styles.InputCoin}
         onChangeText={props.textChange}
         value={props.value}
