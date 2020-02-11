@@ -7,10 +7,13 @@ export default function CoinBlock(props) {
     return (
         <TouchableOpacity onPress={props.navigate}>
             <View style={styles.flexContainer}>
-                <Text>{coinName}</Text>
+                <Text style={styles.nameText}>{props.coinName}</Text>
                 <View style={styles.balanceContainer}>
-                    <Text>{coinBalance}</Text>
-                    <Text>{coinCash}</Text>
+                    <Text style={styles.balanceText}>{props.coinBalance}</Text>
+                    <View style={styles.priceContainer}>
+                        <Text style={styles.priceText}>{'$'+props.coinAmount}</Text>
+                        <Text style={styles.priceText}>{' ('+props.priceChange+'%)'}</Text>
+                    </View>
                 </View>
             </View>
         </TouchableOpacity>
@@ -20,7 +23,7 @@ export default function CoinBlock(props) {
 const styles = StyleSheet.create({
     flexContainer: {
         flexDirection: 'row',
-        justifyContent: 'flex-start',
+        justifyContent: 'space-between',
         alignItems: 'center',
         backgroundColor: Colors.coinblock,
         borderRadius: 5,
@@ -29,14 +32,26 @@ const styles = StyleSheet.create({
         shadowOpacity: 1,
         shadowRadius: 2.5,
         elevation: 5,
-        marginTop: 20,
-        marginLeft: 0,
-        marginRight: 12,
-        height: 100,
+        paddingHorizontal: 10,
+        marginLeft: 5,
+        height: 50,
         width: '98%'
     },
     balanceContainer: {
         justifyContent: 'space-between',
         alignItems: 'center',
+    },
+    priceContainer: {
+        flexDirection: 'row'
+    },
+    nameText: {
+        color: Colors.text_primary
+    },
+    balanceText: {
+        color: Colors.text_primary
+    },
+    priceText: {
+        color: Colors.text_secondary,
+        fontSize: 12
     }
 });
