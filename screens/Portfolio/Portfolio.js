@@ -13,6 +13,7 @@ const [balance, setBalance] = useState([]);
 const [error, setError] = useState(null);
 const [loading, setLoading] = useState(true);
 const [loadingCoins, setLoadingCoins] = useState(true);
+const [loadingSeries, setLoadingSeries] = useState(true);
 const [errMsg, setErrMsg] = useState('');
 const [loadMsg, setLoadMsg] = useState('');
 const [coinList, setCoins] = useState('');
@@ -78,7 +79,24 @@ const fetchAdress = ()=> {
                     if(i === tokensData.length - 1){
                         setBalance(balanceData);
                         setLoading(false);
-                        console.log(balanceData);
+                        //get each coin IDs
+                        const coinsID =['bitcoin', 'ethereum', 'ripple'];
+                        //fetch loop for each coin in the balance
+                        const coinUrls = async () => {
+                            let coinsData = []
+                            for (let i = 0; i < coinsID.length; i++) {
+                                const response = await fetch('https://api.coingecko.com/api/v3/coins/' + coinsID[i] + '/market_chart?vs_currency=usd&days=max')
+                                const json = await response.json()
+                                const pricesU = json['prices']
+                                coinsData.push(pricesU.slice(-3))
+                                
+                            if(i === coinsID.length - 1){
+                                setLoadingSeries(false);
+                                console.log(coinsData);
+                            }
+                            }
+                        }    
+                        coinUrls();
                     }
                 }
 
@@ -118,7 +136,7 @@ const fetchAdress = ()=> {
                     <Text style={{color:Colors.text_primary, fontStyle: "italic"}}>{errMsg}</Text>
                 </View>
             </View>
-            {balance[0] ? 
+            {balance[0] && loadingCoins !== true && loadingSeries !== true ? 
             <View style={styles.tokensContainer}>
             <CryptoChart
                 labels={[1, 2, 3, 4, 5]}
