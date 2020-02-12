@@ -12,8 +12,8 @@ export default class CryptoChart extends Component {
                         labels: this.props.labels,
                         datasets: this.props.series
                     }}
-                    verticalLabelRotation={30}
-                    horizontalLabelRotation={-30}
+                    verticalLabelRotation={this.props.verticalRotation} //30 -30
+                    horizontalLabelRotation={this.props.horizontalRotation}
                     width={Dimensions.get("window").width} // from react-native
                     height={this.props.chartHeight}
                     yAxisLabel="$"

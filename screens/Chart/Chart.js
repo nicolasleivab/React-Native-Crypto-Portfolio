@@ -220,6 +220,8 @@ export default function Chart (props){
                         }
                     ]}
                     decimalPlaces={coinSeries.slice(-1)[0]<10 ? 4 : 2}
+                    verticalRotation={30}
+                    horizontalRotation={-45}
                     chartHeight={250}
                 />
             </View>

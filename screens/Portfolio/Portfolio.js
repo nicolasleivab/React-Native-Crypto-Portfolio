@@ -53,6 +53,8 @@ const fetchAdress = ()=> {
         .then(res => res.json())
         .then(json => {
             if (json['address']) {
+                setSeries([]);
+                setCategories([]);
                 
                 const ethData = json['ETH'];
                 const tokensData = json['tokens'];
@@ -192,6 +194,8 @@ const fetchAdress = ()=> {
                     }
                 ]}
                 chartHeight={225}
+                verticalRotation={30}
+                horizontalRotation={-45}
                 decimalPlaces={2}
             />
             <View style={styles.balance}>
