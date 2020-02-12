@@ -24,6 +24,7 @@ export default function Chart (props){
     const [error, setError] = useState(null);
     const [currentCoinChange, setCurrentChange] = useState([dailyCoinChange]);
     const [ATH, setATH] = useState(0);
+    const [tooltipSeries, setTooltipSeries] = useState([]);
 
     useEffect(() => {
         // Fetch current coin data (intra)
@@ -47,8 +48,21 @@ export default function Chart (props){
                     });
                     console.log('coin intra data ready');
                     setCoinIntraData(series);
-                    setSeries(series.slice(-24));
+                    const slicedSeries = series.slice(-24);
+                    setSeries(slicedSeries);
                     setDates(categories);
+                    const slicedCategories = categoriesHour.slice(-24);
+                    const tooltipSeriesn = [];
+                    for(let n = 0; n < slicedSeries.length ; n++){
+                        const obj = {};
+                        obj['price'] = slicedSeries[n];
+                        obj['date'] = slicedCategories[n];
+                        tooltipSeriesn.push(obj);
+                        if(n === slicedSeries.length - 1){
+                            setTooltipSeries(tooltipSeriesn);
+                        }
+                    }
+    
             
                     const slicedCategoriesHour = [];
                     const slicedHours = categoriesHour.slice(-24);
@@ -223,6 +237,7 @@ export default function Chart (props){
                     verticalRotation={30}
                     horizontalRotation={-45}
                     chartHeight={250}
+                    tpSeries={tooltipSeries}
                 />
             </View>
             <ButtonsContainer

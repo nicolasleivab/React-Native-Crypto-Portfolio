@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { StyleSheet, View, Text, Dimensions } from "react-native";
 import { LineChart } from "react-native-chart-kit";
 import Colors from '../../constants/colors';
+import FlashMessage, { showMessage } from "react-native-flash-message";
 
 export default class CryptoChart extends Component {
     render() {
@@ -12,6 +13,13 @@ export default class CryptoChart extends Component {
                         labels: this.props.labels,
                         datasets: this.props.series
                     }}
+                    onDataPointClick={({ value, getColor }) =>
+                    showMessage({
+                            message: `price: ${ value.toFixed(4)}`,
+                            description: `date: ${(this.props.tpSeries.find((d)=> d['price'] === value))['date']}`,
+                            backgroundColor: getColor(0.9)
+                        })
+                    }
                     verticalLabelRotation={this.props.verticalRotation} //30 -30
                     horizontalLabelRotation={this.props.horizontalRotation}
                     width={Dimensions.get("window").width} // from react-native
@@ -32,7 +40,7 @@ export default class CryptoChart extends Component {
                             borderRadius: 16,
                         },
                         propsForDots: {
-                            r: "1",
+                            r: "3",
                             strokeWidth: "2",
                             stroke: "rgba(0, 255, 70, 1)"
                         },
@@ -46,6 +54,7 @@ export default class CryptoChart extends Component {
                         borderRadius: 16,
                     }}
                 />
+                <FlashMessage duration={500} />
             </View>
         );
     }
