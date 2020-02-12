@@ -95,8 +95,8 @@ const fetchAdress = ()=> {
                           
                             
                         };
-                        console.log(balanceData);
-                        console.log(coinsAdd);
+                        //console.log(balanceData);
+                        //console.log(coinsAdd);
                         //fetch loop for each coin in the balance
                         const coinUrls = async () => {
                             const coinsData = []
@@ -108,15 +108,17 @@ const fetchAdress = ()=> {
                                 coinsData.push(pricesU)
                                 const dateFormat = require('dateformat');
                                
-                                    console.log(pricesU)
+                                    //console.log(pricesU)
                                     const series = [];
                                     const categories = [];
 
                                     for(let k = 0; k < 60; k++){
 
                                         let seriesSum = 0;
+                                        //sum each coin's worth in order to get total balance for each period
                                         for(let j = 0; j < coinsData.length; j++){
-                                            seriesSum = seriesSum + coinsData[j][k]['close']*balanceData[j]['balance'];
+                                            seriesSum = seriesSum + coinsData[j][k]['close']*balanceData[j+1]['balance'];
+                                            
                                         }
                                         //push series 
                                         if (k % 2 === 0){
@@ -124,13 +126,13 @@ const fetchAdress = ()=> {
                                         }
                                         //push categories
                                         if (k % 10 === 0){
-                                        const currentDate = new Date(coinsData[0][k]['ts']);
+                                        const currentDate = new Date(coinsData[0][k]['date']);
                                         categories.push(dateFormat(currentDate, "d/m"));
                                            
                                         }
                                         if(k === 59){
-                                            console.log(series);
-                                            console.log(categories);
+                                            //console.log(series);
+                                            //console.log(categories);
                                             setSeries(series);
                                             setCategories(categories);
                                         }
