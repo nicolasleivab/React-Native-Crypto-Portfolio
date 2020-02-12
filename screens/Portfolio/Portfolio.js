@@ -16,18 +16,18 @@ const [loadingCoins, setLoadingCoins] = useState(true);
 const [loadingSeries, setLoadingSeries] = useState(true);
 const [errMsg, setErrMsg] = useState('');
 const [loadMsg, setLoadMsg] = useState('');
-const [coinList, setCoins] = useState('');
+const [ETH, setETH] = useState('');
 const [series, setSeries] = useState([]);
 const [categories, setCategories] = useState([]);
 
 useEffect(() => {  
-//fetch list of coins  
-fetch('https://api.coingecko.com/api/v3/coins/list')
+//fetch ethereum historical prices
+    fetch('https://api.coingecko.com/api/v3/coins/ethereum/market_chart?vs_currency=usd&days=max')
     .then(res => res.json())
     .then(json => {
-        if (json[0]['id']) {
+        if (json['prices']) {
         
-        setCoins(json);          
+        setETH(json['prices']);          
         setLoadingCoins(false);
         } else {
             const msg = json;
@@ -46,6 +46,7 @@ fetch('https://api.coingecko.com/api/v3/coins/list')
 const fetchAdress = ()=> {
     // Fetch eth address token balances
     setLoadMsg('loading...');
+    setLoadingSeries(true);
     setErrMsg('');
     setBalance([]);
 
@@ -72,6 +73,7 @@ const fetchAdress = ()=> {
                     const token = {};
                     token['name'] = tokensData[i]['tokenInfo']['name'];
                     token['symbol'] = tokensData[i]['tokenInfo']['symbol'];
+                    token['address'] = tokensData[i]['tokenInfo']['address'];
                     token['balance'] = (tokensData[i]['balance']/1000000000000000000).toFixed(2);
                     if (tokensData[i]['tokenInfo']['price']){
                     token['rate'] = tokensData[i]['tokenInfo']['price']['rate'].toFixed(8);
@@ -86,31 +88,27 @@ const fetchAdress = ()=> {
                         setBalance(balanceData);
                         setLoading(false);
                         //get each coin IDs
-                        const coinsID =['ethereum'];
-                        const coinSymbols = ['ETH']
+                        const coinsAdd =[];
                         
                         for(let i = 1; i < balanceData.length; i++){
-                            const currentCoin = coinList.find(d => d['name'].toUpperCase() === balanceData[i]['name'].toUpperCase() || 
-                                d['symbol'].toUpperCase() === balanceData[i]['symbol'].toUpperCase());
-                      
-                            if(currentCoin !== undefined){
-                            coinsID.push(currentCoin['id']);
-                            coinSymbols.push(currentCoin['symbol']);
-                            }
+                            coinsAdd.push(balanceData[i]['address']);
+                          
                             
                         };
+                        console.log(balanceData);
+                        console.log(coinsAdd);
                         //fetch loop for each coin in the balance
                         const coinUrls = async () => {
                             const coinsData = []
-                            for (let i = 0; i < coinsID.length; i++) {
-                                const response = await fetch('https://api.coingecko.com/api/v3/coins/' + coinsID[i] + '/market_chart?vs_currency=usd&days=max')
+                            for (let i = 0; i < coinsAdd.length; i++) {
+                                const response = await fetch('https://api.ethplorer.io/getTokenPriceHistoryGrouped/'+coinsAdd[i]+'?apiKey=freekey')
                                 const json = await response.json()
-                                if(json['prices']){
-                                const pricesU = json['prices'].slice(-60)
+                                if(json['history']['prices']){
+                                const pricesU = json['history']['prices'].slice(-60)
                                 coinsData.push(pricesU)
                                 const dateFormat = require('dateformat');
-
-                                if(i === coinsID.length -1){
+                               
+                                    console.log(pricesU)
                                     const series = [];
                                     const categories = [];
 
@@ -118,8 +116,7 @@ const fetchAdress = ()=> {
 
                                         let seriesSum = 0;
                                         for(let j = 0; j < coinsData.length; j++){
-                                            const currentCoin = balanceData.find((d)=> d['symbol'] === coinSymbols[j].toUpperCase())
-                                            seriesSum = seriesSum + coinsData[j][k][1]*currentCoin['balance'];
+                                            seriesSum = seriesSum + coinsData[j][k]['close']*balanceData[j]['balance'];
                                         }
                                         //push series 
                                         if (k % 2 === 0){
@@ -127,21 +124,22 @@ const fetchAdress = ()=> {
                                         }
                                         //push categories
                                         if (k % 10 === 0){
-                                        const currentDate = new Date(coinsData[0][k][0]);
+                                        const currentDate = new Date(coinsData[0][k]['ts']);
                                         categories.push(dateFormat(currentDate, "d/m"));
-                                            console.log(categories);
+                                           
                                         }
                                         if(k === 59){
-                
+                                            console.log(series);
+                                            console.log(categories);
                                             setSeries(series);
                                             setCategories(categories);
-                                            setLoadingSeries(false);
-                                            setLoadMsg('');
                                         }
                                     }
-                                }
+                                
                                 }
                             }
+                            setLoadMsg('');
+                            setLoadingSeries(false);
                         }    
                         coinUrls();
                     }
@@ -151,6 +149,7 @@ const fetchAdress = ()=> {
                 const msg = json;
                 setLoadMsg('');
                 setErrMsg(msg['error']['message']);
+                setLoadingSeries(false);
                 
             }
         })
@@ -160,6 +159,7 @@ const fetchAdress = ()=> {
             setLoadMsg('');
             setErrMsg('error: '+ err);
             setLoading(false);
+            setLoadingSeries(false);
         })
 }
 
