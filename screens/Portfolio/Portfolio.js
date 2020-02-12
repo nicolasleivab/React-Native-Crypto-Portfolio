@@ -19,6 +19,8 @@ const [loadMsg, setLoadMsg] = useState('');
 const [ETH, setETH] = useState('');
 const [series, setSeries] = useState([]);
 const [categories, setCategories] = useState([]);
+const [totalBalance, setTotalBalance] = useState([]);
+const [balanceChange, setBalanceChange] = useState(0);
 
 useEffect(() => {  
 //fetch ethereum historical prices
@@ -139,6 +141,10 @@ const fetchAdress = ()=> {
                                             //console.log(categories);
                                             setSeries(series);
                                             setCategories(categories);
+                                            console.log(series);
+                                            setTotalBalance((series[series.length - 1]));
+                                            const balanceChange = ((series[series.length - 1]) - (series[series.length - 2]))*100 / (series[series.length - 2]);
+                                            setBalanceChange(balanceChange.toFixed(2));
                                         }
                                     }
                                 
@@ -174,6 +180,9 @@ const fetchAdress = ()=> {
                                     //console.log(categories);
                                     setSeries(series);
                                     setCategories(categories);
+                                    setTotalBalance(series[series.length-1]);
+                                    const balanceChange = ((series[series.length - 1]) - (series[series.length - 2])) * 100 / (series[series.length - 2]);
+                                    setBalanceChange(balanceChange.toFixed(2));
                                     setLoadMsg('');
                                     setLoadingSeries(false);
                                     
@@ -224,6 +233,11 @@ const fetchAdress = ()=> {
             </View>
             {balance[0] && loadingCoins !== true && loadingSeries !== true ? 
             <View style={styles.tokensContainer}>
+            <View style={styles.totalBalanceContainer}>
+                <Text style={styles.totalBalance}>{'$'+totalBalance.toFixed(2)}</Text>
+                <Text style={balanceChange > 0 ? styles.balanceChangeGreen : styles.balanceChangeRed}>
+                    {balanceChange > 0 ? ' (+'+balanceChange+'%)' : ' ('+balanceChange+'%)'}</Text>
+            </View>
             <CryptoChart
                 labels={categories}
                 series={[
@@ -294,6 +308,26 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start'
     },
     balance:{
-        height: '40%'
+        height: '35%'
+    },
+    totalBalanceContainer:{
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'flex-end'
+    },
+    totalBalance: { 
+        color: Colors.text_primary, 
+        textAlign: 'center', 
+        fontSize: 22 
+    },
+    balanceChangeGreen: { 
+        color: Colors.positive_value, 
+        textAlign: 'center', 
+        marginBottom: 2
+    },
+    balanceChangeRed: {
+        color: Colors.negative_value,
+        textAlign: 'center',
+        marginBottom: 2
     }
 })
