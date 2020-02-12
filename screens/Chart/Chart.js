@@ -176,7 +176,7 @@ export default function Chart (props){
             const categories = [];
             const slicedDates = dailyDates.slice(-30);
 
-            for (let i = 0; i < slicedDates.length; i = i + 3) {
+            for (let i = 0; i < slicedDates.length; i = i + 5) {
                 categories.push(slicedDates[i]);
             }
             setCategories(categories);
@@ -193,7 +193,7 @@ export default function Chart (props){
                 series.push(slicedData[i])
             }
             setSeries(series);
-            for (let i = 0; i < slicedDates.length; i = i + 6) {
+            for (let i = 0; i < slicedDates.length; i = i + 10) {
                 categories.push(slicedDates[i]);
             }
             setCategories(categories);

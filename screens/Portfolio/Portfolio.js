@@ -37,6 +37,7 @@ fetch('https://api.coingecko.com/api/v3/coins/list')
     .catch(err => {
         setError(err);
         console.log('adress error:' + err);
+        setLoadMsg('');
         setErrMsg('error: ' + err);
         setLoadingCoins(false);
     })
@@ -56,7 +57,6 @@ const fetchAdress = ()=> {
                 const ethData = json['ETH'];
                 const tokensData = json['tokens'];
                 const balanceData = [];
-                console.log(tokensData.length);
 
                 const ethObj = {};
                 ethObj['name'] = 'Ethereum';
@@ -90,7 +90,7 @@ const fetchAdress = ()=> {
                         for(let i = 1; i < balanceData.length; i++){
                             const currentCoin = coinList.find(d => d['name'].toUpperCase() === balanceData[i]['name'].toUpperCase() || 
                                 d['symbol'].toUpperCase() === balanceData[i]['symbol'].toUpperCase());
-                            console.log(currentCoin);
+                      
                             if(currentCoin !== undefined){
                             coinsID.push(currentCoin['id']);
                             coinSymbols.push(currentCoin['symbol']);
@@ -111,22 +111,26 @@ const fetchAdress = ()=> {
                                 if(i === coinsID.length -1){
                                     const series = [];
                                     const categories = [];
+
                                     for(let k = 0; k < 60; k++){
-                                
+
                                         let seriesSum = 0;
                                         for(let j = 0; j < coinsData.length; j++){
                                             const currentCoin = balanceData.find((d)=> d['symbol'] === coinSymbols[j].toUpperCase())
-                                            console.log({ coin: currentCoin['symbol'], balance: currentCoin['balance'], price: coinsData[j][k][1]});
-                                            //console.log(coinSymbols[j]);
                                             seriesSum = seriesSum + coinsData[j][k][1]*currentCoin['balance'];
                                         }
-                                        //console.log(seriesSum);
+                                        //push series 
+                                        if (k % 2 === 0){
                                         series.push(seriesSum);
+                                        }
+                                        //push categories
+                                        if (k % 10 === 0){
                                         const currentDate = new Date(coinsData[0][k][0]);
                                         categories.push(dateFormat(currentDate, "d/m"));
+                                            console.log(categories);
+                                        }
                                         if(k === 59){
-                                        console.log(series);
-                                        console.log(categories);
+                
                                             setSeries(series);
                                             setCategories(categories);
                                             setLoadingSeries(false);
@@ -143,7 +147,9 @@ const fetchAdress = ()=> {
 
             }else{
                 const msg = json;
-                setErrMsg(msg['error']['message'])
+                setLoadMsg('');
+                setErrMsg(msg['error']['message']);
+                
             }
         })
         .catch(err => {
@@ -185,7 +191,7 @@ const fetchAdress = ()=> {
                         data: series
                     }
                 ]}
-                chartHeight={210}
+                chartHeight={225}
                 decimalPlaces={2}
             />
             <View style={styles.balance}>
@@ -246,6 +252,6 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start'
     },
     balance:{
-        height: '45%'
+        height: '40%'
     }
 })

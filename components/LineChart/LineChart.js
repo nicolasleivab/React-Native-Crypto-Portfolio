@@ -12,7 +12,7 @@ export default class CryptoChart extends Component {
                         labels: this.props.labels,
                         datasets: this.props.series
                     }}
-                    verticalLabelRotation={45}
+                    verticalLabelRotation={30}
                     horizontalLabelRotation={-30}
                     width={Dimensions.get("window").width} // from react-native
                     height={this.props.chartHeight}
@@ -32,9 +32,12 @@ export default class CryptoChart extends Component {
                             borderRadius: 16,
                         },
                         propsForDots: {
-                            r: "0",
+                            r: "1",
                             strokeWidth: "2",
-                            stroke: "#ffa726"
+                            stroke: "rgba(0, 255, 70, 1)"
+                        },
+                        propsForBackgroundLines: {
+                            strokeWidth: 0
                         }
                     }}
                     bezier
