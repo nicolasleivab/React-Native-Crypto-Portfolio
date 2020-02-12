@@ -27,7 +27,7 @@ useEffect(() => {
     .then(json => {
         if (json['prices']) {
         
-        setETH(json['prices']);          
+        setETH(json['prices'].slice(-60));          
         setLoadingCoins(false);
         } else {
             const msg = json;
@@ -42,6 +42,8 @@ useEffect(() => {
         setLoadingCoins(false);
     })
 }, []);
+
+const dateFormat = require('dateformat');
 
 const fetchAdress = ()=> {
     // Fetch eth address token balances
@@ -92,11 +94,12 @@ const fetchAdress = ()=> {
                         
                         for(let i = 1; i < balanceData.length; i++){
                             coinsAdd.push(balanceData[i]['address']);
-                          
                             
                         };
-                        //console.log(balanceData);
-                        //console.log(coinsAdd);
+                        
+                        const balanceFiltered = balanceData.filter((d)=> d.rate !== 0);
+                        console.log(balanceFiltered);
+                        if (balanceFiltered.length !== 1) {
                         //fetch loop for each coin in the balance
                         const coinUrls = async () => {
                             const coinsData = []
@@ -105,28 +108,29 @@ const fetchAdress = ()=> {
                                 const json = await response.json()
                                 if(json['history']['prices']){
                                 const pricesU = json['history']['prices'].slice(-60)
-                                coinsData.push(pricesU)
-                                const dateFormat = require('dateformat');
+                                coinsData.push(pricesU);
+
                                
                                     //console.log(pricesU)
                                     const series = [];
                                     const categories = [];
-
+                                  
                                     for(let k = 0; k < 60; k++){
-
                                         let seriesSum = 0;
                                         //sum each coin's worth in order to get total balance for each period
-                                        for(let j = 0; j < coinsData.length; j++){
-                                            seriesSum = seriesSum + coinsData[j][k]['close']*balanceData[j+1]['balance'];
-                                            
+                                      
+                                        for (let j = 0; j < coinsData.length; j++) {
+                                                seriesSum = seriesSum + coinsData[j][k]['close'] * balanceData[j + 1]['balance']
+                                                    + ETH[k][1] * balanceData[0]['balance'];
                                         }
+                                        
                                         //push series 
                                         if (k % 2 === 0){
                                         series.push(seriesSum);
                                         }
                                         //push categories
                                         if (k % 10 === 0){
-                                        const currentDate = new Date(coinsData[0][k]['date']);
+                                        const currentDate = new Date(ETH[k][0]);
                                         categories.push(dateFormat(currentDate, "d/m"));
                                            
                                         }
@@ -138,12 +142,44 @@ const fetchAdress = ()=> {
                                         }
                                     }
                                 
-                                }
+                                
+                            }
+                           
                             }
                             setLoadMsg('');
                             setLoadingSeries(false);
                         }    
                         coinUrls();
+                        } else if(balanceFiltered.length === 1){
+                            console.log('OK?');
+                            const series = [];
+                            const categories = [];
+                            //Just ETH case
+                            for (let k = 0; k < 60; k++) {
+
+                                let currentETHBalance = ETH[k][1] * balanceData[0]['balance'];
+
+                                //push series 
+                                if (k % 2 === 0) {
+                                    series.push(currentETHBalance);
+                                }
+                                //push categories
+                                if (k % 10 === 0) {
+                                    const currentDate = new Date(ETH[k][0]);
+                                    categories.push(dateFormat(currentDate, "d/m"));
+
+                                }
+                                if (k === 59) {
+                                    //console.log(series);
+                                    //console.log(categories);
+                                    setSeries(series);
+                                    setCategories(categories);
+                                    setLoadMsg('');
+                                    setLoadingSeries(false);
+                                    
+                                }
+                            }
+                        }
                     }
                 }
 
@@ -151,7 +187,7 @@ const fetchAdress = ()=> {
                 const msg = json;
                 setLoadMsg('');
                 setErrMsg(msg['error']['message']);
-                setLoadingSeries(false);
+               
                 
             }
         })
@@ -161,7 +197,7 @@ const fetchAdress = ()=> {
             setLoadMsg('');
             setErrMsg('error: '+ err);
             setLoading(false);
-            setLoadingSeries(false);
+            
         })
 }
 
