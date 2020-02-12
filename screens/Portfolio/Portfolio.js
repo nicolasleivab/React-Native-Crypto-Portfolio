@@ -17,6 +17,8 @@ const [loadingSeries, setLoadingSeries] = useState(true);
 const [errMsg, setErrMsg] = useState('');
 const [loadMsg, setLoadMsg] = useState('');
 const [coinList, setCoins] = useState('');
+const [series, setSeries] = useState([]);
+const [categories, setCategories] = useState([]);
 
 useEffect(() => {  
 //fetch list of coins  
@@ -58,6 +60,7 @@ const fetchAdress = ()=> {
 
                 const ethObj = {};
                 ethObj['name'] = 'Ethereum';
+                ethObj['symbol'] = 'ETH';
                 ethObj['balance'] = ethData['balance'].toFixed(4);
                 ethObj['rate'] = ethData['price']['rate'].toFixed(4);
                 ethObj['diff'] = ethData['price']['diff'].toFixed(2);
@@ -69,7 +72,7 @@ const fetchAdress = ()=> {
                     token['symbol'] = tokensData[i]['tokenInfo']['symbol'];
                     token['balance'] = (tokensData[i]['balance']/1000000000000000000).toFixed(2);
                     if (tokensData[i]['tokenInfo']['price']){
-                    token['rate'] = tokensData[i]['tokenInfo']['price']['rate'].toFixed(4);
+                    token['rate'] = tokensData[i]['tokenInfo']['price']['rate'].toFixed(8);
                     token['diff'] = tokensData[i]['tokenInfo']['price']['diff'].toFixed(2);
                     }else{
                         token['rate'] = 0;
@@ -82,31 +85,56 @@ const fetchAdress = ()=> {
                         setLoading(false);
                         //get each coin IDs
                         const coinsID =['ethereum'];
+                        const coinSymbols = ['ETH']
                         
                         for(let i = 1; i < balanceData.length; i++){
-                            const currentCoin = coinList.find(d => d['symbol'].toUpperCase() === balanceData[i]['symbol']);
+                            const currentCoin = coinList.find(d => d['name'].toUpperCase() === balanceData[i]['name'].toUpperCase() || 
+                                d['symbol'].toUpperCase() === balanceData[i]['symbol'].toUpperCase());
                             console.log(currentCoin);
                             if(currentCoin !== undefined){
-                            coinsID.push(currentCoin['id'])
+                            coinsID.push(currentCoin['id']);
+                            coinSymbols.push(currentCoin['symbol']);
                             }
                             
                         };
                         //fetch loop for each coin in the balance
                         const coinUrls = async () => {
-                            let coinsData = []
+                            const coinsData = []
                             for (let i = 0; i < coinsID.length; i++) {
                                 const response = await fetch('https://api.coingecko.com/api/v3/coins/' + coinsID[i] + '/market_chart?vs_currency=usd&days=max')
                                 const json = await response.json()
                                 if(json['prices']){
-                                const pricesU = json['prices']
-                                coinsData.push(pricesU.slice(-3))
-                                }
+                                const pricesU = json['prices'].slice(-60)
+                                coinsData.push(pricesU)
+                                const dateFormat = require('dateformat');
+
+                                if(i === coinsID.length -1){
+                                    const series = [];
+                                    const categories = [];
+                                    for(let k = 0; k < 60; k++){
                                 
-                            if(i === coinsID.length - 1){
-                                setLoadingSeries(false);
-                                console.log(coinsData);
-                                setLoadMsg('');
-                            }
+                                        let seriesSum = 0;
+                                        for(let j = 0; j < coinsData.length; j++){
+                                            const currentCoin = balanceData.find((d)=> d['symbol'] === coinSymbols[j].toUpperCase())
+                                            console.log({ coin: currentCoin['symbol'], balance: currentCoin['balance'], price: coinsData[j][k][1]});
+                                            //console.log(coinSymbols[j]);
+                                            seriesSum = seriesSum + coinsData[j][k][1]*currentCoin['balance'];
+                                        }
+                                        //console.log(seriesSum);
+                                        series.push(seriesSum);
+                                        const currentDate = new Date(coinsData[0][k][0]);
+                                        categories.push(dateFormat(currentDate, "d/m"));
+                                        if(k === 59){
+                                        console.log(series);
+                                        console.log(categories);
+                                            setSeries(series);
+                                            setCategories(categories);
+                                            setLoadingSeries(false);
+                                            setLoadMsg('');
+                                        }
+                                    }
+                                }
+                                }
                             }
                         }    
                         coinUrls();
@@ -151,10 +179,10 @@ const fetchAdress = ()=> {
             {balance[0] && loadingCoins !== true && loadingSeries !== true ? 
             <View style={styles.tokensContainer}>
             <CryptoChart
-                labels={[1, 2, 3, 4, 5]}
+                labels={categories}
                 series={[
                     {
-                        data: [100, 120, 200, 50, 100]
+                        data: series
                     }
                 ]}
                 chartHeight={210}
