@@ -83,8 +83,9 @@ useEffect(() => {
             d.supply = ((d.supply) / 1000).toFixed(2) + 'K';
           }
         });
-
+        if(filterOn[0] === false && filterOn[1] === false && filterOn[2] === false && filterOn[3] === false){
         setCoins(formattedData)
+        }
         setStoredCoins(formattedData)
         setLoadingCoins(false)
       }
@@ -223,6 +224,7 @@ const sortByPrice = () =>{
     const sortedCoins = allCoins.sort((aCoin, bCoin) => bCoin.priceUsd - aCoin.priceUsd); 
     setSortedPrice(0);
     setCoins(sortedCoins);
+    setFilterState([true, false, false, false]);
     setArrowUp([true, false, true, false]);
   
   }
@@ -240,6 +242,7 @@ const sortByChange = () =>{
     const sortedCoins = allCoins.sort((aCoin, bCoin) => bCoin.changePercent24Hr - aCoin.changePercent24Hr);
     setSortedChange(0);
     setCoins(sortedCoins);
+    setFilterState([false, true, false, false]);
     setArrowUp([true, false, true, false]);
   
   }
@@ -267,6 +270,7 @@ const sortByCap = () =>{
   } else {
     sortedCoins = allCoins.sort((aCoin, bCoin) => bCoin.marketCapUsd - aCoin.marketCapUsd);
     setSortedCap(0);
+    setFilterState([false, false, true, false]);
     setArrowUp([false, true, false, true]);
 
   }
@@ -307,6 +311,7 @@ const sortByVol = () =>{
   } else {
     sortedCoins = allCoins.sort((aCoin, bCoin) => bCoin.volumeUsd24Hr - aCoin.volumeUsd24Hr);
     setSortedVol(0);
+    setFilterState([false, false, false, true]);
     setArrowUp([false, true, false, true]);
     
   }
@@ -403,7 +408,7 @@ Coins.navigationOptions = {
   },
   headerTintColor: Colors.text_primary,
   title: 'Coins',
-  headerTitleAlign: 'center'
+  headerTitleAlign: 'center',
 }
 
 const styles = StyleSheet.create({

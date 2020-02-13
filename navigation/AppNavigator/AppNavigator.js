@@ -17,6 +17,35 @@ const ChartNavigator = createStackNavigator({
     Chart: {
         screen: Chart,
     }
+},
+{
+    defaultNavigationOptions: {
+        animations: {
+            pop: {
+                content: {
+                    alpha: {
+                        from: 1,
+                        to: 0,
+                        duration: 300,
+                        startDelay: 0,
+                        interpolation: 'accelerate'
+                    }
+                }
+            },
+            push: {
+                waitForRender: true,
+                content: {
+                    alpha: {
+                        from: 0,
+                        to: 1,
+                        duration: 300,
+                        startDelay: 0,
+                        interpolation: 'accelerate'
+                    }
+                }
+            }
+        }
+    }
 }
 )
 const PortfolioTab = createStackNavigator({
@@ -89,10 +118,37 @@ const AppNavigator = createBottomTabNavigator({
         activeBackgroundColor: Colors.primary,
         inactiveBackgroundColor: Colors.secondary,
         activeTintColor: Colors.text_primary,
-        
 
+    },
+    defaultNavigationOptions:{
+        animations: {
+            pop: {
+                content: {
+                    alpha: {
+                        from: 1,
+                        to: 0,
+                        duration: 300,
+                        startDelay: 0,
+                        interpolation: 'accelerate'
+                    }
+                }
+            },
+            push: {
+                waitForRender: true,
+                content: {
+                    alpha: {
+                        from: 0,
+                        to: 1,
+                        duration: 300,
+                        startDelay: 0,
+                        interpolation: 'accelerate'
+                    }
+                }
+            }
+        }
     }
 
 })
+
 
 export default createAppContainer(AppNavigator);

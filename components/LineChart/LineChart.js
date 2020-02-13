@@ -17,7 +17,9 @@ export default class CryptoChart extends Component {
                     showMessage({
                             message: `price: $${Number(value) < 10 ? value.toFixed(4) : value.toFixed(2)}`,
                             description: `date: ${(this.props.tpSeries.find((d)=> d['price'] === value))['date']}`,
-                            backgroundColor: getColor(0.9),
+                            backgroundColor: getColor(0.5),
+                            titleStyle: { color: Colors.shadow },
+                            textStyle: {color: Colors.shadow}
                             
                         })
                     }

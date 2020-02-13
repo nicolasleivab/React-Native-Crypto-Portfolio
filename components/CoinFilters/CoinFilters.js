@@ -6,7 +6,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 export default function CoinFilters(props) {
     return (
         <View style={styles.filtersFlex}>
-            <View style={{ marginLeft: 60, flex: 1.5 }}>
+            <View style={{ marginLeft: 50, flex: 1.5 }}>
                 <Text style={styles.filterText}>COIN</Text>
             </View>
             <View style={styles.flexItem}>
@@ -33,7 +33,7 @@ export default function CoinFilters(props) {
                 }
                 </View>
             </View>
-            <View style={{ ...styles.flexItem, marginLeft: 30 }}>
+            <View style={{ ...styles.flexItem, marginLeft: 40 }}>
                 <TouchableOpacity onPress={props.sortCap}>
                     <Text style={props.isOn[2] ? styles.filterTextOn : styles.filterText}>M.CAP</Text>
                 </TouchableOpacity>
@@ -65,7 +65,7 @@ export default function CoinFilters(props) {
 const styles = StyleSheet.create({
     filtersFlex: {
         flexDirection: "row",
-        justifyContent: "space-evenly",
+        justifyContent: "space-between",
         alignItems: "center",
         width: "100%",
         height: 35,
@@ -74,11 +74,11 @@ const styles = StyleSheet.create({
     },
     filterText: {
         color: Colors.text_secondary,
-        fontSize: 10
+        fontSize: 11
     },
     filterTextOn: {
         color: Colors.text_primary,
-        fontSize: 10,
+        fontSize: 11,
         fontWeight: 'bold'
     },
     flexItem: {
