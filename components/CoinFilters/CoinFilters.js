@@ -20,13 +20,13 @@ export default function CoinFilters(props) {
                 <View style={styles.arrows}>
                 {props.arrowUp[0] ? 
                 <Icon 
-                style={{color: Colors.text_primary}} 
-                        name="md-arrow-round-up"
-                size={12} 
+                    style={props.arrowUp[2] ? { color: Colors.text_primary, opacity: 1 } : { color: Colors.text_primary, opacity: 0}} 
+                    name="md-arrow-round-up"
+                    size={12} 
                 />
                 :
                 <Icon
-                    style={{ color: Colors.text_primary }}
+                    style={props.arrowUp[2] ? { color: Colors.text_primary, opacity: 1 } : { color: Colors.text_primary, opacity: 0 }}
                     name="md-arrow-round-down"
                     size={12}
                 />
@@ -44,13 +44,13 @@ export default function CoinFilters(props) {
                 <View style={styles.arrows}>
                 {props.arrowUp[1] ?
                 <Icon
-                    style={{ color: Colors.text_primary }}
-                        name="md-arrow-round-up"
+                    style={props.arrowUp[3] ? { color: Colors.text_primary, opacity: 1 } : { color: Colors.text_primary, opacity: 0}}
+                    name="md-arrow-round-up"
                     size={12}
                 />
                 :
                 <Icon
-                    style={{ color: Colors.text_primary }}
+                    style={props.arrowUp[3] ? { color: Colors.text_primary, opacity: 1 } : { color: Colors.text_primary, opacity: 0}}
                     name="md-arrow-round-down"
                     size={12}
                 />

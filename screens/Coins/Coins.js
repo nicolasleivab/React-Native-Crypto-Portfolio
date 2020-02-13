@@ -218,12 +218,12 @@ const sortByPrice = () =>{
     setSortedPrice(1);
     setCoins(sortedCoins);
     setFilterState([true, false, false, false]);
-    setArrowUp([false, false, false, false])
+    setArrowUp([false, false, true, false]);
   }else{
     const sortedCoins = allCoins.sort((aCoin, bCoin) => bCoin.priceUsd - aCoin.priceUsd); 
     setSortedPrice(0);
     setCoins(sortedCoins);
-    setArrowUp([true, false, false, false])
+    setArrowUp([true, false, true, false]);
   
   }
 }
@@ -235,12 +235,12 @@ const sortByChange = () =>{
     setSortedChange(1);
     setCoins(sortedCoins);
     setFilterState([false, true, false, false]);
-    setArrowUp([false, false, false, false])
+    setArrowUp([false, false, true, false]);
   } else {
     const sortedCoins = allCoins.sort((aCoin, bCoin) => bCoin.changePercent24Hr - aCoin.changePercent24Hr);
     setSortedChange(0);
     setCoins(sortedCoins);
-    setArrowUp([true, false, false, false])
+    setArrowUp([true, false, true, false]);
   
   }
 }
@@ -263,11 +263,11 @@ const sortByCap = () =>{
     sortedCoins = allCoins.sort((aCoin, bCoin) => aCoin.marketCapUsd - bCoin.marketCapUsd);
     setSortedCap(1);
     setFilterState([false, false, true, false]);
-    setArrowUp([false, false, false, false])
+    setArrowUp([false, false, false, true]);
   } else {
     sortedCoins = allCoins.sort((aCoin, bCoin) => bCoin.marketCapUsd - aCoin.marketCapUsd);
     setSortedCap(0);
-    setArrowUp([false, true, false, false])
+    setArrowUp([false, true, false, true]);
 
   }
 
@@ -303,11 +303,11 @@ const sortByVol = () =>{
     sortedCoins = allCoins.sort((aCoin, bCoin) => aCoin.volumeUsd24Hr - bCoin.volumeUsd24Hr);
     setSortedVol(1);
     setFilterState([false, false, false, true]);
-    setArrowUp([false, false, false, false])
+    setArrowUp([false, false, false, true]);
   } else {
     sortedCoins = allCoins.sort((aCoin, bCoin) => bCoin.volumeUsd24Hr - aCoin.volumeUsd24Hr);
     setSortedVol(0);
-    setArrowUp([false, true, false, false])
+    setArrowUp([false, true, false, true]);
     
   }
 
