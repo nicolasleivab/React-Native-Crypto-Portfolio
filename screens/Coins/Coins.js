@@ -28,6 +28,8 @@ export default function Coins(props) {
   const [sortedVol, setSortedVol] = useState(0);
   const [rawData, setRawData] = useState(0);
   const [triggerFetch, setTrigger] = useState(0);
+  const [filterOn, setFilterState] = useState([false, false, false, false]);
+  const [arrowUp, setArrowUp] = useState([false, false, false, false])
 
 
 const timer = setInterval(() => setTrigger(!triggerFetch), 60000); //update data every 1 min
@@ -215,10 +217,14 @@ const sortByPrice = () =>{
     const sortedCoins = allCoins.sort((aCoin, bCoin) => aCoin.priceUsd - bCoin.priceUsd);
     setSortedPrice(1);
     setCoins(sortedCoins);
+    setFilterState([true, false, false, false]);
+    setArrowUp([false, false, false, false])
   }else{
     const sortedCoins = allCoins.sort((aCoin, bCoin) => bCoin.priceUsd - aCoin.priceUsd); 
     setSortedPrice(0);
     setCoins(sortedCoins);
+    setArrowUp([true, false, false, false])
+  
   }
 }
 
@@ -228,10 +234,14 @@ const sortByChange = () =>{
     const sortedCoins = allCoins.sort((aCoin, bCoin) => aCoin.changePercent24Hr - bCoin.changePercent24Hr);
     setSortedChange(1);
     setCoins(sortedCoins);
+    setFilterState([false, true, false, false]);
+    setArrowUp([false, false, false, false])
   } else {
     const sortedCoins = allCoins.sort((aCoin, bCoin) => bCoin.changePercent24Hr - aCoin.changePercent24Hr);
     setSortedChange(0);
     setCoins(sortedCoins);
+    setArrowUp([true, false, false, false])
+  
   }
 }
 const sortByCap = () =>{
@@ -252,9 +262,13 @@ const sortByCap = () =>{
   if (sortedCap === 0) {
     sortedCoins = allCoins.sort((aCoin, bCoin) => aCoin.marketCapUsd - bCoin.marketCapUsd);
     setSortedCap(1);
+    setFilterState([false, false, true, false]);
+    setArrowUp([false, false, false, false])
   } else {
     sortedCoins = allCoins.sort((aCoin, bCoin) => bCoin.marketCapUsd - aCoin.marketCapUsd);
     setSortedCap(0);
+    setArrowUp([false, true, false, false])
+
   }
 
   sortedCoins.forEach(d => { //reformat data
@@ -288,9 +302,13 @@ const sortByVol = () =>{
   if (sortedVol === 0) {
     sortedCoins = allCoins.sort((aCoin, bCoin) => aCoin.volumeUsd24Hr - bCoin.volumeUsd24Hr);
     setSortedVol(1);
+    setFilterState([false, false, false, true]);
+    setArrowUp([false, false, false, false])
   } else {
     sortedCoins = allCoins.sort((aCoin, bCoin) => bCoin.volumeUsd24Hr - aCoin.volumeUsd24Hr);
     setSortedVol(0);
+    setArrowUp([false, true, false, false])
+    
   }
 
   sortedCoins.forEach(d => { //reformat data
@@ -334,6 +352,8 @@ return (
       sortChange={sortByChange}
       sortCap={sortByCap}
       sortVol={sortByVol}
+      isOn={filterOn}
+      arrowUp={arrowUp}
     />
     </View>
     </TouchableWithoutFeedback>

@@ -30,7 +30,7 @@ return (
     </View>
     <View style={styles.starContainer}>
       <TouchableOpacity onPress={() => (props.changeStar(props.coinName))}>
-    <Icon style={props.favOn > 0 ? { color: Colors.star_on } : { color: Colors.star_off }} name="ios-star" size={35}/>
+    <Icon style={props.favOn > 0 ? { color: Colors.star_on } : { color: Colors.star_off2 }} name="ios-star" size={35}/>
     </TouchableOpacity>
     </View>
   </View>

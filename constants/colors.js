@@ -10,6 +10,7 @@ const dark = {
     text_secondary: '#CCC',
     star_on: '#ffff80',
     star_off: '#555',
+    star_off2: '#AAA',
     positive_value: '#00ff80',
     negative_value: '#ff6666',
     shadow: '#000'
