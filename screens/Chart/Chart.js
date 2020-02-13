@@ -25,6 +25,7 @@ export default function Chart (props){
     const [currentCoinChange, setCurrentChange] = useState([dailyCoinChange]);
     const [ATH, setATH] = useState(0);
     const [tooltipSeries, setTooltipSeries] = useState([]);
+    const [categoriesHour, setCategoriesHour] = useState([]);
 
     useEffect(() => {
         // Fetch current coin data (intra)
@@ -48,20 +49,24 @@ export default function Chart (props){
                     });
                     console.log('coin intra data ready');
                     setCoinIntraData(series);
+                    setCategoriesHour(categoriesHour);
                     const slicedSeries = series.slice(-24);
-                    setSeries(slicedSeries);
+                    
                     setDates(categories);
                     const slicedCategories = categoriesHour.slice(-24);
                     const tooltipSeriesn = [];
-                    for(let n = 0; n < slicedSeries.length ; n++){
+                    const halfSeries = [];
+                    
+                    for(let n = 0; n < slicedSeries.length ; n = n + 2){
                         const obj = {};
                         obj['price'] = slicedSeries[n];
                         obj['date'] = slicedCategories[n];
                         tooltipSeriesn.push(obj);
-                        if(n === slicedSeries.length - 1){
-                            setTooltipSeries(tooltipSeriesn);
-                        }
+                        halfSeries.push(slicedSeries[n]);
                     }
+                    setTooltipSeries(tooltipSeriesn);
+                    console.log(tooltipSeriesn);
+                    setSeries(halfSeries);
     
             
                     const slicedCategoriesHour = [];
@@ -146,18 +151,40 @@ export default function Chart (props){
     //data calculation and update method
     const sliceData = (btn) =>{
         if(btn === 'day'){
-            setSeries(coinIntraData.slice(-24));
+            const slicedSeries = coinIntraData.slice(-24);
+            const slicedCategories = categoriesHour.slice(-24);
             setCategories(intradayHours);
             setCurrentChange(dailyCoinChange);
+            const halfSeries = [];
+            const tooltipSeriesn = [];
+            for (let i = 0; i < slicedSeries.length; i = i + 2) {
+                const obj = {};
+                halfSeries.push(slicedSeries[i]);
+                obj['price'] = slicedSeries[i];
+                obj['date'] = slicedCategories[i];
+                tooltipSeriesn.push(obj);        
+            }
+            setSeries(halfSeries);
+            setTooltipSeries(tooltipSeriesn);
         }
         if(btn === 'oneWeek'){
             const series = [];
             const categories = [];
             const slicedData = coinIntraData.slice(-24*7);
             const slicedDates = dates.slice(-24*7);
-            for(let i = 0; i < slicedData.length; i = i+7){
+
+            const tooltipSeriesn = [];
+            //data
+            for(let i = 0; i < slicedData.length; i = i+14){
+                const obj = {};
+                obj['price'] = slicedData[i];
+                obj['date'] = slicedDates[i];
+                tooltipSeriesn.push(obj);
                 series.push(slicedData[i]);
             }
+            //set tooltip data
+            setTooltipSeries(tooltipSeriesn);
+            //categories
             for (let i = 0; i < slicedDates.length; i = i + 24) {
                 categories.push(slicedDates[i]);
             }
@@ -172,9 +199,18 @@ export default function Chart (props){
             const categories = [];
             const slicedData = coinIntraData.slice(-24*14)
             const slicedDates = dates.slice(-24 * 14);
-            for (let i = 0; i < slicedData.length; i = i + 14) {
+            const tooltipSeriesn = [];
+
+            for (let i = 0; i < slicedData.length; i = i + 24) {
+                const obj = {};
+                obj['price'] = slicedData[i];
+                obj['date'] = slicedDates[i];
+                tooltipSeriesn.push(obj);
                 series.push(slicedData[i])
             }
+            //set tooltip data
+            setTooltipSeries(tooltipSeriesn);
+
             for (let i = 0; i < slicedDates.length; i = i + 48) {
                 categories.push(slicedDates[i]);
             }
@@ -185,27 +221,47 @@ export default function Chart (props){
             setCurrentChange(twoWeeksChange.toFixed(2));
         }
         if (btn === 'oneMonth') {
-            const slicedData = coinDailyData.slice(-30);
-            setSeries(slicedData);
+            const series = [];
+            const slicedData = coinDailyData.slice(-30)
             const categories = [];
             const slicedDates = dailyDates.slice(-30);
+            const tooltipSeriesn = [];
 
-            for (let i = 0; i < slicedDates.length; i = i + 5) {
+            for (let i = 0; i < slicedData.length; i = i + 2) {
+                const obj = {};
+                obj['price'] = slicedData[i];
+                obj['date'] = slicedDates[i];
+                tooltipSeriesn.push(obj);
+                series.push(slicedData[i])
+            }
+            //set tooltip data
+            setTooltipSeries(tooltipSeriesn);
+
+            setSeries(series);
+            for (let i = 0; i < slicedDates.length; i = i + 10) {
                 categories.push(slicedDates[i]);
             }
+         
             setCategories(categories);
 
-            const monthlyChange = (slicedData[29] - slicedData[0])*100/ slicedData[0];
-            setCurrentChange(monthlyChange.toFixed(2));
+            const twoMonthsChange = (slicedData[59] - slicedData[0]) * 100 / slicedData[0]
+            setCurrentChange(twoMonthsChange.toFixed(2));
         }
         if (btn === 'twoMonths') {
             const series = [];
             const slicedData = coinDailyData.slice(-30*2)
             const categories = [];
             const slicedDates = dailyDates.slice(-30*2);
-            for (let i = 0; i < slicedData.length; i = i + 2) {
+            const tooltipSeriesn = [];
+            for (let i = 0; i < slicedData.length; i = i + 4) {
+                const obj = {};
+                obj['price'] = slicedData[i];
+                obj['date'] = slicedDates[i];
+                tooltipSeriesn.push(obj);
                 series.push(slicedData[i])
             }
+            //set tooltip data
+            setTooltipSeries(tooltipSeriesn);
             setSeries(series);
             for (let i = 0; i < slicedDates.length; i = i + 10) {
                 categories.push(slicedDates[i]);

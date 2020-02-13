@@ -112,8 +112,6 @@ const fetchAdress = ()=> {
                                 const pricesU = json['history']['prices'].slice(-60)
                                 coinsData.push(pricesU);
 
-                               
-                                    //console.log(pricesU)
                                     const series = [];
                                     const categories = [];
                                   
@@ -127,7 +125,7 @@ const fetchAdress = ()=> {
                                         }
                                         
                                         //push series 
-                                        if (k % 2 === 0){
+                                        if (k % 4 === 0){
                                         series.push(seriesSum);
                                         }
                                         //push categories
@@ -137,11 +135,9 @@ const fetchAdress = ()=> {
                                            
                                         }
                                         if(k === 59){
-                                            //console.log(series);
-                                            //console.log(categories);
                                             setSeries(series);
                                             setCategories(categories);
-                                            console.log(series);
+                                            
                                             setTotalBalance((series[series.length - 1]));
                                             const balanceChange = ((series[series.length - 1]) - (series[series.length - 2]))*100 / (series[series.length - 2]);
                                             setBalanceChange(balanceChange.toFixed(2));
@@ -157,7 +153,7 @@ const fetchAdress = ()=> {
                         }    
                         coinUrls();
                         } else if(balanceFiltered.length === 1){
-                            console.log('OK?');
+                           
                             const series = [];
                             const categories = [];
                             //Just ETH case
@@ -166,7 +162,7 @@ const fetchAdress = ()=> {
                                 let currentETHBalance = ETH[k][1] * balanceData[0]['balance'];
 
                                 //push series 
-                                if (k % 2 === 0) {
+                                if (k % 4 === 0) {
                                     series.push(currentETHBalance);
                                 }
                                 //push categories
@@ -176,8 +172,6 @@ const fetchAdress = ()=> {
 
                                 }
                                 if (k === 59) {
-                                    //console.log(series);
-                                    //console.log(categories);
                                     setSeries(series);
                                     setCategories(categories);
                                     setTotalBalance(series[series.length-1]);

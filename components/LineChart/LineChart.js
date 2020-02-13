@@ -15,9 +15,10 @@ export default class CryptoChart extends Component {
                     }}
                     onDataPointClick={({ value, getColor }) =>
                     showMessage({
-                            message: `price: ${ value.toFixed(4)}`,
+                            message: `price: $${Number(value) < 10 ? value.toFixed(4) : value.toFixed(2)}`,
                             description: `date: ${(this.props.tpSeries.find((d)=> d['price'] === value))['date']}`,
-                            backgroundColor: getColor(0.9)
+                            backgroundColor: getColor(0.9),
+                            
                         })
                     }
                     verticalLabelRotation={this.props.verticalRotation} //30 -30
@@ -54,7 +55,12 @@ export default class CryptoChart extends Component {
                         borderRadius: 16,
                     }}
                 />
-                <FlashMessage duration={500} />
+                <FlashMessage 
+                position= 'center'
+                duration={1000} 
+                style={{width:'50%', height: 30, borderRadius: 5}}
+        
+                />
             </View>
         );
     }
