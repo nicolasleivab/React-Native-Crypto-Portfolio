@@ -58,7 +58,7 @@ export default class CryptoChart extends Component {
                 <FlashMessage 
                 position= 'center'
                 duration={1000} 
-                style={{width:'50%', height: 30, borderRadius: 5}}
+                style={{width:'65%', height: 30, borderRadius: 5}}
         
                 />
             </View>
