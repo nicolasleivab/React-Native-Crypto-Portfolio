@@ -27,6 +27,7 @@ export default function Chart (props){
     const [tooltipSeries, setTooltipSeries] = useState([]);
     const [categoriesHour, setCategoriesHour] = useState([]);
     const [toolTipCategoriesHr, setToolTipCategories] = useState([]);
+    const [toolTipCategoriesD, setToolTipCategoriesD] = useState([]);
     const dateFormat = require('dateformat');
 
     useEffect(() => {
@@ -45,7 +46,7 @@ export default function Chart (props){
                         series.push(+d.priceUsd);
                         const currentDate = new Date(d.time);
                         categories.push(dateFormat(currentDate, "d/m"));
-                        tooltipCategoriesHr.push(dateFormat(currentDate, "ddd mmm dd yyyy HH:MM"))
+                        tooltipCategoriesHr.push(dateFormat(currentDate, "ddd mmm dd yyyy HH:MM"));
                     });
                     console.log(tooltipCategoriesHr);
                     rawData.forEach(d => {
@@ -112,15 +113,17 @@ export default function Chart (props){
                     const rawData = json.prices;
                     const series = [];
                     const categories = [];
-                    const dateFormat = require('dateformat');
+                    const tooltipCategoriesD = [];
                
                     for(let i= 0; i < rawData.length; i++){
                         series.push(Number(rawData[i][1]))
                         const currentDate = new Date(rawData[i][0]);
                         categories.push(dateFormat(currentDate, "d/m"));
+                        tooltipCategoriesD.push(dateFormat(currentDate, "ddd mmm dd yyyy HH:MM"));
                     }
 
                     setCoinDailyData(series);
+                    setToolTipCategoriesD(tooltipCategoriesD);
                     setDailyDates(categories);
                     console.log('coin daily data ready');
 
@@ -235,7 +238,7 @@ export default function Chart (props){
             const categories = [];
             const slicedDates = dailyDates.slice(-30);
             const tooltipSeriesn = [];
-            const slicedToolTipCat = toolTipCategoriesHr.slice(-30);
+            const slicedToolTipCat = toolTipCategoriesD.slice(-30);
 
             for (let i = 0; i < slicedData.length; i = i + 2) {
                 const obj = {};
@@ -248,7 +251,7 @@ export default function Chart (props){
             setTooltipSeries(tooltipSeriesn);
 
             setSeries(series);
-            for (let i = 0; i < slicedDates.length; i = i + 10) {
+            for (let i = 0; i < slicedDates.length; i = i + 5) {
                 categories.push(slicedDates[i]);
             }
          
@@ -263,7 +266,7 @@ export default function Chart (props){
             const categories = [];
             const slicedDates = dailyDates.slice(-30*2);
             const tooltipSeriesn = [];
-            const slicedToolTipCat = toolTipCategoriesHr.slice(-30 * 2);
+            const slicedToolTipCat = toolTipCategoriesD.slice(-30 * 2);
 
             for (let i = 0; i < slicedData.length; i = i + 4) {
                 const obj = {};
