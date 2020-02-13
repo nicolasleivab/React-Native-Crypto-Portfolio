@@ -21,6 +21,7 @@ const [series, setSeries] = useState([]);
 const [categories, setCategories] = useState([]);
 const [totalBalance, setTotalBalance] = useState([]);
 const [balanceChange, setBalanceChange] = useState(0);
+const [toolTipSeries, setToolTipSeries] = useState([]);
 
 useEffect(() => {  
 //fetch ethereum historical prices
@@ -123,11 +124,21 @@ const fetchAdress = ()=> {
                                                 seriesSum = seriesSum + coinsData[j][k]['close'] * balanceData[j + 1]['balance']
                                                     + ETH[k][1] * balanceData[0]['balance'];
                                         }
-                                        
+                                        const toolTipSeries = [];
+                                        const obj = {};
+                                        obj['price'] = seriesSum;
+                                        const currentDate = new Date(ETH[k][0]);
+                                        obj['date'] = dateFormat(currentDate, "ddd mmm dd yyyy HH: MM");
+                                        toolTipSeries.push(obj);
+                                        const toolTipSeriesFormat = [];
+
                                         //push series 
                                         if (k % 4 === 0){
                                         series.push(seriesSum);
+                                        toolTipSeriesFormat.push(toolTipSeries[k]);
+                                        console.log(obj);
                                         }
+                                       
                                         //push categories
                                         if (k % 10 === 0){
                                         const currentDate = new Date(ETH[k][0]);
@@ -137,16 +148,15 @@ const fetchAdress = ()=> {
                                         if(k === 59){
                                             setSeries(series);
                                             setCategories(categories);
+                                            setToolTipSeries(toolTipSeriesFormat);
                                             
                                             setTotalBalance((series[series.length - 1]));
                                             const balanceChange = ((series[series.length - 1]) - (series[series.length - 2]))*100 / (series[series.length - 2]);
                                             setBalanceChange(balanceChange.toFixed(2));
                                         }
                                     }
-                                
-                                
-                            }
-                           
+  
+                            }                       
                             }
                             setLoadMsg('');
                             setLoadingSeries(false);
@@ -156,15 +166,24 @@ const fetchAdress = ()=> {
                            
                             const series = [];
                             const categories = [];
+                            const toolTipSeries = [];
+                            const toolTipSeriesFormat = [];
                             //Just ETH case
                             for (let k = 0; k < 60; k++) {
 
                                 let currentETHBalance = ETH[k][1] * balanceData[0]['balance'];
+                                const obj = {};
+                                obj['price'] = currentETHBalance;
+                                const currentDate = new Date(ETH[k][0]);
+                                obj['date'] = dateFormat(currentDate, "ddd mmm dd yyyy HH: MM");
+                                toolTipSeries.push(obj);
 
                                 //push series 
                                 if (k % 4 === 0) {
                                     series.push(currentETHBalance);
+                                    toolTipSeriesFormat.push(toolTipSeries[k])
                                 }
+                                
                                 //push categories
                                 if (k % 10 === 0) {
                                     const currentDate = new Date(ETH[k][0]);
@@ -177,6 +196,8 @@ const fetchAdress = ()=> {
                                     setTotalBalance(series[series.length-1]);
                                     const balanceChange = ((series[series.length - 1]) - (series[series.length - 2])) * 100 / (series[series.length - 2]);
                                     setBalanceChange(balanceChange.toFixed(2));
+                                  
+                                    setToolTipSeries(toolTipSeriesFormat);
                                     setLoadMsg('');
                                     setLoadingSeries(false);
                                     
@@ -239,6 +260,7 @@ const fetchAdress = ()=> {
                         data: series
                     }
                 ]}
+                tpSeries={toolTipSeries}
                 chartHeight={225}
                 verticalRotation={30}
                 horizontalRotation={-45}
