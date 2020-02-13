@@ -20,31 +20,11 @@ const ChartNavigator = createStackNavigator({
 },
 {
     defaultNavigationOptions: {
-        animations: {
-            pop: {
-                content: {
-                    alpha: {
-                        from: 1,
-                        to: 0,
-                        duration: 300,
-                        startDelay: 0,
-                        interpolation: 'accelerate'
-                    }
-                }
-            },
-            push: {
-                waitForRender: true,
-                content: {
-                    alpha: {
-                        from: 0,
-                        to: 1,
-                        duration: 300,
-                        startDelay: 0,
-                        interpolation: 'accelerate'
-                    }
-                }
-            }
-        }
+        animationEnabled: true,
+        animationTypeForReplace: 'push',
+        cardShadowEnabled: false,
+        gestureDirection: 'horizontal'
+        
     }
 }
 )
