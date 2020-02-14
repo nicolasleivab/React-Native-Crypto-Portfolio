@@ -221,7 +221,12 @@ const changeStarBlock = (key) => {
 }
 
 const sortByPrice = () =>{
-  const allCoins = [...storedCoins];
+  let allCoins;
+  if(starOn == 0){
+    allCoins = [...storedCoins];
+  }else{
+    allCoins = [...favCoins];
+  }
   if(sortedPrice === 0){
     const sortedCoins = allCoins.sort((aCoin, bCoin) => aCoin.priceUsd - bCoin.priceUsd);
     setSortedPrice(1);
@@ -239,7 +244,12 @@ const sortByPrice = () =>{
 }
 
 const sortByChange = () =>{
-  const allCoins = [...storedCoins];
+  let allCoins;
+  if (starOn == 0) {
+    allCoins = [...storedCoins];
+  } else {
+    allCoins = [...favCoins];
+  }
   if (sortedChange === 0) {
     const sortedCoins = allCoins.sort((aCoin, bCoin) => aCoin.changePercent24Hr - bCoin.changePercent24Hr);
     setSortedChange(1);
@@ -256,7 +266,12 @@ const sortByChange = () =>{
   }
 }
 const sortByCap = () =>{
-  const allCoins = [...storedCoins];
+  let allCoins;
+  if (starOn == 0) {
+    allCoins = [...storedCoins];
+  } else {
+    allCoins = [...favCoins];
+  }
   //format data for the sort function
   allCoins.forEach(d => { //reformat data
     if (d.marketCapUsd.slice(-1) === 'B') {
@@ -297,7 +312,12 @@ const sortByCap = () =>{
   setCoins(sortedCoins);
 }
 const sortByVol = () =>{
-  const allCoins = [...storedCoins];
+  let allCoins;
+  if (starOn == 0) {
+    allCoins = [...storedCoins];
+  } else {
+    allCoins = [...favCoins];
+  }
   //format data for the sort function
   allCoins.forEach(d => { //reformat data
     if (d.volumeUsd24Hr.slice(-1) === 'B') {

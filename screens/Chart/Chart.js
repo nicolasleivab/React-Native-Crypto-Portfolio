@@ -48,7 +48,7 @@ export default function Chart (props){
                         categories.push(dateFormat(currentDate, "d/m"));
                         tooltipCategoriesHr.push(dateFormat(currentDate, "ddd mmm dd yyyy HH:MM"));
                     });
-                    console.log(tooltipCategoriesHr);
+                  
                     rawData.forEach(d => {
                         const currentDate = new Date(d.time);
                         categoriesHour.push(dateFormat(currentDate, "HH:MM"));
@@ -73,7 +73,7 @@ export default function Chart (props){
                         halfSeries.push(slicedSeries[n]);
                     }
                     setTooltipSeries(tooltipSeriesn);
-                    console.log(tooltipSeriesn);
+                    
                     setSeries(halfSeries);
     
             
@@ -134,12 +134,12 @@ export default function Chart (props){
                         const formatATH = rawATH.toFixed(4);
                         setATH(formatATH);
                         setLoadingDaily(false);
-                        console.log(formatATH);
+                      
                     }else{
                         const formatATH = rawATH.toFixed(2);
                         setATH(formatATH);
                         setLoadingDaily(false);
-                        console.log(formatATH);
+                        
                     }
                 
                     
