@@ -4,6 +4,9 @@
     "slug": "React-Native-Crypto-Portfolio",
     "privacy": "public",
     "sdkVersion": "36.0.0",
+    "android": {
+      "package": "com.nicolasleivab.cryptorekt"
+    },
     "platforms": [
       "ios",
       "android",

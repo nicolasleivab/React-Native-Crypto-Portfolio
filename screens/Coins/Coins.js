@@ -28,8 +28,8 @@ export default function Coins(props) {
   const [sortedVol, setSortedVol] = useState(0);
   const [rawData, setRawData] = useState(0);
   const [triggerFetch, setTrigger] = useState(0);
-  const [filterOn, setFilterState] = useState([false, false, false, false]);
-  const [arrowUp, setArrowUp] = useState([false, false, false, false])
+  const [filterOn, setFilterState] = useState([false, false, true, false]);
+  const [arrowUp, setArrowUp] = useState([false, false, false, true]);
 
 
 const timer = setInterval(() => setTrigger(!triggerFetch), 60000); //update data every 1 min
@@ -54,10 +54,6 @@ useEffect(() => {
           d.maxSupply = Math.floor(d.maxSupply * 10000) / 10000;
           d.changePercent24Hr = Math.floor(d.changePercent24Hr * 100) / 100;
           d.vwap24Hr = Math.floor(d.vwap24Hr * 10000) / 10000;
-        });
-          const rawData = JSON.parse(JSON.stringify(json.data)); //copy rawData for coming operations
-          setRawData(rawData);
-        formattedData.forEach(d => {
           d.marketCapUsd = +d.marketCapUsd;
           if (d.marketCapUsd >= 1000000000) {
             d.marketCapUsd = ((d.marketCapUsd) / 1000000000).toFixed(2) + 'B';
@@ -82,11 +78,21 @@ useEffect(() => {
           } else {
             d.supply = ((d.supply) / 1000).toFixed(2) + 'K';
           }
+          d.star = 0;
         });
-        if(filterOn[0] === false && filterOn[1] === false && filterOn[2] === false && filterOn[3] === false){
+
+        if(coins[0] === undefined){
         setCoins(formattedData)
         }
+        if(storedCoins[0] === undefined){
         setStoredCoins(formattedData)
+        }else{
+        const oldStoredCoins = [...storedCoins];
+        for(let i =0; i < formattedData.length; i++){
+          formattedData[i]['star'] = oldStoredCoins[i]['star'];
+        }
+        setStoredCoins(formattedData);
+        }
         setLoadingCoins(false)
       }
     })
@@ -173,6 +179,8 @@ const filterCoin = () => {
       (d.id).toUpperCase().includes(value.toUpperCase()) || (d.symbol).toUpperCase().includes(value.toUpperCase()));
     setCoins(filteredCoins);
     if(value == ''){
+      setFilterState([false, false, true, false]);
+      setArrowUp([false, false, false, true]);
       setCoins(storedCoins);
     }
 }

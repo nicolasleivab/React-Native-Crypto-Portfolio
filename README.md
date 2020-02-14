@@ -7,25 +7,25 @@ Cryptocurrencies portfolio and watchlist app that pulls updated data from differ
 * Follow the recent performance of the top cryptocurrencies, save favorites, filter by different metrics and by name, symbol or id
 
 <p align="center">
-<img  width="400"  src="https://github.com/nicolasleivab/React-Native-Crypto-Portfolio/tree/master/assets/screens/Coins.png"/>
+<img  width="400"  src="./assets/screens/Coins.png"/>
 </p>
 
 * Select a coin to visualize its past performance, request historical data for different periods to display it in the chart
 
 <p align="center">
-<img  width="400"  src="https://github.com/nicolasleivab/React-Native-Crypto-Portfolio/tree/master/assets/screens/Chart.png"/>
+<img  width="400"  src="./assets/screens/Chart.png"/>
 </p>
 
 * Input your public or any ETH address to automatically fetch and render its coins and balance over time
 
 <p align="center">
-<img  width="400"  src="https://github.com/nicolasleivab/React-Native-Crypto-Portfolio/tree/master/assets/screens/Portfolio.png"/>
+<img  width="400"  src="./assets/screens/Portfolio.png"/>
 </p>
 
 * Check the lastest crypto breaking news to stay updated with the blockchain world
 
 <p align="center">
-<img  width="400"  src="https://github.com/nicolasleivab/React-Native-Crypto-Portfolio/tree/master/assets/screens/News.png"/>
+<img  width="400"  src="./assets/screens/News.png"/>
 </p>
 
 
@@ -66,49 +66,28 @@ Below you'll find information about performing common tasks. The most recent ver
 
 ##  Table of Contents
 
-  
 
-*  [Updating to New Releases](#updating-to-new-releases)
-
-*  [Available Scripts](#available-scripts)
-
-*  [npm start](#npm-start)
-
-*  [npm test](#npm-test)
-
-*  [npm run ios](#npm-run-ios)
-
-*  [npm run android](#npm-run-android)
-
-*  [npm run eject](#npm-run-eject)
-
-*  [Writing and Running Tests](#writing-and-running-tests)
-
-*  [Environment Variables](#environment-variables)
-
-*  [Configuring Packager IP Address](#configuring-packager-ip-address)
-
-*  [Customizing App Display Name and Icon](#customizing-app-display-name-and-icon)
-
-*  [Sharing and Deployment](#sharing-and-deployment)
-
-*  [Publishing to Expo's React Native Community](#publishing-to-expos-react-native-community)
-
-*  [Building an Expo "standalone" app](#building-an-expo-standalone-app)
-
-*  [Ejecting from Create React Native App](#ejecting-from-create-react-native-app)
-
-*  [Build Dependencies (Xcode & Android Studio)](#build-dependencies-xcode-android-studio)
-
-*  [Should I Use ExpoKit?](#should-i-use-expokit)
-
-*  [Troubleshooting](#troubleshooting)
-
-*  [Networking](#networking)
-
-*  [iOS Simulator won't open](#ios-simulator-wont-open)
-
-*  [QR Code does not scan](#qr-code-does-not-scan)
+* [Updating to New Releases](#updating-to-new-releases)
+* [Available Scripts](#available-scripts)
+  * [npm start](#npm-start)
+  * [npm test](#npm-test)
+  * [npm run ios](#npm-run-ios)
+  * [npm run android](#npm-run-android)
+  * [npm run eject](#npm-run-eject)
+* [Writing and Running Tests](#writing-and-running-tests)
+* [Environment Variables](#environment-variables)
+  * [Configuring Packager IP Address](#configuring-packager-ip-address)
+* [Customizing App Display Name and Icon](#customizing-app-display-name-and-icon)
+* [Sharing and Deployment](#sharing-and-deployment)
+  * [Publishing to Expo's React Native Community](#publishing-to-expos-react-native-community)
+  * [Building an Expo "standalone" app](#building-an-expo-standalone-app)
+  * [Ejecting from Create React Native App](#ejecting-from-create-react-native-app)
+    * [Build Dependencies (Xcode & Android Studio)](#build-dependencies-xcode-android-studio)
+    * [Should I Use ExpoKit?](#should-i-use-expokit)
+* [Troubleshooting](#troubleshooting)
+  * [Networking](#networking)
+  * [iOS Simulator won't open](#ios-simulator-wont-open)
+  * [QR Code does not scan](#qr-code-does-not-scan)
 
   
 
