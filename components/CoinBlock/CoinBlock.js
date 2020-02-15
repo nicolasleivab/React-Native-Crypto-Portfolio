@@ -15,7 +15,7 @@ return (
       <View style={{justifyContent:'center', marginRight: 10}}>
         <Image style={{ width: 32, height: 32 }} source={{ uri: 'https://s2.coinmarketcap.com/static/img/coins/64x64/'+props.coinID+'.png' }} />
       </View>
-      <View style={{width:'70%'}}>
+        <View style={{ width: 0, flexGrow: 1,}}>
        <Text style={{ color: Colors.text_primary, fontSize: 17, fontWeight: '700'}}>{props.coinSymbol}</Text>
         <Text style={{ color: Colors.text_primary, fontSize: 12 }}>{props.coinName}</Text>
       </View>

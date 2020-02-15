@@ -22,7 +22,7 @@ Cryptocurrencies portfolio and watchlist app that pulls updated data from differ
 <img  width="300"  src="./assets/screens/Portfolio.png"/>
 </p>
 
-* Check the lastest crypto breaking news to stay updated with the blockchain world
+* Check the latest crypto news to stay updated with the blockchain world
 
 <p align="center">
 <img  width="400"  src="./assets/screens/News.png"/>

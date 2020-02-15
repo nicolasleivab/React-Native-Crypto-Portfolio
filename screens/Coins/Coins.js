@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, FlatList, TouchableWithoutFeedback, Keyboard, ActivityIndicator} from 'react-native';
+import { StyleSheet, Text, View, FlatList, TouchableWithoutFeedback, Keyboard, ActivityIndicator, AsyncStorage} from 'react-native';
 import CoinBlock from '../../components/CoinBlock/CoinBlock';
 import SearchCoin from '../../components/SearchCoin/SearchCoin';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -30,6 +30,9 @@ export default function Coins(props) {
   const [triggerFetch, setTrigger] = useState(0);
   const [filterOn, setFilterState] = useState([false, false, true, false]);
   const [arrowUp, setArrowUp] = useState([false, false, false, true]);
+  const storedFavsCheck = AsyncStorage.getItem("storedFavs").then((value) => {
+    return value;
+  });
 
 
 const timer = setInterval(() => setTrigger(!triggerFetch), 60000); //update data every 1 min
@@ -80,6 +83,25 @@ useEffect(() => {
           }
           
         });
+
+        if(storedFavsCheck !== null){
+          
+            AsyncStorage.getItem("storedFavs").then((data) => {
+              const storedFavs = JSON.parse(data);
+              const storedFavList = [];
+                for (let i = 0; i < storedFavs.length; i++) {
+
+                if(storedFavs[i]["star"]){
+                  
+                  const currentCoin = formattedData.find((d => d['id'] === storedFavs[i]['id']));
+                  currentCoin["star"] = storedFavs[i]["star"];
+                  storedFavList.push(currentCoin);
+      
+                }
+                }
+              setFavCoins(storedFavList);
+            })
+        };
 
         setCoins(formattedData)
         setStoredCoins(formattedData)
@@ -185,7 +207,7 @@ const changeStarBlock = (key) => {
   } else if (currentFavCoin['star'] === 1) {
     currentFavCoin['star'] = 0;
   }
-  
+  AsyncStorage.setItem('storedFavs', JSON.stringify(storedCoins));
   if (currentFavCoin['star'] == 1){
     const favList = [...favCoins];
     favList.push(currentFavCoin);
@@ -344,9 +366,11 @@ const changeStar = () =>{
   setStar(!starOn);
   if (starOn == 0) {
     //reset filters
+    
     setFilterState([false, false, false, false]);
     setArrowUp([false, false, false, false]);
     setCoins(favCoins);
+   
   } else {
     setCoins(storedCoins);
     //reset filters
