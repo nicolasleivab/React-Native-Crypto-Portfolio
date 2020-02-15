@@ -78,21 +78,11 @@ useEffect(() => {
           } else {
             d.supply = ((d.supply) / 1000).toFixed(2) + 'K';
           }
-          d.star = 0;
+          
         });
 
-        if(coins[0] === undefined){
         setCoins(formattedData)
-        }
-        if(storedCoins[0] === undefined){
         setStoredCoins(formattedData)
-        }else{
-        const oldStoredCoins = [...storedCoins];
-        for(let i =0; i < formattedData.length; i++){
-          formattedData[i]['star'] = oldStoredCoins[i]['star'];
-        }
-        setStoredCoins(formattedData);
-        }
         setLoadingCoins(false)
       }
     })
@@ -101,7 +91,7 @@ useEffect(() => {
       console.log(err)
       setLoadingCoins(false)
     })
-}, [triggerFetch]);
+},[]);
 
 useEffect(() => {
 
@@ -183,15 +173,6 @@ const filterCoin = () => {
       setArrowUp([false, false, false, true]);
       setCoins(storedCoins);
     }
-}
-const changeStar = () =>{
-   Keyboard.dismiss();
-  setStar(!starOn);
-  if (starOn == 0) {
-    setCoins(favCoins);
-  } else {
-    setCoins(storedCoins);
-  }
 }
 
 const changeStarBlock = (key) => {
@@ -356,6 +337,22 @@ const sortByVol = () =>{
   });
 
   setCoins(sortedCoins);
+}
+//Fav coins filter
+const changeStar = () =>{
+   Keyboard.dismiss();
+  setStar(!starOn);
+  if (starOn == 0) {
+    //reset filters
+    setFilterState([false, false, false, false]);
+    setArrowUp([false, false, false, false]);
+    setCoins(favCoins);
+  } else {
+    setCoins(storedCoins);
+    //reset filters
+    setFilterState([false, false, true, false]);
+    setArrowUp([false, false, false, true]);
+  }
 }
 
 return (

@@ -7,19 +7,19 @@ Cryptocurrencies portfolio and watchlist app that pulls updated data from differ
 * Follow the recent performance of the top cryptocurrencies, save favorites, filter by different metrics and by name, symbol or id
 
 <p align="center">
-<img  width="400"  src="./assets/screens/Coins.png"/>
+<img  width="300"  src="./assets/screens/Coins.png"/>
 </p>
 
 * Select a coin to visualize its past performance, request historical data for different periods to display it in the chart
 
 <p align="center">
-<img  width="400"  src="./assets/screens/Chart.png"/>
+<img  width="300"  src="./assets/screens/Chart.png"/>
 </p>
 
 * Input your public or any ETH address to automatically fetch and render its coins and balance over time
 
 <p align="center">
-<img  width="400"  src="./assets/screens/Portfolio.png"/>
+<img  width="300"  src="./assets/screens/Portfolio.png"/>
 </p>
 
 * Check the lastest crypto breaking news to stay updated with the blockchain world
