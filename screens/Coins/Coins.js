@@ -9,7 +9,7 @@ import Colors from '../../constants/colors';
 
 export default function Coins(props) {
   const apiKey = {
-    key: 'your cmc key' 
+    key: '' 
   };
   const [coins, setCoins] = useState([]);
   const [storedCoins, setStoredCoins] = useState([]);
@@ -35,7 +35,10 @@ export default function Coins(props) {
   });
 
 
-const timer = setInterval(() => setTrigger(!triggerFetch), 60000); //update data every 1 min
+useEffect(() => {
+  const timer = setInterval(() => setTrigger(!triggerFetch), 60000); //update data every 1 min
+  return () => clearInterval(timer);
+})
 
 useEffect(() => {
 
@@ -74,6 +77,7 @@ useEffect(() => {
             d.volumeUsd24Hr = ((d.volumeUsd24Hr) / 1000).toFixed(2) + 'K';
           }
           d.supply = +d.supply;
+          d.star = 0;
           if (d.supply >= 1000000000) {
             d.supply = ((d.supply) / 1000000000).toFixed(2) + 'B';
           } else if (d.supply >= 1000000) {
@@ -102,9 +106,15 @@ useEffect(() => {
               setFavCoins(storedFavList);
             })
         };
-
-        setCoins(formattedData)
-        setStoredCoins(formattedData)
+        if(coins[0] !== undefined){
+        setStoredCoins(formattedData);
+        const currentCoins = [...coins];
+        setCoins(currentCoins);
+        }else{
+        setCoins(formattedData);
+        setStoredCoins(formattedData);
+        }
+        
         setLoadingCoins(false)
       }
     })
@@ -113,7 +123,7 @@ useEffect(() => {
       console.log(err)
       setLoadingCoins(false)
     })
-},[]);
+}, [triggerFetch]);
 
 useEffect(() => {
 

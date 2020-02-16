@@ -6,7 +6,7 @@ import NewBlock from '../../components/NewBlock/NewBlock';
 
 export default function NewsFeed() {
     const apiKey = {
-        key: 'your api key'
+        key: ''
     }
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);

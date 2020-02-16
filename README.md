@@ -25,7 +25,7 @@ Cryptocurrencies portfolio and watchlist app that pulls updated data from differ
 * Check the latest crypto news to stay updated with the blockchain world
 
 <p align="center">
-<img  width="400"  src="./assets/screens/News.png"/>
+<img  width="300"  src="./assets/screens/News.png"/>
 </p>
 
 
