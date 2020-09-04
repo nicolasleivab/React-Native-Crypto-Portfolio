@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import Colors from '../../constants/colors'
 import { View, StyleSheet, ActivityIndicator, FlatList, Keyboard } from 'react-native';
+import { api } from '../../config/api';
 import NewBlock from '../../components/NewBlock/NewBlock';
 
 
 export default function NewsFeed() {
     const apiKey = {
-        key: ''
+        key: api.newsKey,
     }
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);

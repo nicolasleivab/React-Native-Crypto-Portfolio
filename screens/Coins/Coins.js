@@ -1,16 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { StyleSheet, Text, View, FlatList, TouchableWithoutFeedback, Keyboard, ActivityIndicator, AsyncStorage} from 'react-native';
 import CoinBlock from '../../components/CoinBlock/CoinBlock';
 import SearchCoin from '../../components/SearchCoin/SearchCoin';
 import Icon from 'react-native-vector-icons/Ionicons';
 import CoinsHeader from '../../components/CoinsHeader/CoinsHeader';
 import CoinFilters from '../../components/CoinFilters/CoinFilters';
+import { api } from '../../config/api';
 import Colors from '../../constants/colors';
+import ThemeContext from "../../context/theme/themeContext";
 
 export default function Coins(props) {
   const apiKey = {
-    key: '' 
+    key: api.cmcKey,
   };
+
   const [coins, setCoins] = useState([]);
   const [storedCoins, setStoredCoins] = useState([]);
   const [favCoins, setFavCoins] = useState([]);
@@ -34,7 +37,6 @@ export default function Coins(props) {
     return value;
   });
 
-
 useEffect(() => {
   const timer = setInterval(() => setTrigger(!triggerFetch), 60000); //update data every 1 min
   return () => clearInterval(timer);
@@ -47,7 +49,7 @@ useEffect(() => {
     .then(res => res.json())
     .then(json => {
       if (json.data) {
-        console.log('data ready');
+        console.log('data ready'. theme);
   
         const formattedData = [...json.data];
         //format data
