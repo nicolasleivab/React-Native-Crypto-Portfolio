@@ -1,23 +1,23 @@
 import React from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
-import Colors from "../../constants/colors";
 import Icon from 'react-native-vector-icons/Ionicons';
 
 export default function CoinFilters(props) {
+    const { Colors } = props;
     return (
-        <View style={styles.filtersFlex}>
+        <View style={styles(Colors).filtersFlex}>
             <View style={{ marginLeft: 50, flex: 1.5 }}>
-                <Text style={styles.filterText}>COIN</Text>
+                <Text style={styles(Colors).filterText}>COIN</Text>
             </View>
-            <View style={styles.flexItem}>
+            <View style={styles(Colors).flexItem}>
                 <TouchableOpacity onPress={props.sortPrice}>
-                    <Text style={props.isOn[0]? styles.filterTextOn : styles.filterText}>PRICE</Text>
+                    <Text style={props.isOn[0]? styles(Colors).filterTextOn : styles(Colors).filterText}>PRICE</Text>
                 </TouchableOpacity>
-                <Text style={{ ...styles.filterText, marginHorizontal: 3 }}>{"/"}</Text>
+                <Text style={{ ...styles(Colors).filterText, marginHorizontal: 3 }}>{"/"}</Text>
                 <TouchableOpacity onPress={props.sortChange}>
-                    <Text style={props.isOn[1] ? styles.filterTextOn : styles.filterText}>24H CHG</Text>
+                    <Text style={props.isOn[1] ? styles(Colors).filterTextOn : styles(Colors).filterText}>24H CHG</Text>
                 </TouchableOpacity>
-                <View style={styles.arrows}>
+                <View style={styles(Colors).arrows}>
                 {props.arrowUp[0] ? 
                 <Icon 
                     style={props.arrowUp[2] ? { color: Colors.text_primary, opacity: 1 } : { color: Colors.text_primary, opacity: 0}} 
@@ -33,15 +33,15 @@ export default function CoinFilters(props) {
                 }
                 </View>
             </View>
-            <View style={{ ...styles.flexItem, marginLeft: 40 }}>
+            <View style={{ ...styles(Colors).flexItem, marginLeft: 40 }}>
                 <TouchableOpacity onPress={props.sortCap}>
-                    <Text style={props.isOn[2] ? styles.filterTextOn : styles.filterText}>M.CAP</Text>
+                    <Text style={props.isOn[2] ? styles(Colors).filterTextOn : styles(Colors).filterText}>M.CAP</Text>
                 </TouchableOpacity>
-                <Text style={{ ...styles.filterText, marginHorizontal: 3 }}>{"/"}</Text>
+                <Text style={{ ...styles(Colors).filterText, marginHorizontal: 3 }}>{"/"}</Text>
                 <TouchableOpacity onPress={props.sortVol}>
-                    <Text style={props.isOn[3] ? styles.filterTextOn : styles.filterText}>VOL</Text>
+                    <Text style={props.isOn[3] ? styles(Colors).filterTextOn : styles(Colors).filterText}>VOL</Text>
                 </TouchableOpacity>
-                <View style={styles.arrows}>
+                <View style={styles(Colors).arrows}>
                 {props.arrowUp[1] ?
                 <Icon
                     style={props.arrowUp[3] ? { color: Colors.text_primary, opacity: 1 } : { color: Colors.text_primary, opacity: 0}}
@@ -57,12 +57,12 @@ export default function CoinFilters(props) {
                 }
                 </View>
             </View>
-            <View style={styles.flexItem}></View>
+            <View style={styles(Colors).flexItem}></View>
         </View>
     );
 }
 
-const styles = StyleSheet.create({
+const styles = (Colors) => StyleSheet.create({
     filtersFlex: {
         flexDirection: "row",
         justifyContent: "space-between",

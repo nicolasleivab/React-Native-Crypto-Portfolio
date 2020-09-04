@@ -6,13 +6,12 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import CoinsHeader from '../../components/CoinsHeader/CoinsHeader';
 import CoinFilters from '../../components/CoinFilters/CoinFilters';
 import { api } from '../../config/api';
-import Colors from '../../constants/colors';
-import ThemeContext from "../../context/theme/themeContext";
 
 export default function Coins(props) {
   const apiKey = {
     key: api.cmcKey,
   };
+  const { screenProps: {Colors: Colors} } = props;
 
   const [coins, setCoins] = useState([]);
   const [storedCoins, setStoredCoins] = useState([]);
@@ -49,7 +48,6 @@ useEffect(() => {
     .then(res => res.json())
     .then(json => {
       if (json.data) {
-        console.log('data ready'. theme);
   
         const formattedData = [...json.data];
         //format data
@@ -184,7 +182,7 @@ useEffect(() => {
 if(loadingGlobal !== false || loadingCoins !== false){
   console.log({loadingCoins, loadingGlobal, loadingIcons});
   return (
-    <View style={styles.container}><ActivityIndicator size="large" color={Colors.text_primary} /></View>
+    <View style={styles(Colors).container}><ActivityIndicator size="large" color={Colors.text_primary} /></View>
   )
 }
 
@@ -192,7 +190,7 @@ if(loadingGlobal !== false || loadingCoins !== false){
 if(error !== null){
   console.log({error});
   return (
-    <View style={styles.container}><Text color={Colors.text_primary}>{error}</Text></View>
+    <View style={styles(Colors).container}><Text color={Colors.text_primary}>{error}</Text></View>
   )
 }
 
@@ -392,20 +390,22 @@ const changeStar = () =>{
 }
 
 return (
-  <View style={styles.container}>
-    <View style={styles.headerContainer}>
+  <View style={styles(Colors).container}>
+    <View style={styles(Colors).headerContainer}>
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
     <View style={{width:'100%', marginTop: 1}}>
       <CoinsHeader
+          Colors={Colors}
           btcDom={globalData['market_cap_percentage']['btc']}
           mCap={globalData['total_market_cap']['usd']}
           capChange={globalData["market_cap_change_percentage_24h_usd"]}
           totalVol={globalData['total_volume']['usd']}
         />
     
-    <View style={styles.filterFlex}>
+    <View style={styles(Colors).filterFlex}>
   
     <SearchCoin
+    Colors={Colors}
     filterCoin={filterCoin}
     textChange={text => onChangeText(text)}
     value={value}
@@ -414,6 +414,7 @@ return (
     <Icon style={starOn > 0 ? { color: Colors.star_on, marginTop: 30 } : { color: Colors.star_off, marginTop: 30}} name="ios-star" size={35} onPress={changeStar} />
     </View>
     <CoinFilters
+      Colors={Colors}
       sortPrice={sortByPrice}
       sortChange={sortByChange}
       sortCap={sortByCap}
@@ -429,6 +430,7 @@ return (
     onScrollBeginDrag={()=> Keyboard.dismiss()}
     renderItem={coin => (
         <CoinBlock
+        Colors={Colors}
         navigate={()=>props.navigation.navigate({ 
           routeName: 'Chart', 
           params:{
@@ -463,19 +465,20 @@ return (
 
 );
 }
+
 Coins.navigationOptions = {
   headerStyle: {
-    backgroundColor: Colors.secondary,
+    backgroundColor: "#1c1e2e",//Colors.secondary,
   },
-  headerTintColor: Colors.text_primary,
+  headerTintColor:  "#FFF",//Colors.text_primary,
   title: 'Coins',
   headerTitleAlign: 'center',
 }
 
-const styles = StyleSheet.create({
+const styles = (Colors) => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.primary,
+    backgroundColor:  Colors.primary,
     alignItems: 'center',
     justifyContent: 'center',
   },

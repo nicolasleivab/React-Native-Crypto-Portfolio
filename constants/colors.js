@@ -5,6 +5,7 @@ const Colors = () => {
 const themeContext = useContext(ThemeContext);
 const { theme } = themeContext;
 const Colors = {...theme};
+console.log('COLORS', Colors);
 
 return {
    ...Colors

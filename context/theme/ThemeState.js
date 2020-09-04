@@ -6,7 +6,7 @@ import { SET_LIGHT_THEME, SET_DARK_THEME } from '../types';
 const ThemeState = props => {
   const initialState = {
     theme: {
-    primary: '#FFF',
+    primary: '#30344E',
     secondary: '#1c1e2e',
     coinblock: '#445378',
     text_primary: '#FFF',

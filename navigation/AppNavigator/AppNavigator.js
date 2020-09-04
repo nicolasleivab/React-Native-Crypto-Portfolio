@@ -7,7 +7,6 @@ import Chart from '../../screens/Chart/Chart';
 import Portfolio from '../../screens/Portfolio/Portfolio';
 import NewsFeed from '../../screens/NewsFeed/NewsFeed';
 import Settings from '../../screens/Settings/Settings';
-import Colors from '../../constants/colors';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 const ChartNavigator = createStackNavigator({
@@ -94,12 +93,12 @@ const AppNavigator = createBottomTabNavigator({
         }
     }
 }, {
-    tabBarOptions: {
-        activeBackgroundColor: Colors.primary,
-        inactiveBackgroundColor: Colors.secondary,
-        activeTintColor: Colors.text_primary,
+    tabBarOptions: (screenProps) => ({
+        activeBackgroundColor: screenProps.Colors.primary,
+        inactiveBackgroundColor: screenProps.Colors.secondary,
+        activeTintColor: screenProps.Colors.text_primary,
 
-    },
+    }),
     defaultNavigationOptions:{
         animations: {
             pop: {
@@ -129,6 +128,5 @@ const AppNavigator = createBottomTabNavigator({
     }
 
 })
-
 
 export default createAppContainer(AppNavigator);
