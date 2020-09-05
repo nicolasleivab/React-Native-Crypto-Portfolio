@@ -1,16 +1,23 @@
 import React, { useReducer } from 'react';
 import CoinsContext from './coinsContext';
 import CoinsReducer from './coinsReducer';
-import { GET_COINCAP_COINS, COINS_ERROR } from '../types';
+import { GET_COINCAP_COINS, COINS_ERROR, GET_ICON_COINS, ICONS_ERROR } from '../types';
 import { formatIncomingCoins } from '../../helpers';
+import { api } from '../../config/api';
 import axios from 'axios';
 
 const CoinsState = props => {
   const initialState = {
     coins: [],
+    allCoins: [],
     loadingGlobal: true,
+    loadingIcons: true,
   };
   const [state, dispatch] = useReducer(CoinsReducer, initialState);
+
+  const apiKey = {
+    key: api.cmcKey,
+  };
 
   // Get Coins
   const getCoinGeckoCoins = async () => {
@@ -24,12 +31,29 @@ const CoinsState = props => {
       }
   };
 
+  // Get Icons
+  const getCoinIcons = async () => {
+    try {
+        const res = await axios.get("https://pro-api.coinmarketcap.com/v1/cryptocurrency/map?CMC_PRO_API_KEY="+apiKey.key);
+        const rawData = res.data;
+        
+        dispatch({ type: GET_ICON_COINS, payload: rawData });
+
+      } catch (err) {
+          console.log(err.response.msg);
+        dispatch({ type: ICONS_ERROR, payload: err.response.msg });
+      }
+  }
+
   return (
     <CoinsContext.Provider
       value={{
         globalData: state.coins,
+        allCoins: state.allCoins.data,
         loadingGlobal: state.loadingGlobal,
+        loadingIcons: state.loadingIcons,
         getGlobalData: getCoinGeckoCoins,
+        getCoinIcons,
       }}
     >
       {props.children}

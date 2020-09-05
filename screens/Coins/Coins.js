@@ -14,15 +14,15 @@ export default function Coins(props) {
   };
   const { screenProps: {Colors: Colors} } = props;
 
-const coinsContext = useContext(CoinsContext);
-const { loadingGlobal, globalData, getGlobalData } = coinsContext;
-
+  const coinsContext = useContext(CoinsContext);
+  const {
+    loadingGlobal, loadingIcons, globalData, allCoins, getGlobalData, getCoinIcons,
+  } = coinsContext;
+  console.log('rendering');
   const [coins, setCoins] = useState([]);
   const [storedCoins, setStoredCoins] = useState([]);
   const [favCoins, setFavCoins] = useState([]);
-  const [allCoins, setAllCoins] = useState([]);
   const [loadingCoins, setLoadingCoins] = useState(true);
-  const [loadingIcons, setLoadingIcons] = useState(true);
   const [error, setError] = useState(null);
   const [value, onChangeText] = React.useState('');
   const [starOn, setStar] = useState(0);
@@ -128,24 +128,7 @@ useEffect(() => {
 }, [triggerFetch]);
 
 useEffect(() => {
-
-  // Fetch all coins from coinmarketcap
-  fetch("https://pro-api.coinmarketcap.com/v1/cryptocurrency/map?CMC_PRO_API_KEY="+apiKey.key)
-    .then(res => res.json())
-    .then(json => {
-      if (json.data) {
-        const rawData = json.data;;
-
-        console.log('cmc data ready');
-        setAllCoins(rawData)
-        setLoadingIcons(false)
-      }
-    })
-    .catch(err => {
-      setError(err)
-      console.log('cmc error')
-      setLoadingIcons(false)
-    })
+  getCoinIcons();
 }, []);
 
 useEffect(() => {
@@ -153,7 +136,7 @@ useEffect(() => {
 }, [triggerFetch]);
 
 //return loading screen when loading
-if(loadingGlobal !== false || loadingCoins !== false){
+if(loadingGlobal !== false || loadingCoins !== false || loadingIcons !== false){
   console.log({loadingCoins, loadingGlobal, loadingIcons});
   return (
     <View style={styles(Colors).container}><ActivityIndicator size="large" color={Colors.text_primary} /></View>
