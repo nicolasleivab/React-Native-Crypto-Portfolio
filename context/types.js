@@ -1,2 +1,4 @@
 export const SET_LIGHT_THEME = 'SET_LIGHT_THEME';
 export const SET_DARK_THEME = 'SET_DARK_THEME';
+export const GET_COINCAP_COINS = 'GET_COINCAP_COINS';
+export const COINS_ERROR = 'COINS_ERROR';

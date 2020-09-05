@@ -5,6 +5,7 @@ import SearchCoin from '../../components/SearchCoin/SearchCoin';
 import Icon from 'react-native-vector-icons/Ionicons';
 import CoinsHeader from '../../components/CoinsHeader/CoinsHeader';
 import CoinFilters from '../../components/CoinFilters/CoinFilters';
+import CoinsContext from "../../context/coins/coinsContext";
 import { api } from '../../config/api';
 
 export default function Coins(props) {
@@ -13,13 +14,14 @@ export default function Coins(props) {
   };
   const { screenProps: {Colors: Colors} } = props;
 
+const coinsContext = useContext(CoinsContext);
+const { loadingGlobal, globalData, getGlobalData } = coinsContext;
+
   const [coins, setCoins] = useState([]);
   const [storedCoins, setStoredCoins] = useState([]);
   const [favCoins, setFavCoins] = useState([]);
   const [allCoins, setAllCoins] = useState([]);
-  const [globalData, setGlobalData] = useState([]);
   const [loadingCoins, setLoadingCoins] = useState(true);
-  const [loadingGlobal, setLoadingGlobal] = useState(true);
   const [loadingIcons, setLoadingIcons] = useState(true);
   const [error, setError] = useState(null);
   const [value, onChangeText] = React.useState('');
@@ -147,35 +149,7 @@ useEffect(() => {
 }, []);
 
 useEffect(() => {
-
-  // Fetch global data from coingecko
-  fetch('https://api.coingecko.com/api/v3/global')
-    .then(res => res.json())
-    .then(json => {
-      if (json.data) {
-        const rawData = json.data;
-        
-        const formatMarketCap = (rawData['total_market_cap']['usd']/1000000000).toFixed(2) + 'B';
-        const formatBTCDom = (rawData['market_cap_percentage']['btc']).toFixed(2) + '%';
-        const formatTotalVolume = (rawData['total_volume']['usd'] / 1000000000).toFixed(2) + 'B';
-        const formatMarketChange = (rawData["market_cap_change_percentage_24h_usd"]).toFixed(2);
-
-        const formattedData = {...rawData};
-        formattedData['total_market_cap']['usd'] = formatMarketCap;
-        formattedData['market_cap_percentage']['btc'] = formatBTCDom;
-        formattedData['total_volume']['usd'] = formatTotalVolume;
-        formattedData["market_cap_change_percentage_24h_usd"] = formatMarketChange;
-
-        setGlobalData(formattedData);
-        console.log('global data ready');
-        setLoadingGlobal(false);
-      }
-    })
-    .catch(err => {
-      setError(err)
-      console.log('coingecko error');
-      setLoadingGlobal(false);
-    })
+  getGlobalData();
 }, [triggerFetch]);
 
 //return loading screen when loading
