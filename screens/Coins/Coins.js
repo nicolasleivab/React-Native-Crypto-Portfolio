@@ -407,7 +407,7 @@ return (
         changeStar={changeStarBlock}
         favOn={coin.item['star']}
         ranking={coin.item['rank']}
-        coinID={allCoins[0] != undefined ? 
+        coinID={allCoins ? 
                 (allCoins.find(d => d['name'] === coin.item['name'] || d['slug'] === coin.item['id'] || 
                 d['symbol'] === coin.item['symbol']))['id'] : 1} 
         coinName={coin.item['name']} 
