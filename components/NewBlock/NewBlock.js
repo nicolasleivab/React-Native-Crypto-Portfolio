@@ -6,24 +6,24 @@ import {Linking} from 'expo';
 export default function NewBlock(props){
 
     const linkHandler = () => {
-        console.log('working');
         Linking.openURL(props.newLink);
     };
+    const { Colors } = props;
 
     return (
-        <TouchableOpacity onPress={linkHandler} style={styles.block}>
-        <View style={styles.newBlock}>
-            <View style={styles.thumbnail}>
+        <TouchableOpacity onPress={linkHandler} style={styles(Colors).block}>
+        <View style={styles(Colors).newBlock}>
+            <View style={styles(Colors).thumbnail}>
                 <Image
-                    style={styles.thumbnailImg}
+                    style={styles(Colors).thumbnailImg}
                     source={{ uri: props.thumbnailLink }}
                 />
             </View>
-            <View style={styles.newcontainer}>
+            <View style={styles(Colors).newcontainer}>
                 <View style={{marginBottom: 5}}>
                     <Text style={{ color: Colors.text_primary }}>{props.title}</Text>
                 </View>
-                <View style={styles.sourceContainer}>
+                <View style={styles(Colors).sourceContainer}>
                     <Image
                         style={{width:15, height: 15, marginRight: 5}}
                             source={{ uri: 'https://'+props.sourceDomain + '/favicon.ico'}}
@@ -38,7 +38,7 @@ export default function NewBlock(props){
 
 }
 
-const styles = StyleSheet.create({
+const styles = (Colors) => StyleSheet.create({
     block:{
         marginVertical: 5,
         borderBottomColor: Colors.text_secondary,

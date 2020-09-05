@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView, AsyncStorage } from 'react-native';
-import Colors from '../../constants/colors';
 import SearchCoin from '../../components/SearchCoin/SearchCoin';
 import MainButton from '../../components/MainButton/MainButton';
 import CryptoChart from '../../components/LineChart/LineChart';
 import TokenBlock from '../../components/TokenBlock/TokenBlock';
 
-export default function Portfolio() {
+export default function Portfolio(props) {
 
+const { screenProps: {Colors: Colors} } = props;
 const [value, onChangeText] = useState('');
 const [balance, setBalance] = useState([]);
 const [error, setError] = useState(null);
@@ -417,17 +417,19 @@ const fetchAdress = ()=> {
 }
 
     return (
-        <View style={styles.screen}>
-            <View style={styles.globalContainer}>
-            <View style={styles.header}>
-                <View style={styles.container}>
+        <View style={styles(Colors).screen}>
+            <View style={styles(Colors).globalContainer}>
+            <View style={styles(Colors).header}>
+                <View style={styles(Colors).container}>
                     <SearchCoin
+                        Colors={Colors}
                         textChange={text => onChangeText(text)}
                         value={value}
                         placeholder={'ETH address...'}
                     />
                 <View style={{marginTop:35}}>  
                     <MainButton
+                        Colors={Colors}
                         btnText={'Go'}
                         dataHandler={fetchAdress}
                     />
@@ -438,13 +440,14 @@ const fetchAdress = ()=> {
                 </View>
             </View>
             {balance[0] && loadingCoins !== true && loadingSeries !== true ? 
-            <View style={styles.tokensContainer}>
-            <View style={styles.totalBalanceContainer}>
-                <Text style={styles.totalBalance}>{'$'+totalBalance.toFixed(2)}</Text>
-                <Text style={balanceChange > 0 ? styles.balanceChangeGreen : styles.balanceChangeRed}>
+            <View style={styles(Colors).tokensContainer}>
+            <View style={styles(Colors).totalBalanceContainer}>
+                <Text style={styles(Colors).totalBalance}>{'$'+totalBalance.toFixed(2)}</Text>
+                <Text style={balanceChange > 0 ? styles(Colors).balanceChangeGreen : styles(Colors).balanceChangeRed}>
                     {balanceChange > 0 ? ' (+'+balanceChange+'%)' : ' ('+balanceChange+'%)'}</Text>
             </View>
             <CryptoChart
+                Colors={Colors}
                 labels={categories}
                 series={[
                     {
@@ -457,10 +460,11 @@ const fetchAdress = ()=> {
                 horizontalRotation={-45}
                 decimalPlaces={2}
             />
-            <View style={styles.balance}>
+            <View style={styles(Colors).balance}>
                 <ScrollView style={{flex:1}}>
                     {balance.map(coin => (
                     <TokenBlock
+                        Colors={Colors}
                         key={coin['name']}
                         coinName={coin['name']}
                         coinBalance={coin['balance']}
@@ -470,7 +474,7 @@ const fetchAdress = ()=> {
                     ))}
                 </ScrollView>
             </View>
-                    </View> : <View style={styles.container}>
+                    </View> : <View style={styles(Colors).container}>
                                 <Text style={{ color: Colors.text_primary, fontStyle: "italic" }}>{loadMsg}</Text>
                               </View>}
             </View>
@@ -480,13 +484,13 @@ const fetchAdress = ()=> {
 
 Portfolio.navigationOptions = {
     headerStyle: {
-        backgroundColor: Colors.secondary,
-    },
-    headerTintColor: Colors.text_primary,
+        backgroundColor: "#1c1e2e",//Colors.secondary,
+      },
+    headerTintColor: "#FFF",//Colors.text_primary,
     title: 'Portfolio',
     headerTitleAlign: 'center'
 }
-const styles = StyleSheet.create({
+const styles = (Colors) => StyleSheet.create({
     screen: {
         flex: 1,
         justifyContent: 'center',

@@ -93,12 +93,12 @@ const AppNavigator = createBottomTabNavigator({
         }
     }
 }, {
-    tabBarOptions: (screenProps) => ({
-        activeBackgroundColor: screenProps.Colors.primary,
-        inactiveBackgroundColor: screenProps.Colors.secondary,
-        activeTintColor: screenProps.Colors.text_primary,
+    tabBarOptions: {
+        activeBackgroundColor: '#30344E',//screenProps.Colors.primary,
+        inactiveBackgroundColor: "#1c1e2e",//screenProps.Colors.secondary,
+        activeTintColor: '#FFF',//screenProps.Colors.text_primary,
 
-    }),
+    },
     defaultNavigationOptions:{
         animations: {
             pop: {

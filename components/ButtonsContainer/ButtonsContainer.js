@@ -5,7 +5,7 @@ import MainButton from '../../components/MainButton/MainButton';
 
 export default function ButtonsContainer(props) {
     const [isActive, setActive] = useState([true, false, false, false, false]);
-
+    const { Colors } = props;
     const dataHandler = (btn) => {
         
         if(btn === 'day'){
@@ -35,30 +35,35 @@ export default function ButtonsContainer(props) {
     return (
         <View style={styles.buttonsContainer}>
             <MainButton
+                Colors={Colors}
                 btnText={'24Hr'}
                 dataHandler={dataHandler}
                 isActive={isActive[0]}
                 btnId={'day'}
             />
             <MainButton
+                Colors={Colors}
                 btnText={'7d'}
                 dataHandler={dataHandler}
                 isActive={isActive[1]}
                 btnId={'oneWeek'}
             />
             <MainButton
+                Colors={Colors}
                 btnText={'14d'}
                 dataHandler={dataHandler}
                 isActive={isActive[2]}
                 btnId={'twoWeeks'}
             />
             <MainButton
+                Colors={Colors}
                 btnText={'30d'}
                 dataHandler={dataHandler}
                 isActive={isActive[3]}
                 btnId={'oneMonth'}
             />
             <MainButton
+                Colors={Colors}
                 btnText={'60d'}
                 dataHandler={dataHandler}
                 isActive={isActive[4]}

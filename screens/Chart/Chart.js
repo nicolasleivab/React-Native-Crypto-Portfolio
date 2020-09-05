@@ -6,6 +6,7 @@ import CoinInfo from '../../components/CoinInfo/CoinInfo';
 import ButtonsContainer from '../../components/ButtonsContainer/ButtonsContainer';
 
 export default function Chart (props){
+    const { screenProps: {Colors: Colors} } = props;
     const currentCoinID = props.navigation.getParam('coinID');
     const currentCoinPrice = props.navigation.getParam('coinPrice');
     const currentCoinVol = props.navigation.getParam('coinVol');
@@ -155,7 +156,7 @@ export default function Chart (props){
     //return loading screen when loading
     if (loadingDaily !== false || loadingIntra !== false) {
         return (
-            <View style={styles.loadingScreen}><ActivityIndicator size="large" color={Colors.text_primary} /></View>
+            <View style={styles(Colors).loadingScreen}><ActivityIndicator size="large" color={Colors.text_primary} /></View>
         )
     }
     //data calculation and update method
@@ -290,14 +291,15 @@ export default function Chart (props){
     }
 
     return (
-        <View style ={styles.screen}>
-            <View style={styles.priceContainer}>
+        <View style ={styles(Colors).screen}>
+            <View style={styles(Colors).priceContainer}>
                 <Text style={{color:Colors.text_primary, fontSize: 22}}>{'$'+currentCoinPrice}</Text>
                 <Text style={currentCoinChange > 0 ? { color: Colors.positive_value, marginBottom: 3} : { color: Colors.negative_value, marginBottom: 3 }}>
                     {currentCoinChange > 0 ? ' (+' + currentCoinChange + '%)' : ' ('+currentCoinChange + '%)'}</Text>
             </View>
-            <View style={styles.chartContainer}>
+            <View style={styles(Colors).chartContainer}>
                 <CryptoChart
+                    Colors={Colors}
                     labels={categories}
                     series={[
                         {
@@ -312,9 +314,11 @@ export default function Chart (props){
                 />
             </View>
             <ButtonsContainer
-                    sliceData={sliceData}
+                Colors={Colors}
+                sliceData={sliceData}
             />
             <CoinInfo
+                Colors={Colors}
                 ATH={ATH}
                 marketCap={currentCoinMarket}
                 vol={currentCoinVol}
@@ -326,16 +330,17 @@ export default function Chart (props){
 //Dynamic navigation options with passed params
 Chart.navigationOptions = coinParams => {
     const currentCoinName = coinParams.navigation.getParam('coinName');
-    return {headerStyle: {
-        backgroundColor: Colors.secondary,
+    return {
+    headerStyle: {
+        backgroundColor: "#1c1e2e",//Colors.secondary,
     },
-    headerTintColor: Colors.text_primary,
+    headerTintColor: "#FFF",//Colors.text_primary,
     title: currentCoinName,
     headerTitleAlign: 'center'
 }
 }
 
-const styles = StyleSheet.create({
+const styles = (Colors) => StyleSheet.create({
     loadingScreen:{
         flex: 1,
         justifyContent: 'center',

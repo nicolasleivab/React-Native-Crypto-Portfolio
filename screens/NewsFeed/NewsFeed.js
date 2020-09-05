@@ -5,10 +5,11 @@ import { api } from '../../config/api';
 import NewBlock from '../../components/NewBlock/NewBlock';
 
 
-export default function NewsFeed() {
+export default function NewsFeed(props) {
     const apiKey = {
         key: api.newsKey,
     }
+    const { screenProps: {Colors: Colors} } = props;
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [news, setNews] = useState([]);
@@ -65,18 +66,19 @@ export default function NewsFeed() {
     //return loading screen when loading
     if (loading !== false) {
         return (
-            <View style={styles.screen}><ActivityIndicator size="large" color={Colors.text_primary}/></View>
+            <View style={styles(Colors).screen}><ActivityIndicator size="large" color={Colors.text_primary}/></View>
         )
     }
 
     return (
-        <View style={styles.screen}>
+        <View style={styles(Colors).screen}>
             <FlatList
                 style={{ width: '100%'}}
                 data={news}
                 onScrollBeginDrag={() => Keyboard.dismiss()}
                 renderItem={newItem => (
                     <NewBlock
+                        Colors={Colors}
                         key={newItem.item['key']}
                         thumbnailLink={newItem.item['thumbnail']?
                             newItem.item['thumbnail']
@@ -93,13 +95,13 @@ export default function NewsFeed() {
 };
 NewsFeed.navigationOptions = {
     headerStyle: {
-        backgroundColor: Colors.secondary,
-    },
-    headerTintColor: Colors.text_primary,
+        backgroundColor: "#1c1e2e",//Colors.secondary,
+      },
+    headerTintColor: "#FFF",//Colors.text_primary,
     title: 'News Feed',
     headerTitleAlign: 'center'
 }
-const styles = StyleSheet.create({
+const styles = (Colors) => StyleSheet.create({
     screen: {
         flex: 1,
         justifyContent: 'center',

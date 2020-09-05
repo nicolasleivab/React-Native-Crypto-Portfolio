@@ -470,7 +470,7 @@ Coins.navigationOptions = {
   headerStyle: {
     backgroundColor: "#1c1e2e",//Colors.secondary,
   },
-  headerTintColor:  "#FFF",//Colors.text_primary,
+  headerTintColor: "#FFF",//Colors.text_primary,
   title: 'Coins',
   headerTitleAlign: 'center',
 }

@@ -6,6 +6,7 @@ import FlashMessage, { showMessage } from "react-native-flash-message";
 
 export default class CryptoChart extends Component {
     render() {
+        const { Colors } = this.props;
         return (
             <View>
                 <LineChart
