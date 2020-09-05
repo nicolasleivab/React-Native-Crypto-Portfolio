@@ -23,15 +23,15 @@ export default (state, action) => {
       return {
         ...state,
         theme: {
-        primary: '#FFF',
+        primary: '#EEE',
         secondary: '#DDD',
         coinblock: '#CCC',
         text_primary: '#000',
         text_secondary: '#555',
-        star_on: '#ffff80',
-        star_off: '#555',
-        positive_value: '#00ff80',
-        negative_value: '#ff6666',
+        star_on: '#ffd500',
+        star_off: '#676',
+        positive_value: '#037d50',
+        negative_value: '#B22222',
         shadow: '#000',
       }
     };

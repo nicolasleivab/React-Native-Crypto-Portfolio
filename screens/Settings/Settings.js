@@ -1,11 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Switch} from 'react-native';
-import Colors from '../../constants/colors';
 import Icon from 'react-native-vector-icons/Ionicons';
+import ThemeContext from "../../context/theme/themeContext";
 
 export default function Settings(props) {
     const { screenProps: {Colors: Colors} } = props;
     const [isDark, setTheme] = useState(true);
+    const themeContext = useContext(ThemeContext);
+    const { setLightTheme, setDarkTheme } = themeContext;
+
+    useEffect(()=>{
+        if (isDark) {
+            setDarkTheme();
+        } else {
+            setLightTheme();
+        }
+    }, [isDark])
 
     return (
         <View style={styles(Colors).screen}>

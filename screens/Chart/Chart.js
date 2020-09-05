@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import {View, Text, StyleSheet, Button, ActivityIndicator} from 'react-native';
-import Colors from '../../constants/colors';
 import CryptoChart from '../../components/LineChart/LineChart';
 import CoinInfo from '../../components/CoinInfo/CoinInfo';
 import ButtonsContainer from '../../components/ButtonsContainer/ButtonsContainer';

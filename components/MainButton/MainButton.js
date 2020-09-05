@@ -1,6 +1,5 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity} from "react-native";
-import Colors from './../../constants/colors';
 
 export default function MainButton(props) {
     const { Colors } = props;

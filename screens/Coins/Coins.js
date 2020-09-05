@@ -425,6 +425,8 @@ return (
     </View>
     </TouchableWithoutFeedback>
     <FlatList  
+    maxToRenderPerBatch={5}
+    updateCellsBatchingPeriod={500}
     style={{ width: '100%',marginBottom: 1, paddingLeft: 9 }}
     data={coins}
     onScrollBeginDrag={()=> Keyboard.dismiss()}

@@ -1,6 +1,5 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import Colors from './../../constants/colors';
 
 export default function CoinInfo(props) {
     const { Colors } = props;

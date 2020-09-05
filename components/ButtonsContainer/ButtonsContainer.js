@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
-import Colors from './../../constants/colors';
 import MainButton from '../../components/MainButton/MainButton';
 
 export default function ButtonsContainer(props) {

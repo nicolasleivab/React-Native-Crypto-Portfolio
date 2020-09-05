@@ -1,5 +1,4 @@
 import React from 'react';
-import Colors from '../../constants/colors'
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import {Linking} from 'expo';
 

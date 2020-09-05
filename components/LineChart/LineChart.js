@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { StyleSheet, View, Text, Dimensions } from "react-native";
 import { LineChart } from "react-native-chart-kit";
-import Colors from '../../constants/colors';
 import FlashMessage, { showMessage } from "react-native-flash-message";
 
 export default class CryptoChart extends Component {
@@ -38,8 +37,8 @@ export default class CryptoChart extends Component {
                             strokeWidth: 1
                         },
                         decimalPlaces: this.props.decimalPlaces, // optional, defaults to 2dp
-                        color: (opacity = 1) => `rgba(0, 255, 70, ${opacity})`,
-                        labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+                        color: (opacity = 1) => Colors.primary === "#EEE" ? `rgba(68, 139, 23, ${opacity})` : `rgba(0, 255, 70, ${opacity})`,
+                        labelColor: (opacity = 1) => Colors.primary === "#EEE" ? `rgba(21, 21, 21, ${opacity})` : `rgba(255, 255, 255, ${opacity})`,
                         style: {
                             borderRadius: 16,
                         },

@@ -1,6 +1,5 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
-import Colors from '../../constants/colors';
 
 export default function CoinBlock(props) {
     const { Colors } = props;
