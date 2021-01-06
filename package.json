@@ -11,7 +11,7 @@
     "@babel/runtime": "^7.8.4",
     "@react-native-community/masked-view": "^0.1.5",
     "@react-navigation/native": "^5.0.0",
-    "axios": "^0.20.0",
+    "axios": "^0.21.1",
     "dateformat": "^3.0.3",
     "expo": "~36.0.0",
     "install": "^0.13.0",
